@@ -1,0 +1,5 @@
+-   name: provisionning machine
+    hosts: all
+    sudo: true
+    roles:
+        - dropshippers

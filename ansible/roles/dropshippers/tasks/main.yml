@@ -1,0 +1,106 @@
+---
+- name: "Install common packages"
+  apt: name={{ item }} state=present
+  with_items:
+    - wget
+    - htop
+    - apache2
+    - mysql-server
+    - python-mysqldb
+    - emacs
+    - curl
+    - wget
+    - phpmyadmin
+
+- name: "Installing PHP packages"
+  apt: name={{ item }} state=present
+  with_items:
+    - php5
+    - php5-cli
+    - php5-curl
+    - php5-intl
+    - php5-gd
+    - php5-mysql
+  notify:
+    - restart apache
+
+- name: "Configuring PHP memory"
+  action: ini_file dest=/etc/php5/apache2/php.ini section=global option=memory_limit value=256M mode=0600
+  notify:
+    - restart apache
+
+- name: "Configuring PHP Timezone"
+  action: ini_file dest=/etc/php5/apache2/php.ini section=Date option=date.timezone value=Europe/Paris mode=0600
+
+- name: "Enable mod_rewrite"
+  apache2_module: state=present name=rewrite
+  notify:
+    - restart apache
+
+- name: "Enable mod_expires"
+  apache2_module: state=present name=expires
+  notify:
+    - restart apache
+
+#- name: "Disable default virtualhost"
+#  shell: a2dissite 000-default
+#  notify:
+#    - restart apache
+
+- name: "Installing VirtualHost"
+  sudo: yes
+  template: src=/vagrant/ansible/roles/dropshippers/templates/vhost.conf.template dest=/etc/apache2/sites-available/dropshippers.conf
+  notify:
+    - restart apache
+
+- name: "Coucou Addel"
+  shell: echo hello
+
+- name: "Creating Dropshippers web Symlink"
+  sudo: yes
+  file: src=/vagrant dest=/var/www/html/dropshippers state=link
+  notify:
+    - restart apache
+
+- name: "Creating phpmyadmin web Symlink"
+  sudo: yes
+  file: src=/usr/share/phpmyadmin dest=/var/www/html/phpmyadmin state=link
+  notify:
+    - restart apache
+
+- name: "enabling virtualhost"
+  sudo: yes
+  shell: a2ensite dropshippers
+  notify:
+    - restart apache
+
+- name: "Installing composer"
+  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin creates=/usr/local/bin/composer
+
+- name: "Renaming composer.phar to composer"
+  shell: mv /usr/local/bin/composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
+
+- name: "Making composer executable"
+  file: path=/usr/local/bin/composer mode=755 state=file
+
+- name: "Installing pretissimo (faster composer)"
+  shell: composer global require hirak/prestissimo
+
+- name: "Creating dropshippers Database"
+  mysql_db: name=dropshippers state=present
+
+- name: "Creating MySQL dropshippers user"
+  mysql_user: name=dropshippers password=P@ssword priv=*.*:ALL state=present
+
+- name: "Resolving composer dependencies"
+  sudo: yes
+  command: composer install --no-interaction --prefer-dist --no-progress chdir=/vagrant
+
+- name: "Installing Symfony database"
+  command:  bin/console doctrine:schema:update --force chdir=/vagrant
+
+- name: "Injecting DataFixtures"
+  command:  bin/console doctrine:fixtures:load chdir=/vagrant
+
+- name: "Installing aliases"
+  template: src=/vagrant/ansible/roles/dropshippers/templates/bash_aliases.template dest=/home/vagrant/.bash_aliases

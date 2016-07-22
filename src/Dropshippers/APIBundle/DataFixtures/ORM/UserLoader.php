@@ -37,6 +37,7 @@ class UserLoader implements FixtureInterface
         $manager->persist($darknight);
         $manager->persist($admin);
 
+
         $manager->flush();
 
     }

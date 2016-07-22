@@ -22,7 +22,7 @@ class ds_gerer
      * @ORM\ManyToOne(targetEntity="Dropshippers\APIBundle\Entity\ds_shop")
      * @ORM\JoinColumn(nullable=false, name="shop_id", referencedColumnName="shop_id")
      */
-    private $ds_shop;
+    private $shop;
     
     /**
      * @var int
@@ -301,32 +301,40 @@ class ds_gerer
     }
 
     /**
-     * @param mixed $user
+     * Set shop
+     *
+     * @param \Dropshippers\APIBundle\Entity\ds_shop $shop
+     *
+     * @return ds_gerer
      */
-    public function setUser(User $user)
+    public function setShop(\Dropshippers\APIBundle\Entity\ds_shop $shop)
+    {
+        $this->shop = $shop;
+
+        return $this;
+    }
+
+    /**
+     * Get shop
+     *
+     * @return \Dropshippers\APIBundle\Entity\ds_shop
+     */
+    public function getShop()
+    {
+        return $this->shop;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Dropshippers\APIBundle\Entity\User $user
+     *
+     * @return ds_gerer
+     */
+    public function setUser(\Dropshippers\APIBundle\Entity\User $user)
     {
         $this->user = $user;
 
         return $this;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getDsShop()
-    {
-        return $this->ds_shop;
-    }
-
-    /**
-     * @param $ds_shop
-     */
-    public function setDsShop(ds_shop $ds_shop)
-    {
-        $this->ds_shop = $ds_shop;
-
-        return $this;
-    }
-
-
 }

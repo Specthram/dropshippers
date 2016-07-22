@@ -13,23 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ds_shop
 {
-//    /**
-//     * Constructor
-//     */
-//    public function __construct()
-//    {
-//        $this->tag = new ArrayCollection();
-//    }
-
-//    /**
-//     * @ORM\ManyToOne(targetEntity="Dropshippers\APIBundle\Entity\ds_module")
-//     */
-//    private $module;
-
-//    /**
-//     * @ORM\ManyToMany(targetEntity="Dropshippers\APIBundle\Entity\ds_shop_tag")
-//     */
-//    private $tag;
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="ds_gerer", mappedBy="shop")
+     */
+    private $gerer;
 
     /**
      * @ORM\Id
@@ -511,5 +499,46 @@ class ds_shop
     public function getShopId()
     {
         return $this->shopId;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->gerer = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add gerer
+     *
+     * @param \Dropshippers\APIBundle\Entity\ds_gerer $gerer
+     *
+     * @return ds_shop
+     */
+    public function addGerer(\Dropshippers\APIBundle\Entity\ds_gerer $gerer)
+    {
+        $this->gerer[] = $gerer;
+
+        return $this;
+    }
+
+    /**
+     * Remove gerer
+     *
+     * @param \Dropshippers\APIBundle\Entity\ds_gerer $gerer
+     */
+    public function removeGerer(\Dropshippers\APIBundle\Entity\ds_gerer $gerer)
+    {
+        $this->gerer->removeElement($gerer);
+    }
+
+    /**
+     * Get gerer
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGerer()
+    {
+        return $this->gerer;
     }
 }
