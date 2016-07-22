@@ -41,7 +41,7 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
 
         $user = $userManager->findUserByUsername($username);
         //$user = $repository->findOneBy(array("username" => $username, "password" => $password));
-        var_dump($username);
+        var_dump($user);
         exit();
         if ($user) {
             $clientManager = $this->container->get('fos_oauth_server.client_manager.default');
