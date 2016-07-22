@@ -1,0 +1,90 @@
+<?php
+
+namespace Dropshippers\APIBundle\Controller;
+
+use FOS\RestBundle\Routing\ClassResourceInterface;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\UserBundle\Model\UserManagerInterface;
+use FOS\UserBundle\Doctrine\UserManager;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\Get;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+
+class LoginController extends FOSRestController implements ClassResourceInterface
+{
+    /**
+     * GET Route annotation.
+     * @Get("/login")
+     * @return array
+     */
+    public function cgetAction(Request $request)
+    {
+        $base_url = "http://" . $_SERVER["SERVER_NAME"] . "/api/v1/login";
+        $response = array();
+        $response["login"] = $base_url . "/signin";
+        $response["logout"] = $base_url . "/logout";
+        return $response;
+    }
+
+    /**
+     * POST Route annotation
+     * @Post("/login/signin")
+     */
+    public function postSigninAction(Request $request)
+    {
+        $username = $request->get('login');
+        $password = $request->get('password');
+        //$repository = $this->getDoctrine()->getRepository("DropshippersAPIBundle:User");
+        $userManager = $this->get('fos_user.user_manager');
+
+        $user = $userManager->findUserByUsername($username);
+        //$user = $repository->findOneBy(array("username" => $username, "password" => $password));
+        var_dump($username);
+        exit();
+        if ($user) {
+            $clientManager = $this->container->get('fos_oauth_server.client_manager.default');
+            $client = $clientManager->findClientBy(array("name" => "dropshippers.io"));
+            $client_id  = $client->getPublicId();
+            $client_secret     = $client->getSecret();
+            $request->setMethod(Request::METHOD_GET);
+            $token_response = $this->forward(
+                "fos_oauth_server.controller.token:tokenAction",
+                array(),
+                array("client_id" => $client_id,
+                    "client_secret" => $client_secret,
+                    "username" => $username,
+                    "password" => $password,
+                    "grant_type" => "password"
+                )
+            );
+            return $token_response;
+        } else {
+            throw new AccessDeniedHttpException("invalid credentials.");
+        }
+    }
+
+    /**
+     * POST Route annotation
+     * @Post("/login/register")
+     */
+    public function postRegisterAction(Request $request)
+    {
+
+        $username = $request->get('username');
+        $email = $request->get('email');
+        $password = $request->get('password');
+
+        $userManager = $this->container->get('fos_user.user_manager');
+
+        $user = $userManager->createUser();
+        $user->setUsername($username);
+        $user->setEmail($email);
+        $user->setPlainPassword($password);
+        $user->setEnabled(true);
+
+        $userManager->updateUser($user, true);
+
+    }
+}

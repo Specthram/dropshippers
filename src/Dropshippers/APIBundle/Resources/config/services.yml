@@ -1,0 +1,4 @@
+services:
+    dropshippers_api.prestashop16:
+        class: Dropshippers\APIBundle\Services\Prestashop16Service
+        arguments: [ '@doctrine' ]

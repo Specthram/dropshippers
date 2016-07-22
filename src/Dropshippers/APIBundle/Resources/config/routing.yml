@@ -1,0 +1,26 @@
+#dropshippers_api_route:
+#    resource: "@DropshippersAPIBundle/Controller/"
+#    type:     annotation
+
+dropshippers_api_users:
+    type:   rest
+    defaults: {_format: json}
+    resource:   Dropshippers\APIBundle\Controller\UsersController
+    prefix: /
+
+dropshippers_api_login:
+    type:   rest
+    defaults: {_format: json}
+    resource:   Dropshippers\APIBundle\Controller\LoginController
+    prefix: /
+
+dropshippers_api_prestashop:
+    type:   rest
+    defaults: {_format: json}
+    resource:   Dropshippers\APIBundle\Controller\PrestashopController
+    prefix: /
+
+#dropshippers_api_shops:
+#    type:   rest
+#    resource:   Dropshippers\APIBundle\Controller\ShopsController
+#    prefix: /
