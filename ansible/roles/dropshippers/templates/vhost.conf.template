@@ -1,0 +1,7 @@
+<VirtualHost *:80>
+     DocumentRoot	/var/www/html/dropshippers/web
+     ServerName		dropshippers.dev
+     <Directory /var/www/html/dropshippers/web>
+            Allowoverride All
+     </Directory>
+</VirtualHost>

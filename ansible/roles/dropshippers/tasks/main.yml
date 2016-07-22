@@ -1,0 +1,59 @@
+---
+- name: "Install common packages"
+  apt: name={{ item }} state=present
+  with_items:
+    - wget
+    - htop
+    - apache2
+    - mysql
+    - python-mysqldb
+    - emacs
+    - curl
+    - wget
+
+- name: "Installing PHP packages"
+  apt: name={{ item }} state=present
+  with_items:
+    - php5
+    - php5-cli
+    - php5-curl
+    - php5-intl
+    - php5-gd
+    - php5-mysql
+    - php5-sqlite
+    - php5-xsl
+  notify:
+    - restart apache
+
+- name: "Enable mod_rewrite"
+  apache2_module: state=present name=rewrite
+  notify:
+    - restart apache
+
+- name: "Enable mod_expires"
+  apache2_module: state=present name=expires
+  notify:
+    - restart apache
+
+- name: "Disable default virtualhost"
+  shell: a2dissite 000-default
+  notify:
+    - restart apache
+
+- name: "Installing VirtualHost"
+  sudo: yes
+  template: src=/vagrant/ansible/roles/dropshippers/templates/vhost.conf.template dest=/etc/apache2/sites-available/dropshippers.conf
+  notify:
+    - restart apache
+
+- name: "Creating Symlink"
+  sudo: yes
+  file: src=/vagrant dest=/var/www/html/dropshippers state=link
+  notify:
+    - restart apache
+
+- name: "enabling virtualhost"
+  sudo: yes
+  shell: a2ensite dropshippers
+  notify:
+    - restart apache

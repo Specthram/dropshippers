@@ -1,3 +1,9 @@
+New
+===========
+Installer la dernière version de vagrant depuis le site officiel (1.8.1 minin 1.8.5 utilisée lors du codage)
+installer virtualbox
+installer vbguest avec vagrant plugin install vagrant-vbguest
+
 Pour Tester
 ===========
 
