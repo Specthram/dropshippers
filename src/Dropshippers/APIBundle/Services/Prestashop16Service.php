@@ -31,15 +31,15 @@ class Prestashop16Service
         return array('users' => $users);
     }
 
-    public function registerLocalProduct(Request $request)
+    public function registerLocalProduct(Request $request, Shop $shop)
     {
         $em = $this->doctrine->getManager();
         $json = json_decode($request->getContent());
         $entities = array();
-        $results = $this->doctrine->getRepository("DropshippersAPIBundle:ds_shop")->findAll();
+        $results = $this->doctrine->getRepository("DropshippersAPIBundle:Shop")->findAll();
         $shop = $results[0];
         foreach ($json as $product){
-            $entity = $this->doctrine->getRepository("DropshippersAPIBundle:ds_local_ps_product")->findOneBy(array("productLocalProductid" => $product->id_product));
+            $entity = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(array("productLocalProductid" => $product->id_product));
             //il manque : categories, tax, manufacturer
             if ($entity == NULL)
             {
@@ -57,8 +57,7 @@ class Prestashop16Service
             $entity->setProductLocalDescriptionHtml($product->description);
             $entity->setProductLocalAvailableOrder($product->available_for_order);
             $entity->setProductLocalUpdatedAt(new \DateTime());
-            //attention a bien avoir un shop avec un id à 1 enregistré
-            ///$entity->setShopId($shop);
+            $entity->setShop($shop);
             $em->persist($entity);
         }
         $em->flush();

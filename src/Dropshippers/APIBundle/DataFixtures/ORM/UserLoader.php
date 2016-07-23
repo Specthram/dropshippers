@@ -81,21 +81,21 @@ class UserLoader implements FixtureInterface
         $module1->setActive(1);
         $module1->setLang("fr");
         $module1->setType("prestashop16");
-        $module1->setWebServiceKey($this->generateRandomString(100));
+        $module1->setToken($this->generateRandomString(100));
 
         $module2 = new Module();
         $module2->setName("main");
         $module2->setActive(1);
         $module2->setLang("fr");
         $module2->setType("prestashop16");
-        $module2->setWebServiceKey($this->generateRandomString(100));
+        $module2->setToken($this->generateRandomString(100));
 
         $module3 = new Module();
         $module3->setName("main");
         $module3->setActive(1);
         $module3->setLang("fr");
         $module3->setType("prestashop16");
-        $module3->setWebServiceKey($this->generateRandomString(100));
+        $module3->setToken($this->generateRandomString(100));
 
 
         $module1->setShop($shop1);

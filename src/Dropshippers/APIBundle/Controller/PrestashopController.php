@@ -24,9 +24,9 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
      */
     public function cgetAction(Request $request)
     {
-        $base_url = "http://" . $_SERVER["SERVER_NAME"] . "/api/v1/login";
+        $base_url = "http://" . $_SERVER["SERVER_NAME"] . "/v1/";
         $response = array();
-        $response["login"] = $base_url . "/{version}/products";
+        $response["ignore that please"] = $base_url . "/{version}/products";
         return $response;
     }
 
@@ -37,16 +37,23 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
     public function postProductsAction(Request $request, $version)
     {
         //cette ligne appele le service dedié au module prestashop. Il est configuré pour se construire avec doctrine dedans !
-        $service = $this->get("dropshippers_api.prestashop16");
+        $as = $this->get("dropshippers_api.authentication");
+        $token = $request->headers->get("token");
+        $shop = $as->getShopFromToken($token);
+        if (!$shop){
+            throw new AccessDeniedHttpException("invalid token.");
+        }
+        $service = $this->get("dropshippers_api.prestashop".$version);
         $content = $request->getContent();
         
         if (NULL == ($json = json_decode($content))){
             return new Response("Invalid JSON", 400);
         }
-        if ($service->registerLocalProduct($request) == TRUE){
-            return new Response("produits enregistrés.", 200);
+
+        if ($service->registerLocalProduct($request, $shop) == TRUE){
+            return ["message" => "produits enregistrés."];
         } else {
-            return new Response("produits non enregistrés.", 200);
+            return new Response("produits non enregistrés.", 500);
         }
     }
 
