@@ -9,8 +9,8 @@
 namespace Dropshippers\APIBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Dropshippers\APIBundle\Entity\ds_local_ps_product;
-use Dropshippers\APIBundle\Entity\ds_shop;
+use Dropshippers\APIBundle\Entity\LocalPsProduct;
+use Dropshippers\APIBundle\Entity\Shop;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +43,7 @@ class Prestashop16Service
             //il manque : categories, tax, manufacturer
             if ($entity == NULL)
             {
-                $entity = new ds_local_ps_product();
+                $entity = new LocalPsProduct();
                 $entity->setProductLocalCreatedAt(new \DateTime());
             }
             $entity->setProductLocalProductid($product->id_product);

@@ -2,3 +2,6 @@ services:
     dropshippers_api.prestashop16:
         class: Dropshippers\APIBundle\Services\Prestashop16Service
         arguments: [ '@doctrine' ]
+    dropshippers_api.authentication:
+            class: Dropshippers\APIBundle\Services\AuthenticationService
+            arguments: [ '@doctrine' ]

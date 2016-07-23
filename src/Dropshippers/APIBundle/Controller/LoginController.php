@@ -36,33 +36,40 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
     {
         $username = $request->get('login');
         $password = $request->get('password');
-        //$repository = $this->getDoctrine()->getRepository("DropshippersAPIBundle:User");
-        $userManager = $this->get('fos_user.user_manager');
-
-        $user = $userManager->findUserByUsername($username);
-        //$user = $repository->findOneBy(array("username" => $username, "password" => $password));
-        var_dump($user);
-        exit();
-        if ($user) {
-            $clientManager = $this->container->get('fos_oauth_server.client_manager.default');
-            $client = $clientManager->findClientBy(array("name" => "dropshippers.io"));
-            $client_id  = $client->getPublicId();
-            $client_secret     = $client->getSecret();
-            $request->setMethod(Request::METHOD_GET);
-            $token_response = $this->forward(
-                "fos_oauth_server.controller.token:tokenAction",
-                array(),
-                array("client_id" => $client_id,
-                    "client_secret" => $client_secret,
-                    "username" => $username,
-                    "password" => $password,
-                    "grant_type" => "password"
-                )
-            );
-            return $token_response;
-        } else {
+        $as = $this->get("dropshippers_api.authentication");
+        $token = $as->getTokenFromUser($username, $password);
+        if ($token == NULL){
             throw new AccessDeniedHttpException("invalid credentials.");
         }
+        return array("token" => $token);
+
+//        $repository = $this->getDoctrine()->getRepository("DropshippersAPIBundle:User");
+//        $userManager = $this->get('fos_user.user_manager');
+//
+//        //$user = $userManager->findUserByUsername($username);
+//        $user = $repository->findOneBy(array("username" => $username, "password" => $password));
+//        var_dump($user);
+//        exit();
+//        if ($user) {
+//            $clientManager = $this->container->get('fos_oauth_server.client_manager.default');
+//            $client = $clientManager->findClientBy(array("name" => "dropshippers.io"));
+//            $client_id  = $client->getPublicId();
+//            $client_secret     = $client->getSecret();
+//            $request->setMethod(Request::METHOD_GET);
+//            $token_response = $this->forward(
+//                "fos_oauth_server.controller.token:tokenAction",
+//                array(),
+//                array("client_id" => $client_id,
+//                    "client_secret" => $client_secret,
+//                    "username" => $username,
+//                    "password" => $password,
+//                    "grant_type" => "password"
+//                )
+//            );
+//            return $token_response;
+//        } else {
+//            throw new AccessDeniedHttpException("invalid credentials.");
+//        }
     }
 
     /**
