@@ -82,6 +82,7 @@ POST dropshippers.dev/v1/login/signin
 
 POST dropshippers.dev/v1/ps/16/products
 ----------
+* Header : token (utilisateur ou module)
 * Paramètres : json (voir example ci dessous)
 * Retour : message
 
