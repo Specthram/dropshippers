@@ -4,11 +4,11 @@ Pré requis (obligatoire)
 -----------
 
 * Installer la dernière version de vagrant depuis le site officiel (1.8.1 minin 1.8.5 utilisée lors du développement)
-* installer virtualbox
-* installer sshfs (existe pour linux, osx, windows)
-* installer vbguest avec vagrant plugin install vagrant-vbguest
+* Installer virtualbox
+* Installer sshfs (existe pour linux, osx, windows)
+* Installer vbguest avec vagrant plugin install vagrant-vbguest
 * Installer  vagrant-sshfs avec `vagrant plugin install vagrant-sshfs`
-* ajouter dans hosts `192.168.51.51  dropshippers.dev`
+* Ajouter dans hosts `192.168.51.51  dropshippers.dev`
 
 Procédure
 -----------
@@ -67,3 +67,10 @@ MySQL
 
 * Un utisateur dropshippers P@ssword à été crée pour toute connexion a la base de données.
 * Un PHPMyAdmin est installé et est accessible via `http://192.168.51.51/phpmyadmin`
+
+Routes opérationnelles
+====================
+dropshippers.dev/v1/login
+----------
+* Paramètres : login, password
+* Retour : 200, token
