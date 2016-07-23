@@ -50,9 +50,9 @@ class Module
     /**
      * @var string
      *
-     * @ORM\Column(name="web_service_key", type="string", length=255)
+     * @ORM\Column(name="token", type="string", length=255)
      */
-    private $webServiceKey;
+    private $token;
 
     /**
      * @var bool
@@ -168,27 +168,27 @@ class Module
     }
 
     /**
-     * Set webServiceKey
+     * Set token
      *
-     * @param string $webServiceKey
+     * @param string $token
      *
      * @return Module
      */
-    public function setWebServiceKey($webServiceKey)
+    public function setToken($token)
     {
-        $this->webServiceKey = $webServiceKey;
+        $this->token = $token;
 
         return $this;
     }
 
     /**
-     * Get webServiceKey
+     * Get token
      *
      * @return string
      */
-    public function getWebServiceKey()
+    public function getToken()
     {
-        return $this->webServiceKey;
+        return $this->token;
     }
 
     /**

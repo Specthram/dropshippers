@@ -32,4 +32,25 @@ class AuthenticationService
             return NULL;
         }
     }
+    
+    public function getShopFromToken($token)
+    {
+        if ($token == NULL){
+            return NULL;
+        }
+        $userRepository = $this->doctrine->getRepository("DropshippersAPIBundle:User");
+        
+        $user = $userRepository->findOneBy(["token" => $token]);
+        if ($user){
+            return $user->getShop();
+        }
+        $moduleRepository = $this->doctrine->getRepository("DropshippersAPIBundle:Module");
+        
+        $module = $moduleRepository->findOneBy(["token" => $token]);
+        if ($module){
+            return $module->getShop();
+        }
+        
+        return NULL;
+    }
 }

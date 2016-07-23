@@ -21,6 +21,11 @@ class LocalPsProduct
      * @ORM\ManyToMany(targetEntity="ProductCategory")
      */
     private $categories;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Shop")
+     */
+    private $shop;
     
     /**
      * Constructor
@@ -566,5 +571,73 @@ class LocalPsProduct
     public function getShop()
     {
         return $this->shop;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param \Dropshippers\APIBundle\Entity\ProductTag $tag
+     *
+     * @return LocalPsProduct
+     */
+    public function addTag(\Dropshippers\APIBundle\Entity\ProductTag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param \Dropshippers\APIBundle\Entity\ProductTag $tag
+     */
+    public function removeTag(\Dropshippers\APIBundle\Entity\ProductTag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Add category
+     *
+     * @param \Dropshippers\APIBundle\Entity\ProductCategory $category
+     *
+     * @return LocalPsProduct
+     */
+    public function addCategory(\Dropshippers\APIBundle\Entity\ProductCategory $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \Dropshippers\APIBundle\Entity\ProductCategory $category
+     */
+    public function removeCategory(\Dropshippers\APIBundle\Entity\ProductCategory $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }
