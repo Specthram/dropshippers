@@ -72,5 +72,10 @@ Routes opérationnelles
 ====================
 dropshippers.dev/v1/login
 ----------
+* Paramètres : rien
+* retour : routes disponibles
+
+dropshippers.dev/v1/login/signin
+----------
 * Paramètres : login, password
 * Retour : 200, token
