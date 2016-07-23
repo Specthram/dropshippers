@@ -1,10 +1,11 @@
 New
 ===========
-Installer la dernière version de vagrant depuis le site officiel (1.8.1 minin 1.8.5 utilisée lors du codage)
-installer virtualbox
-install nfs / nfsd (nfs-common, nfs-kernel-server sur linux)
-installer vbguest avec vagrant plugin install vagrant-vbguest
-ajouter dans hosts 192.168.51.51  dropshippers.dev
+* Faire dans un premier temps un composer install depuis le host
+* Installer la dernière version de vagrant depuis le site officiel (1.8.1 minin 1.8.5 utilisée lors du codage)
+* installer virtualbox
+* install nfs / nfsd (nfs-common, nfs-kernel-server sur linux)
+* installer vbguest avec vagrant plugin install vagrant-vbguest
+* ajouter dans hosts 192.168.51.51  dropshippers.dev
 
 Pour Tester
 ===========

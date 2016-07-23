@@ -113,14 +113,19 @@ class ds_product
     private $productUpdatedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Dropshippers\APIBundle\Entity\ds_product_tag")
+     * @ORM\ManyToMany(targetEntity="ds_product_tag")
      */
     private $productTag;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Dropshippers\APIBundle\Entity\ds_product_category")
+     * @ORM\ManyToMany(targetEntity="ds_product_category")
      */
     private $productCategory;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ds_product")
+     */
+    private $shop;
 
 
     /**
@@ -518,5 +523,29 @@ class ds_product
     public function getProductCategory()
     {
         return $this->productCategory;
+    }
+
+    /**
+     * Set shop
+     *
+     * @param \Dropshippers\APIBundle\Entity\ds_product $shop
+     *
+     * @return ds_product
+     */
+    public function setShop(ds_product $shop = null)
+    {
+        $this->shop = $shop;
+
+        return $this;
+    }
+
+    /**
+     * Get shop
+     *
+     * @return \Dropshippers\APIBundle\Entity\ds_product
+     */
+    public function getShop()
+    {
+        return $this->shop;
     }
 }
