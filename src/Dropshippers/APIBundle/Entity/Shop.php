@@ -45,6 +45,12 @@ class Shop
     private $users;
 
     /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Module", mappedBy="shop")
+     */
+    private $modules;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -68,13 +74,6 @@ class Shop
      * @ORM\Column(name="shop_name", type="string", length=255)
      */
     private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="shop_token", type="string", length=255)
-     */
-    private $token;
 
     /**
      * @var string
@@ -179,30 +178,6 @@ class Shop
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set token
-     *
-     * @param string $token
-     *
-     * @return Shop
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    /**
-     * Get token
-     *
-     * @return string
-     */
-    public function getToken()
-    {
-        return $this->token;
     }
 
     /**
@@ -579,5 +554,39 @@ class Shop
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Add module
+     *
+     * @param \Dropshippers\APIBundle\Entity\Module $module
+     *
+     * @return Shop
+     */
+    public function addModule(\Dropshippers\APIBundle\Entity\Module $module)
+    {
+        $this->modules[] = $module;
+
+        return $this;
+    }
+
+    /**
+     * Remove module
+     *
+     * @param \Dropshippers\APIBundle\Entity\Module $module
+     */
+    public function removeModule(\Dropshippers\APIBundle\Entity\Module $module)
+    {
+        $this->modules->removeElement($module);
+    }
+
+    /**
+     * Get modules
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getModules()
+    {
+        return $this->modules;
     }
 }

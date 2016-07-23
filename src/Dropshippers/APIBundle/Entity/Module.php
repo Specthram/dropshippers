@@ -13,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Module
 {
     /**
+     * @ORM\ManyToOne(targetEntity="Shop", inversedBy="modules")
+     */
+    private $shop;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -41,6 +46,13 @@ class Module
      * @ORM\Column(name="module_lang", type="string", length=255, nullable=true)
      */
     private $lang;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="web_service_key", type="string", length=255)
+     */
+    private $webServiceKey;
 
     /**
      * @var bool
@@ -153,5 +165,53 @@ class Module
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set webServiceKey
+     *
+     * @param string $webServiceKey
+     *
+     * @return Module
+     */
+    public function setWebServiceKey($webServiceKey)
+    {
+        $this->webServiceKey = $webServiceKey;
+
+        return $this;
+    }
+
+    /**
+     * Get webServiceKey
+     *
+     * @return string
+     */
+    public function getWebServiceKey()
+    {
+        return $this->webServiceKey;
+    }
+
+    /**
+     * Set shop
+     *
+     * @param \Dropshippers\APIBundle\Entity\Shop $shop
+     *
+     * @return Module
+     */
+    public function setShop(\Dropshippers\APIBundle\Entity\Shop $shop = null)
+    {
+        $this->shop = $shop;
+
+        return $this;
+    }
+
+    /**
+     * Get shop
+     *
+     * @return \Dropshippers\APIBundle\Entity\Shop
+     */
+    public function getShop()
+    {
+        return $this->shop;
     }
 }
