@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ds_gerer")
  * @ORM\Entity(repositoryClass="Dropshippers\APIBundle\Repository\ds_gererRepository")
  */
-class ds_gerer
+class DsGerer
 {
     /**
      * @ORM\ManyToOne(targetEntity="Dropshippers\APIBundle\Entity\User")

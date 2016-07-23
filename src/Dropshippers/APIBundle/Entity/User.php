@@ -22,7 +22,7 @@ class User extends BaseUser
     /**
      * @var ArrayCollection
      * 
-     * @ORM\OneToMany(targetEntity="ds_gerer", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="DsGerer", mappedBy="user")
      */
     private $gerer;
 

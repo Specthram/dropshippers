@@ -1,30 +1,29 @@
-New
+Installation
 ===========
-Installer la dernière version de vagrant depuis le site officiel (1.8.1 minin 1.8.5 utilisée lors du codage)
-installer virtualbox
-install nfs / nfsd (nfs-common, nfs-kernel-server sur linux)
-installer vbguest avec vagrant plugin install vagrant-vbguest
-ajouter dans hosts 192.168.51.51  dropshippers.dev
-
-Pour Tester
-===========
-
-Pré-requis:
+Pré requis (obligatoire)
 -----------
-  * Composer installé en global sur votre environnement; [Docs ici](https://getcomposer.org/doc/00-intro.md#globally)
 
-  * Un terminal ouvert dans la racine du repertoire "wecommerce_api";
+* Installer la dernière version de vagrant depuis le site officiel (1.8.1 minin 1.8.5 utilisée lors du développement)
+* installer virtualbox
+* installer sshfs (existe pour linux, osx, windows)
+* installer vbguest avec vagrant plugin install vagrant-vbguest
+* Installer  vagrant-sshfs avec `vagrant plugin install vagrant-sshfs`
+* ajouter dans hosts `192.168.51.51  dropshippers.dev`
 
-  * Une database MySQL qui tourne (avant de créer votre base, allez dans app/config/parameters.yml pour avoir tout les rens pour la base);
+Procédure
+-----------
 
-  * Une config apache qui va bien et qui tourne;
+* se placer dans le nouveau repertoire cloné
+* lancer la commande `vagrant up` pour installer la machine et la provisionner
+* Si le provisionning fail, ce qui arrive souvent lors de la première fois avec les common package, faire un `vagrant halt` suivi d'un `vagrant up --provision`
+* une fois l'installation terminée, vous devriez pouvoir tester par exemple la route `dropshippers.dev/v1/login` et avoir une réponse !
 
-Les commandes terminal:
------------------------ 
-Installation/MAJ des dépendences:
-```
-php composer(ou le nom que vous lui avez donné en GLOBAL) update
-```
+
+Informations utiles :
+===============
+
+Commandes Symfony
+-------------
 
 Update du schéma de la base de données:
 ```
@@ -42,7 +41,7 @@ php bin/console fos:user:create
 ````
 Effecement du cache:
 ```
-php bin/console cache:clear --env=dev
+php bin/console cache:clear --env=dev && php bin/console cache:clear --env=prod
 ````
   
 Les test:
@@ -54,80 +53,17 @@ php bin/console debug:router
 
 Pour tester la route `/users`:
 ```
-http://localhost/wecommerce_api/web/app_dev.php/api/v1/users`
+http://dropshippers.dev/api/v1/users`
 ```
-  
-ps: le champs password ne sortira pas je l'ai exclu (pour des test)
 
-Symfony Standard Edition
-========================
+Ansible
+--------
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+* Vous avez la possibilité d'ajouter par exemple des alias. pour cela aller dans `ansible/roles/dropshippers/templates/bash_aliases.template`
+* Pour l'instant le provionning est statique. Il est possible d'exporter certaines données dans des variables.
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+MySQL
+----------
 
-What's inside?
---------------
-
-The Symfony Standard Edition is configured with the following defaults:
-
-  * An AppBundle you can use to start coding;
-
-  * Twig as the only configured template engine;
-
-  * Doctrine ORM/DBAL;
-
-  * Swiftmailer;
-
-  * Annotations enabled for everything.
-
-It comes pre-configured with the following bundles:
-
-  * **FrameworkBundle** - The core Symfony framework bundle
-
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
-
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
-
-  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
-    integration
-    
-  * [**FOSRestBundle**][14] (in dev/test env) - FOSRestBundle provides several tools to assist in building REST applications
-   
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  https://symfony.com/doc/3.0/book/installation.html
-[6]:  https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  https://symfony.com/doc/3.0/book/doctrine.html
-[8]:  https://symfony.com/doc/3.0/book/templating.html
-[9]:  https://symfony.com/doc/3.0/book/security.html
-[10]: https://symfony.com/doc/3.0/cookbook/email.html
-[11]: https://symfony.com/doc/3.0/cookbook/logging/monolog.html
-[13]: https://symfony.com/doc/3.0/bundles/SensioGeneratorBundle/index.html
-[14]: http://symfony.com/doc/master/bundles/FOSRestBundle/index.html
+* Un utisateur dropshippers P@ssword à été crée pour toute connexion a la base de données.
+* Un PHPMyAdmin est installé et est accessible via `http://192.168.51.51/phpmyadmin`

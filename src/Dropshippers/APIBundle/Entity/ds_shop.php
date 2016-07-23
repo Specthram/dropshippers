@@ -14,10 +14,25 @@ use Doctrine\ORM\Mapping as ORM;
 class ds_shop
 {
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->gerer = new ArrayCollection();
+        $this->products = new ArrayCollection();
+    }
+
+    /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="ds_gerer", mappedBy="shop")
+     * @ORM\OneToMany(targetEntity="DsGerer", mappedBy="shop")
      */
     private $gerer;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="ds_shop", mappedBy="shop")
+     */
+    private $products;
 
     /**
      * @ORM\Id
@@ -103,13 +118,13 @@ class ds_shop
      */
     private $shopCity;
 
+
     /**
      * @var string
      *
      * @ORM\Column(name="shop_address", type="string", length=255)
      */
     private $shopAddress;
-
 
     /**
      * Set shopName
@@ -398,99 +413,6 @@ class ds_shop
     {
         return $this->shopAddress;
     }
-
-//    /**
-//     * Set module
-//     *
-//     * @param ds_module $module
-//     *
-//     * @return ds_shop
-//     */
-//    public function setModule(ds_module $module = null)
-//    {
-//        $this->module = $module;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get module
-//     *
-//     * @return ds_module
-//     */
-//    public function getModule()
-//    {
-//        return $this->module;
-//    }
-//
-//    /**
-//     * Add tag
-//     *
-//     * @param ds_shop_tag $tag
-//     *
-//     * @return ds_shop
-//     */
-//    public function addTag(ds_shop_tag $tag)
-//    {
-//        $this->tag[] = $tag;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Remove tag
-//     *
-//     * @param ds_shop_tag $tag
-//     */
-//    public function removeTag(ds_shop_tag $tag)
-//    {
-//        $this->tag->removeElement($tag);
-//    }
-//
-//    /**
-//     * Get tag
-//     *
-//     * @return \Doctrine\Common\Collections\Collection
-//     */
-//    public function getTag()
-//    {
-//        return $this->tag;
-//    }
-
-//    /**
-//     * Add localProduct
-//     *
-//     * @param ds_local_ps_product $localProduct
-//     *
-//     * @return ds_shop
-//     */
-//    public function addLocalProduct(ds_local_ps_product $localProduct)
-//    {
-//        $this->local_product[] = $localProduct;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Remove localProduct
-//     *
-//     * @param ds_local_ps_product $localProduct
-//     */
-//    public function removeLocalProduct(ds_local_ps_product $localProduct)
-//    {
-//        $this->local_product->removeElement($localProduct);
-//    }
-//
-//    /**
-//     * Get localProduct
-//     *
-//     * @return \Doctrine\Common\Collections\Collection
-//     */
-//    public function getLocalProduct()
-//    {
-//        return $this->local_product;
-//    }
-
     /**
      * Get shopId
      *
@@ -500,22 +422,15 @@ class ds_shop
     {
         return $this->shopId;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->gerer = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add gerer
      *
-     * @param \Dropshippers\APIBundle\Entity\ds_gerer $gerer
+     * @param \Dropshippers\APIBundle\Entity\DsGerer $gerer
      *
      * @return ds_shop
      */
-    public function addGerer(\Dropshippers\APIBundle\Entity\ds_gerer $gerer)
+    public function addGerer(DsGerer $gerer)
     {
         $this->gerer[] = $gerer;
 
@@ -525,9 +440,9 @@ class ds_shop
     /**
      * Remove gerer
      *
-     * @param \Dropshippers\APIBundle\Entity\ds_gerer $gerer
+     * @param \Dropshippers\APIBundle\Entity\DsGerer $gerer
      */
-    public function removeGerer(\Dropshippers\APIBundle\Entity\ds_gerer $gerer)
+    public function removeGerer(DsGerer $gerer)
     {
         $this->gerer->removeElement($gerer);
     }
@@ -540,5 +455,39 @@ class ds_shop
     public function getGerer()
     {
         return $this->gerer;
+    }
+
+    /**
+     * Add product
+     *
+     * @param \Dropshippers\APIBundle\Entity\ds_shop $product
+     *
+     * @return ds_shop
+     */
+    public function addProduct(\Dropshippers\APIBundle\Entity\ds_shop $product)
+    {
+        $this->products[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param \Dropshippers\APIBundle\Entity\ds_shop $product
+     */
+    public function removeProduct(\Dropshippers\APIBundle\Entity\ds_shop $product)
+    {
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

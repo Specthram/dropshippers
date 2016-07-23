@@ -42,11 +42,6 @@
   notify:
     - restart apache
 
-#- name: "Disable default virtualhost"
-#  shell: a2dissite 000-default
-#  notify:
-#    - restart apache
-
 - name: "Installing VirtualHost"
   sudo: yes
   template: src=/vagrant/ansible/roles/dropshippers/templates/vhost.conf.template dest=/etc/apache2/sites-available/dropshippers.conf
@@ -93,7 +88,6 @@
   mysql_user: name=dropshippers password=P@ssword priv=*.*:ALL state=present
 
 - name: "Resolving composer dependencies"
-  sudo: yes
   command: composer install --no-interaction --prefer-dist --no-progress chdir=/vagrant
 
 - name: "Installing Symfony database"
