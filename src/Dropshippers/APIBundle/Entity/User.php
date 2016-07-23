@@ -19,17 +19,18 @@ class User extends BaseUser
      */
     protected $id;
 
-    /**
-     * @var ArrayCollection
-     * 
-     * @ORM\OneToMany(targetEntity="DsGerer", mappedBy="user")
-     */
-    private $gerer;
+// manage pour plus tard
+//    /**
+//     * @var ArrayCollection
+//     * 
+//     * @ORM\OneToMany(targetEntity="Manage", mappedBy="user")
+//     */
+//    private $manage;
 
     /**
-     * @ORM\Column(name="web_service_key", nullable=true, type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Shop")
      */
-    private $webServiceKey;
+    private $shop;
 
     /**
      * User constructor.
@@ -37,64 +38,30 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->gerer = new ArrayCollection();
+//        $this->manage = new ArrayCollection();
     }
 
     /**
-     * Add gerer
+     * Set shop
      *
-     * @param \Dropshippers\APIBundle\Entity\ds_gerer $gerer
+     * @param \Dropshippers\APIBundle\Entity\Shop $shop
      *
      * @return User
      */
-    public function addGerer(\Dropshippers\APIBundle\Entity\ds_gerer $gerer)
+    public function setShop(\Dropshippers\APIBundle\Entity\Shop $shop = null)
     {
-        $this->gerer[] = $gerer;
+        $this->shop = $shop;
 
         return $this;
     }
 
     /**
-     * Remove gerer
+     * Get shop
      *
-     * @param \Dropshippers\APIBundle\Entity\ds_gerer $gerer
+     * @return \Dropshippers\APIBundle\Entity\Shop
      */
-    public function removeGerer(\Dropshippers\APIBundle\Entity\ds_gerer $gerer)
+    public function getShop()
     {
-        $this->gerer->removeElement($gerer);
-    }
-
-    /**
-     * Get gerer
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getGerer()
-    {
-        return $this->gerer;
-    }
-
-    /**
-     * Set webServiceKey
-     *
-     * @param string $webServiceKey
-     *
-     * @return User
-     */
-    public function setWebServiceKey($webServiceKey)
-    {
-        $this->webServiceKey = $webServiceKey;
-
-        return $this;
-    }
-
-    /**
-     * Get webServiceKey
-     *
-     * @return string
-     */
-    public function getWebServiceKey()
-    {
-        return $this->webServiceKey;
+        return $this->shop;
     }
 }
