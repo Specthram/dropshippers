@@ -4,4 +4,6 @@
      <Directory /var/www/html/dropshippers/web>
             Allowoverride All
      </Directory>
+     ErrorLog ${APACHE_LOG_DIR}/error.log
+     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
