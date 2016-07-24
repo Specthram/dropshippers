@@ -4,6 +4,7 @@
   with_items:
     - wget
     - git
+    - vim
     - htop
     - apache2
     - mysql-server
