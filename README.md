@@ -15,7 +15,7 @@ Procédure
 
 * se placer dans le nouveau repertoire cloné
 * lancer la commande `vagrant up` pour installer la machine et la provisionner
-* Si le provisionning fail, ce qui arrive souvent lors de la première fois avec les common package, faire un `vagrant halt` suivi d'un `vagrant up --provision`
+* Si le provisionning fail, ce qui arrive souvent lors de la première fois avec les common package, faire un `vagrant halt` suivi d'un `vagrant up --provision` (quand ça arrive, c'est au moment du de l'etape ansible "common-packages")
 * une fois l'installation terminée, vous devriez pouvoir tester par exemple la route `dropshippers.dev/v1/login` et avoir une réponse !
 
 
