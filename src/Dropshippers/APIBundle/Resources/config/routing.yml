@@ -20,6 +20,12 @@ dropshippers_api_prestashop:
     resource:   Dropshippers\APIBundle\Controller\PrestashopController
     prefix: /
 
+dropshippers_api_front:
+    type:   rest
+    defaults: {_format: json}
+    resource:   Dropshippers\APIBundle\Controller\FrontController
+    prefix: /
+
 #dropshippers_api_shops:
 #    type:   rest
 #    resource:   Dropshippers\APIBundle\Controller\ShopsController

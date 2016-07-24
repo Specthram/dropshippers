@@ -13,12 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
 class LocalPsProduct
 {
     /**
-     * @ORM\ManyToMany(targetEntity="ProductTag")
+     * @ORM\ManyToMany(targetEntity="LocalProductTag")
      */
     private $tags;
 
     /**
-     * @ORM\ManyToMany(targetEntity="ProductCategory")
+     * @ORM\ManyToMany(targetEntity="LocalProductCategory")
      */
     private $categories;
 
