@@ -3,6 +3,7 @@
   apt: name={{ item }} state=present
   with_items:
     - wget
+    - git
     - htop
     - apache2
     - mysql-server
