@@ -119,3 +119,9 @@ POST dropshippers.dev/v1/ps/16/products
       "id_shop_default":"1"
    },...
 ```
+
+POST dropshippers.dev/v1/login/register
+----------
+* Paramètres : username, email, password
+* Retour : message ou 403
+

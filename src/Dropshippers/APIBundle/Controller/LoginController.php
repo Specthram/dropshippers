@@ -28,6 +28,8 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
         return $response;
     }
 
+
+
     /**
      * POST Route annotation
      * @Post("/login/signin")
@@ -78,20 +80,17 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
      */
     public function postRegisterAction(Request $request)
     {
-
         $username = $request->get('username');
-        $email = $request->get('email');
+        $email    = $request->get('email');
         $password = $request->get('password');
 
-        $userManager = $this->container->get('fos_user.user_manager');
+        $auth_service = $this->get("dropshippers_api.authentication");
+        $toto = $auth_service->setUser($username, $email, $password);
 
-        $user = $userManager->createUser();
-        $user->setUsername($username);
-        $user->setEmail($email);
-        $user->setPlainPassword($password);
-        $user->setEnabled(true);
+        if ($toto == NULL){
+            throw new AccessDeniedHttpException("Error 403");
+        }
 
-        $userManager->updateUser($user, true);
-
+        return array("message" => "Vous êtes bien enregistré");
     }
 }
