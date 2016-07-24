@@ -5,7 +5,7 @@ Pré requis (obligatoire)
 
 * Installer la dernière version de vagrant depuis le site officiel (1.8.1 minin 1.8.5 utilisée lors du développement)
 * Installer virtualbox
-* Installer sshfs (existe pour linux, osx, windows)
+* Installer sshfs (linux seulement, osx l'integre de base)
 * Installer vbguest avec vagrant plugin install vagrant-vbguest
 * Installer  vagrant-sshfs avec `vagrant plugin install vagrant-sshfs`
 * Ajouter dans hosts `192.168.51.51  dropshippers.dev`
