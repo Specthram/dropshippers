@@ -163,4 +163,4 @@ Permet de savoir si un objet est deja en base
 
 * Header : token
 * Paramètres : id
-* retour : message (contient true ou false
+* retour : message (contient true ou false)
