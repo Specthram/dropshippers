@@ -29,8 +29,6 @@ class Prestashop16Service
         $em = $this->doctrine->getManager();
         $json = json_decode($request->getContent());
         $entities = array();
-        $results = $this->doctrine->getRepository("DropshippersAPIBundle:Shop")->findAll();
-        $shop = $results[0];
         foreach ($json as $product){
             $entity = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(array("productId" => $product->id_product, "shop" => $shop));
             //il manque : categories, tax, manufacturer
