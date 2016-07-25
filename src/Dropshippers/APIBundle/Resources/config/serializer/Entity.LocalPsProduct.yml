@@ -1,0 +1,31 @@
+Dropshippers\APIBundle\Entity\LocalPsProduct:
+    exclusion_policy: ALL
+    properties:
+        productId:
+            expose: true
+        description:
+            expose: true
+        name:
+            expose: true
+        active:
+            expose: true
+        price:
+            expose: true
+        tax:
+            expose: true
+        reference:
+            expose: true
+        supplierReference:
+            expose: true
+        ecotax:
+            expose: true
+        weight:
+            expose: true
+        quantity:
+            expose: true
+        descriptionHtml:
+            expose: true
+        availableOrder:
+            expose: true
+        updatedAt:
+            expose: true
