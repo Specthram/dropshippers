@@ -20,6 +20,15 @@ class Shop
 //     */
 //    private $manage;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="token", type="string", length=255)
+     */
+    private $token;
+
+
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Product", mappedBy="shop")
@@ -103,12 +112,7 @@ class Shop
      */
     private $url;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="shop_webservice_key", type="string", length=255, nullable=true)
-     */
-    private $webserviceKey;
+
 
     /**
      * @var \DateTime
@@ -274,30 +278,6 @@ class Shop
     public function getUrl()
     {
         return $this->url;
-    }
-
-    /**
-     * Set webserviceKey
-     *
-     * @param string $webserviceKey
-     *
-     * @return Shop
-     */
-    public function setWebserviceKey($webserviceKey)
-    {
-        $this->webserviceKey = $webserviceKey;
-
-        return $this;
-    }
-
-    /**
-     * Get webserviceKey
-     *
-     * @return string
-     */
-    public function getWebserviceKey()
-    {
-        return $this->webserviceKey;
     }
 
     /**
@@ -588,5 +568,29 @@ class Shop
     public function getModules()
     {
         return $this->modules;
+    }
+
+    /**
+     * Set token
+     *
+     * @param string $token
+     *
+     * @return Shop
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Get token
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
     }
 }

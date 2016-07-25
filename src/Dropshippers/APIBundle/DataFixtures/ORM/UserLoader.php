@@ -45,7 +45,7 @@ class UserLoader implements FixtureInterface
         $shop1->setName("red mad coon");
         $shop1->setPhone("0122334455");
         $shop1->setStatus("active");
-        $shop1->setWebserviceKey($this->generateRandomString(100));
+        $shop1->setToken($this->generateRandomString(100));
         $shop1->setUrl("http://monsite.com/");
         $shop1->setCreatedAt(new \DateTime());
         $shop1->setUpdatedAt(new \DateTime());
@@ -58,7 +58,7 @@ class UserLoader implements FixtureInterface
         $shop2->setName("pretty regrets");
         $shop2->setPhone("0256738923");
         $shop2->setStatus("active");
-        $shop2->setWebserviceKey($this->generateRandomString(100));
+        $shop2->setToken($this->generateRandomString(100));
         $shop2->setUrl("http://prettyregrets.com/");
         $shop2->setCreatedAt(new \DateTime());
         $shop2->setUpdatedAt(new \DateTime());
@@ -71,7 +71,7 @@ class UserLoader implements FixtureInterface
         $shop3->setName("HotDogs");
         $shop3->setPhone("0167895436");
         $shop3->setStatus("active");
-        $shop3->setWebserviceKey($this->generateRandomString(100));
+        $shop3->setToken($this->generateRandomString(100));
         $shop3->setUrl("http://hotdogs.com/");
         $shop3->setCreatedAt(new \DateTime());
         $shop3->setUpdatedAt(new \DateTime());
