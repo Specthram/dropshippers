@@ -54,6 +54,16 @@ class Prestashop16Service
         $em->flush();
         return TRUE;
     }
+    
+    public function getCheckProductPresence(Shop $shop, $id)
+    {
+        $entity = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(array("productId" => $id, "shop" => $shop));
+        if ($entity){
+            return True;
+        } else {
+            return False;
+        }
+    }
 
 //    public function loadLocalProduct(Request $request)
 //    {

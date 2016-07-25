@@ -67,4 +67,25 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
         $response = $service->loadLocalProduct($request);
         return $response;
     }
+
+    public function getProductIdAction(Request $request)
+    {
+        $as = $this->get("dropshippers_api.authentication");
+        $token = $request->headers->get("token");
+        $shop = $as->getShopFromToken($token);
+        if (!$shop){
+            throw new AccessDeniedHttpException("invalid token.");
+        }
+        $idProduct = $request->get("id");
+        if (!$idProduct){
+            return array("message" => "missing id parameter");
+        }
+        $service = $this->get("dropshippers_api.prestashop16");
+        $response = $service->getCheckProductPresence($shop, $idProduct);
+        if ($response){
+            return array("message" => "true");
+        } else {
+            return array("message" => "false");
+        }
+    }
 }
