@@ -131,7 +131,7 @@ POST dropshippers.dev/v1/login/register
 ---------------------------------------
 Permet d'enregistrer un nouvel utilisateur
 
-* Paramètres : username, email, password
+* Paramètres : username, email, password, token shop (facultatif)
 * Retour : message ou 403
 
 GET dropshippers.dev/v1/front/common/products
