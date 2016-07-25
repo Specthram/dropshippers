@@ -38,7 +38,7 @@ class Prestashop16Service
                 $entity->setCreatedAt(new \DateTime());
             }
             $entity->setProductId($product->id_product);
-            $entity->setName($product->id_product);
+            $entity->setName($product->name);
             $entity->setActive($product->active);
             $entity->setPrice($product->price);
             $entity->setReference($product->reference);
