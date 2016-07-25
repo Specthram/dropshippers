@@ -5,3 +5,6 @@ services:
     dropshippers_api.authentication:
             class: Dropshippers\APIBundle\Services\AuthenticationService
             arguments: [ '@doctrine' ]
+    dropshippers_api.front:
+            class: Dropshippers\APIBundle\Services\FrontService
+            arguments: [ '@doctrine' ]

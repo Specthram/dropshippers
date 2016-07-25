@@ -13,5 +13,20 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class FrontController extends FOSRestController implements ClassResourceInterface
 {
-    public function get
+    /**
+     * Get Route annotation
+     * @Get("/front/common/products")
+     */
+    public function getCommonProductsAction(Request $request)
+    {
+        $as = $this->get("dropshippers_api.authentication");
+        $token = $request->headers->get("token");
+        $shop = $as->getShopFromToken($token);
+        if (!$shop){
+            throw new AccessDeniedHttpException("invalid token.");
+        }
+        $frontService = $this->get("dropshippers_api.front");
+        $result = $frontService->getAllProducts();
+        return array("products" => $result);
+    }
 }

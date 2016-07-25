@@ -48,112 +48,105 @@ class LocalPsProduct
      *
      * @ORM\Column(name="product_local_product_id", type="integer")
      */
-    private $productLocalProductid;
+    private $productId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="product_local_description", type="text", nullable=true)
      */
-    private $productLocalDescription;
+    private $description;
 
     /**
      * @var string
      *
      * @ORM\Column(name="product_local_name", type="string", length=255)
      */
-    private $productLocalName;
+    private $name;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="product_local_active", type="boolean")
      */
-    private $productLocalActive;
+    private $active;
 
     /**
      * @var float
      *
      * @ORM\Column(name="product_local_price", type="float", nullable=true)
      */
-    private $productLocalPrice;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="product_local_categories", type="text", nullable=true)
-     */
-    private $productLocalCategories;
+    private $price;
 
     /**
      * @var string
      *
      * @ORM\Column(name="product_local_tax", type="string", length=255, nullable=true)
      */
-    private $productLocalTax;
+    private $tax;
 
     /**
      * @var string
      *
      * @ORM\Column(name="product_local_reference", type="string", length=255, nullable=true)
      */
-    private $productLocalReference;
+    private $reference;
 
     /**
      * @var string
      *
      * @ORM\Column(name="product_local_supplier_reference", type="string", length=255, nullable=true)
      */
-    private $productLocalSupplierReference;
+    private $supplierReference;
 
     /**
      * @var float
      *
      * @ORM\Column(name="product_local_ecotax", type="float", nullable=true)
      */
-    private $productLocalEcotax;
+    private $ecotax;
 
     /**
      * @var float
      *
      * @ORM\Column(name="product_local_weight", type="float", nullable=true)
      */
-    private $productLocalWeight;
+    private $weight;
 
     /**
      * @var int
      *
      * @ORM\Column(name="product_local_quantity", type="integer", nullable=true)
      */
-    private $productLocalQuantity;
+    private $quantity;
 
     /**
      * @var string
      *
      * @ORM\Column(name="product_local_description_html", type="text", nullable=true)
      */
-    private $productLocalDescriptionHtml;
+    private $descriptionHtml;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="product_local_available_order", type="boolean", nullable=true)
      */
-    private $productLocalAvailableOrder;
+    private $availableOrder;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="product_local_created_at", type="datetimetz")
      */
-    private $productLocalCreatedAt;
+    private $createdAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="product_local_updated_at", type="datetimetz")
      */
-    private $productLocalUpdatedAt;
+    private $updatedAt;
 
     /**
      * Get id
@@ -166,421 +159,373 @@ class LocalPsProduct
     }
 
     /**
-     * Set productLocalProductid
+     * Set productId
      *
-     * @param integer $productLocalProductid
+     * @param integer $productId
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalProductid($productLocalProductid)
+    public function setProductId($productId)
     {
-        $this->productLocalProductid = $productLocalProductid;
+        $this->productId = $productId;
 
         return $this;
     }
 
     /**
-     * Get productLocalProductid
+     * Get productId
      *
      * @return integer
      */
-    public function getProductLocalProductid()
+    public function getProductId()
     {
-        return $this->productLocalProductid;
+        return $this->productId;
     }
 
     /**
-     * Set productLocalDescription
+     * Set description
      *
-     * @param string $productLocalDescription
+     * @param string $description
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalDescription($productLocalDescription)
+    public function setDescription($description)
     {
-        $this->productLocalDescription = $productLocalDescription;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get productLocalDescription
+     * Get description
      *
      * @return string
      */
-    public function getProductLocalDescription()
+    public function getDescription()
     {
-        return $this->productLocalDescription;
+        return $this->description;
     }
 
     /**
-     * Set productLocalName
+     * Set name
      *
-     * @param string $productLocalName
+     * @param string $name
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalName($productLocalName)
+    public function setName($name)
     {
-        $this->productLocalName = $productLocalName;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get productLocalName
+     * Get name
      *
      * @return string
      */
-    public function getProductLocalName()
+    public function getName()
     {
-        return $this->productLocalName;
+        return $this->name;
     }
 
     /**
-     * Set productLocalActive
+     * Set active
      *
-     * @param boolean $productLocalActive
+     * @param boolean $active
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalActive($productLocalActive)
+    public function setActive($active)
     {
-        $this->productLocalActive = $productLocalActive;
+        $this->active = $active;
 
         return $this;
     }
 
     /**
-     * Get productLocalActive
+     * Get active
      *
      * @return boolean
      */
-    public function getProductLocalActive()
+    public function getActive()
     {
-        return $this->productLocalActive;
+        return $this->active;
     }
 
     /**
-     * Set productLocalPrice
+     * Set price
      *
-     * @param float $productLocalPrice
+     * @param float $price
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalPrice($productLocalPrice)
+    public function setPrice($price)
     {
-        $this->productLocalPrice = $productLocalPrice;
+        $this->price = $price;
 
         return $this;
     }
 
     /**
-     * Get productLocalPrice
+     * Get price
      *
      * @return float
      */
-    public function getProductLocalPrice()
+    public function getPrice()
     {
-        return $this->productLocalPrice;
+        return $this->price;
     }
 
     /**
-     * Set productLocalCategories
+     * Set tax
      *
-     * @param string $productLocalCategories
+     * @param string $tax
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalCategories($productLocalCategories)
+    public function setTax($tax)
     {
-        $this->productLocalCategories = $productLocalCategories;
+        $this->tax = $tax;
 
         return $this;
     }
 
     /**
-     * Get productLocalCategories
+     * Get tax
      *
      * @return string
      */
-    public function getProductLocalCategories()
+    public function getTax()
     {
-        return $this->productLocalCategories;
+        return $this->tax;
     }
 
     /**
-     * Set productLocalTax
+     * Set reference
      *
-     * @param string $productLocalTax
+     * @param string $reference
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalTax($productLocalTax)
+    public function setReference($reference)
     {
-        $this->productLocalTax = $productLocalTax;
+        $this->reference = $reference;
 
         return $this;
     }
 
     /**
-     * Get productLocalTax
+     * Get reference
      *
      * @return string
      */
-    public function getProductLocalTax()
+    public function getReference()
     {
-        return $this->productLocalTax;
+        return $this->reference;
     }
 
     /**
-     * Set productLocalReference
+     * Set supplierReference
      *
-     * @param string $productLocalReference
+     * @param string $supplierReference
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalReference($productLocalReference)
+    public function setSupplierReference($supplierReference)
     {
-        $this->productLocalReference = $productLocalReference;
+        $this->supplierReference = $supplierReference;
 
         return $this;
     }
 
     /**
-     * Get productLocalReference
+     * Get supplierReference
      *
      * @return string
      */
-    public function getProductLocalReference()
+    public function getSupplierReference()
     {
-        return $this->productLocalReference;
+        return $this->supplierReference;
     }
 
     /**
-     * Set productLocalSupplierReference
+     * Set ecotax
      *
-     * @param string $productLocalSupplierReference
+     * @param float $ecotax
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalSupplierReference($productLocalSupplierReference)
+    public function setEcotax($ecotax)
     {
-        $this->productLocalSupplierReference = $productLocalSupplierReference;
+        $this->ecotax = $ecotax;
 
         return $this;
     }
 
     /**
-     * Get productLocalSupplierReference
-     *
-     * @return string
-     */
-    public function getProductLocalSupplierReference()
-    {
-        return $this->productLocalSupplierReference;
-    }
-
-    /**
-     * Set productLocalEcotax
-     *
-     * @param float $productLocalEcotax
-     *
-     * @return LocalPsProduct
-     */
-    public function setProductLocalEcotax($productLocalEcotax)
-    {
-        $this->productLocalEcotax = $productLocalEcotax;
-
-        return $this;
-    }
-
-    /**
-     * Get productLocalEcotax
+     * Get ecotax
      *
      * @return float
      */
-    public function getProductLocalEcotax()
+    public function getEcotax()
     {
-        return $this->productLocalEcotax;
+        return $this->ecotax;
     }
 
     /**
-     * Set productLocalWeight
+     * Set weight
      *
-     * @param float $productLocalWeight
+     * @param float $weight
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalWeight($productLocalWeight)
+    public function setWeight($weight)
     {
-        $this->productLocalWeight = $productLocalWeight;
+        $this->weight = $weight;
 
         return $this;
     }
 
     /**
-     * Get productLocalWeight
+     * Get weight
      *
      * @return float
      */
-    public function getProductLocalWeight()
+    public function getWeight()
     {
-        return $this->productLocalWeight;
+        return $this->weight;
     }
 
     /**
-     * Set productLocalQuantity
+     * Set quantity
      *
-     * @param integer $productLocalQuantity
+     * @param integer $quantity
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalQuantity($productLocalQuantity)
+    public function setQuantity($quantity)
     {
-        $this->productLocalQuantity = $productLocalQuantity;
+        $this->quantity = $quantity;
 
         return $this;
     }
 
     /**
-     * Get productLocalQuantity
+     * Get quantity
      *
      * @return integer
      */
-    public function getProductLocalQuantity()
+    public function getQuantity()
     {
-        return $this->productLocalQuantity;
+        return $this->quantity;
     }
 
     /**
-     * Set productLocalDescriptionHtml
+     * Set descriptionHtml
      *
-     * @param string $productLocalDescriptionHtml
+     * @param string $descriptionHtml
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalDescriptionHtml($productLocalDescriptionHtml)
+    public function setDescriptionHtml($descriptionHtml)
     {
-        $this->productLocalDescriptionHtml = $productLocalDescriptionHtml;
+        $this->descriptionHtml = $descriptionHtml;
 
         return $this;
     }
 
     /**
-     * Get productLocalDescriptionHtml
+     * Get descriptionHtml
      *
      * @return string
      */
-    public function getProductLocalDescriptionHtml()
+    public function getDescriptionHtml()
     {
-        return $this->productLocalDescriptionHtml;
+        return $this->descriptionHtml;
     }
 
     /**
-     * Set productLocalAvailableOrder
+     * Set availableOrder
      *
-     * @param boolean $productLocalAvailableOrder
+     * @param boolean $availableOrder
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalAvailableOrder($productLocalAvailableOrder)
+    public function setAvailableOrder($availableOrder)
     {
-        $this->productLocalAvailableOrder = $productLocalAvailableOrder;
+        $this->availableOrder = $availableOrder;
 
         return $this;
     }
 
     /**
-     * Get productLocalAvailableOrder
+     * Get availableOrder
      *
      * @return boolean
      */
-    public function getProductLocalAvailableOrder()
+    public function getAvailableOrder()
     {
-        return $this->productLocalAvailableOrder;
+        return $this->availableOrder;
     }
 
     /**
-     * Set productLocalCreatedAt
+     * Set createdAt
      *
-     * @param \DateTime $productLocalCreatedAt
+     * @param \DateTime $createdAt
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalCreatedAt($productLocalCreatedAt)
+    public function setCreatedAt($createdAt)
     {
-        $this->productLocalCreatedAt = $productLocalCreatedAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Get productLocalCreatedAt
+     * Get createdAt
      *
      * @return \DateTime
      */
-    public function getProductLocalCreatedAt()
+    public function getCreatedAt()
     {
-        return $this->productLocalCreatedAt;
+        return $this->createdAt;
     }
 
     /**
-     * Set productLocalUpdatedAt
+     * Set updatedAt
      *
-     * @param \DateTime $productLocalUpdatedAt
+     * @param \DateTime $updatedAt
      *
      * @return LocalPsProduct
      */
-    public function setProductLocalUpdatedAt($productLocalUpdatedAt)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->productLocalUpdatedAt = $productLocalUpdatedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
     /**
-     * Get productLocalUpdatedAt
+     * Get updatedAt
      *
      * @return \DateTime
      */
-    public function getProductLocalUpdatedAt()
+    public function getUpdatedAt()
     {
-        return $this->productLocalUpdatedAt;
-    }
-
-    /**
-     * Set shop
-     *
-     * @param \Dropshippers\APIBundle\Entity\Shop $shop
-     *
-     * @return LocalPsProduct
-     */
-    public function setShop(Shop $shop = null)
-    {
-        $this->shop = $shop;
-
-        return $this;
-    }
-
-    /**
-     * Get shop
-     *
-     * @return \Dropshippers\APIBundle\Entity\Shop
-     */
-    public function getShop()
-    {
-        return $this->shop;
+        return $this->updatedAt;
     }
 
     /**
      * Add tag
      *
-     * @param \Dropshippers\APIBundle\Entity\ProductTag $tag
+     * @param \Dropshippers\APIBundle\Entity\LocalProductTag $tag
      *
      * @return LocalPsProduct
      */
-    public function addTag(\Dropshippers\APIBundle\Entity\ProductTag $tag)
+    public function addTag(\Dropshippers\APIBundle\Entity\LocalProductTag $tag)
     {
         $this->tags[] = $tag;
 
@@ -590,9 +535,9 @@ class LocalPsProduct
     /**
      * Remove tag
      *
-     * @param \Dropshippers\APIBundle\Entity\ProductTag $tag
+     * @param \Dropshippers\APIBundle\Entity\LocalProductTag $tag
      */
-    public function removeTag(\Dropshippers\APIBundle\Entity\ProductTag $tag)
+    public function removeTag(\Dropshippers\APIBundle\Entity\LocalProductTag $tag)
     {
         $this->tags->removeElement($tag);
     }
@@ -610,11 +555,11 @@ class LocalPsProduct
     /**
      * Add category
      *
-     * @param \Dropshippers\APIBundle\Entity\ProductCategory $category
+     * @param \Dropshippers\APIBundle\Entity\LocalProductCategory $category
      *
      * @return LocalPsProduct
      */
-    public function addCategory(\Dropshippers\APIBundle\Entity\ProductCategory $category)
+    public function addCategory(\Dropshippers\APIBundle\Entity\LocalProductCategory $category)
     {
         $this->categories[] = $category;
 
@@ -624,9 +569,9 @@ class LocalPsProduct
     /**
      * Remove category
      *
-     * @param \Dropshippers\APIBundle\Entity\ProductCategory $category
+     * @param \Dropshippers\APIBundle\Entity\LocalProductCategory $category
      */
-    public function removeCategory(\Dropshippers\APIBundle\Entity\ProductCategory $category)
+    public function removeCategory(\Dropshippers\APIBundle\Entity\LocalProductCategory $category)
     {
         $this->categories->removeElement($category);
     }
@@ -639,5 +584,29 @@ class LocalPsProduct
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Set shop
+     *
+     * @param \Dropshippers\APIBundle\Entity\Shop $shop
+     *
+     * @return LocalPsProduct
+     */
+    public function setShop(\Dropshippers\APIBundle\Entity\Shop $shop = null)
+    {
+        $this->shop = $shop;
+
+        return $this;
+    }
+
+    /**
+     * Get shop
+     *
+     * @return \Dropshippers\APIBundle\Entity\Shop
+     */
+    public function getShop()
+    {
+        return $this->shop;
     }
 }
