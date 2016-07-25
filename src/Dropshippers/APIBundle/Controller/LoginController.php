@@ -83,14 +83,30 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
         $username = $request->get('username');
         $email    = $request->get('email');
         $password = $request->get('password');
+        $token    = $request->get('token');
 
         $auth_service = $this->get("dropshippers_api.authentication");
-        $toto = $auth_service->setUser($username, $email, $password);
+        $toto = $auth_service->setUser($username, $email, $password, $token);
 
-        if ($toto == NULL){
-            throw new AccessDeniedHttpException("Error 403");
+        if ($toto == -1){
+            throw new AccessDeniedHttpException("Registration failed");
         }
+        elseif ($toto == -2) {
+            throw new AccessDeniedHttpException("Invalid token");
+        }
+        elseif ($toto == -3) {
+            throw new AccessDeniedHttpException("Y a un champ à nul");
+        }
+        elseif ($toto == -4) {
+            throw new AccessDeniedHttpException("Utilisateur déjà existant");
+        }
+        elseif ($toto == -5) {
+            throw new AccessDeniedHttpException("Email déjà existant");
+        }
+
+
 
         return array("message" => "Vous êtes bien enregistré");
     }
+
 }

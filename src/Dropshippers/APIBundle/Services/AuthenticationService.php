@@ -3,6 +3,7 @@
 namespace Dropshippers\APIBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\Query\AST\NullComparisonExpression;
 use Dropshippers\APIBundle\Entity\LocalPsProduct;
 use Dropshippers\APIBundle\Entity\Shop;
 use Dropshippers\APIBundle\Entity\User;
@@ -40,7 +41,7 @@ class AuthenticationService
             return NULL;
         }
         $userRepository = $this->doctrine->getRepository("DropshippersAPIBundle:User");
-        
+
         $user = $userRepository->findOneBy(["token" => $token]);
         if ($user){
             return $user->getShop();
@@ -55,15 +56,37 @@ class AuthenticationService
         return NULL;
     }
 
-    public function setUser($name, $email, $password)
+    public function setUser($name, $email, $password, $token)
     {
-        if ($name == NULL &&  $email == NULL && $password == NULL)
-            return NULL;
+        if ($name == NULL || $email == NULL || $password == NULL)
+            return -3;
+        $userRepository = $this->doctrine->getRepository("DropshippersAPIBundle:User");
+
+        $user = $userRepository->findOneBy(["username" => $name]);
+        $user2 = $userRepository->findOneBy(["email" => $email]);
+
+        if ($user != NULL)
+            return -4;
+        if ($user2 != NULL)
+            return -5;
+
         $em = $this->doctrine->getManager();
         $entity = new User();
         $entity->setUsername($name);
         $entity->setEmail($email);
         $entity->setPassword($password);
+
+        if ($token != NULL) {
+            $shopRepository = $this->doctrine->getRepository("DropshippersAPIBundle:Shop");
+            $shop = $shopRepository->findOneBy(["token" => $token]);
+            if ($shop) {
+                $entity->setShop($shop);
+            } else {
+                return -2;
+            }
+        }
+
+
         $entity->setToken($this->generateRandomString(100));
 
         $em->persist($entity);
@@ -71,12 +94,17 @@ class AuthenticationService
         $em->flush();
 
         if(null != $entity->getId())
-            return TRUE;
+            return 1;
         else
-            return FALSE;
+            return -1;
     }
 
+    public function getTokenFromShop($user)
+    {
+        if ($user == NULL)
+            return NULL;
 
+    }
 
     private function generateRandomString($length = 10) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
