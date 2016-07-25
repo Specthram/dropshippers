@@ -69,19 +69,26 @@ MySQL
 * Un PHPMyAdmin est installé et est accessible via `http://192.168.51.51/phpmyadmin`
 
 Routes opérationnelles
-====================
+======================
+
 GET dropshippers.dev/v1/login
-----------
+-----------------------------
+Renvoi les routes disponibles
+
 * Paramètres : rien
 * retour : routes disponibles
 
 POST dropshippers.dev/v1/login/signin
-----------
+-------------------------------------
+Permet d'obtenir le token d'un utilisateur
+
 * Paramètres : login, password
 * Retour : 200, token
 
 POST dropshippers.dev/v1/ps/16/products
-----------
+---------------------------------------
+Permet de poster un array de produit
+
 * Header : token (utilisateur ou module)
 * Paramètres : json (voir example ci dessous)
 * Retour : message
@@ -121,7 +128,9 @@ POST dropshippers.dev/v1/ps/16/products
 ```
 
 POST dropshippers.dev/v1/login/register
-----------
+---------------------------------------
+Permet d'enregistrer un nouvel utilisateur
+
 * Paramètres : username, email, password
 * Retour : message ou 403
 
@@ -147,3 +156,11 @@ example
             "updated_at": "2016-07-25T02:05:50+0200"
         },...
 ```
+
+GET dropshippers.dev/v1/ps/16/products/id
+-----------------------------------------
+Permet de savoir si un objet est deja en base
+
+* Header : token
+* Paramètres : id
+* retour : message (contient true ou false
