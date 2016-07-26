@@ -137,25 +137,21 @@ Permet d'enregistrer un nouvel utilisateur
 GET dropshippers.dev/v1/front/common/products
 ----------
 * Header : token
-* Retour : product : array
+* Retour : products : array de ressources
 
 example
 ```
 {
     "products": [
-        {
-            "product_id": 1,
-            "name": "T-shirt délavé à manches courtes",
-            "active": true,
-            "price": 16.51,
-            "reference": "demo_1",
-            "ecotax": 0,
-            "weight": 0,
-            "quantity": 0,
-            "description_html": "<p>Fashion propose des vêtements de qualité depuis 2010. La marque propose une gamme féminine composée d'élégants vêtements à coordonner et de robes originales et offre désormais une collection complète de prêt-à-porter, regroupant toutes les pièces qu'une femme doit avoir dans sa garde-robe. Fashion se distingue avec des looks à la fois cool, simples et rafraîchissants, alliant élégance et chic, pour un style reconnaissable entre mille. Chacune des magnifiques pièces de la collection est fabriquée avec le plus grand soin en Italie. Fashion enrichit son offre avec une gamme d'accessoires incluant chaussures, chapeaux, ceintures et bien plus encore !</p>",
-            "available_order": true,
-            "updated_at": "2016-07-25T02:56:10+0200"
-        },...
+        "http://dropshippers.dev/v1/front/common/products/HOTUGJPX-YX215HRR7MLPJ6D",
+        "http://dropshippers.dev/v1/front/common/products/HOTRDMJI-JJ1ZMBT3VJ0UG2V",
+        "http://dropshippers.dev/v1/front/common/products/HOTMKMER-9ZHS5VKJH311M20",
+        "http://dropshippers.dev/v1/front/common/products/HOT9ETC9-CC4TFZG0MUSVT9O",
+        "http://dropshippers.dev/v1/front/common/products/HOTZ48IM-BKNYMO81HLBUYFO",
+        "http://dropshippers.dev/v1/front/common/products/HOTEE4E1-Y6WSGLSLTA85UV4",
+        "http://dropshippers.dev/v1/front/common/products/HOTHKCI1-YTWW9LBNQPPPWLH"
+    ]
+}
 ```
 
 GET dropshippers.dev/v1/ps/16/products/id
@@ -165,3 +161,30 @@ Permet de savoir si un objet est deja en base
 * Header : token
 * Paramètres : id
 * retour : message (contient true ou false)
+
+GET dropshippers.dev/v1/front/common/products/{refProduit}
+----------------------------------------------------------
+Permet d'avoir une seule ressource produit
+
+* Header : token
+* retour : product
+
+example
+```
+{
+    "product": {
+        "product_id": 3,
+        "name": "Robe imprimée",
+        "active": true,
+        "price": 25.999852,
+        "reference": "demo_3",
+        "ecotax": 0,
+        "weight": 0,
+        "quantity": 0,
+        "description_html": "<p>Fashion propose des vêtements de qualité depuis 2010. La marque propose une gamme féminine composée d'élégants vêtements à coordonner et de robes originales et offre désormais une collection complète de prêt-à-porter, regroupant toutes les pièces qu'une femme doit avoir dans sa garde-robe. Fashion se distingue avec des looks à la fois cool, simples et rafraîchissants, alliant élégance et chic, pour un style reconnaissable entre mille. Chacune des magnifiques pièces de la collection est fabriquée avec le plus grand soin en Italie. Fashion enrichit son offre avec une gamme d'accessoires incluant chaussures, chapeaux, ceintures et bien plus encore !</p>",
+        "available_order": true,
+        "dropshippers_ref": "HOTMKMER-9ZHS5VKJH311M20",
+        "updated_at": "2016-07-26T02:50:45+0200"
+    }
+}
+```

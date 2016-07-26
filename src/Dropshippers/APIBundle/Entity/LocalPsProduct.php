@@ -26,6 +26,11 @@ class LocalPsProduct
      * @ORM\ManyToOne(targetEntity="Shop")
      */
     private $shop;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Shop")
+     */
+    private $shopOrigin;
     
     /**
      * Constructor
@@ -133,6 +138,13 @@ class LocalPsProduct
      * @ORM\Column(name="product_local_available_order", type="boolean", nullable=true)
      */
     private $availableOrder;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="product_local_dropshippers_ref", type="string", length=255, nullable=true)
+     */
+    private $dropshippersRef;
 
     /**
      * @var \DateTime
@@ -608,5 +620,53 @@ class LocalPsProduct
     public function getShop()
     {
         return $this->shop;
+    }
+
+    /**
+     * Set dropshippersRef
+     *
+     * @param string $dropshippersRef
+     *
+     * @return LocalPsProduct
+     */
+    public function setDropshippersRef($dropshippersRef)
+    {
+        $this->dropshippersRef = $dropshippersRef;
+
+        return $this;
+    }
+
+    /**
+     * Get dropshippersRef
+     *
+     * @return string
+     */
+    public function getDropshippersRef()
+    {
+        return $this->dropshippersRef;
+    }
+
+    /**
+     * Set shopOrigin
+     *
+     * @param \Dropshippers\APIBundle\Entity\Shop $shopOrigin
+     *
+     * @return LocalPsProduct
+     */
+    public function setShopOrigin(\Dropshippers\APIBundle\Entity\Shop $shopOrigin = null)
+    {
+        $this->shopOrigin = $shopOrigin;
+
+        return $this;
+    }
+
+    /**
+     * Get shopOrigin
+     *
+     * @return \Dropshippers\APIBundle\Entity\Shop
+     */
+    public function getShopOrigin()
+    {
+        return $this->shopOrigin;
     }
 }
