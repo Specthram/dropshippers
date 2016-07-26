@@ -49,9 +49,11 @@ class Prestashop16Service
             $entity->setAvailableOrder($product->available_for_order);
             $entity->setUpdatedAt(new \DateTime());
             $entity->setShop($shop);
+            $entity->setShopOrigin($shop);
+            $entity->setDropshippersRef($this->generateRandomRef($shop->getName()));
             $em->persist($entity);
+            $em->flush();
         }
-        $em->flush();
         return TRUE;
     }
     
@@ -63,6 +65,32 @@ class Prestashop16Service
         } else {
             return False;
         }
+    }
+
+    private function generateRandomRef($shopName)
+    {
+        $dropRef = strtoupper(substr($shopName, 0, 3)) . $this->generateRandomString(5) . "-" . $this->generateRandomString(15);
+        $repository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
+        $flag = 1;
+        while ($flag){
+            $product = $repository->findOneBy(array("dropshippersRef" => $dropRef));
+            if (!$product){
+                $flag = 0;
+            } else {
+                $dropRef = strtoupper(substr($shopName, 0, 3)) . $this->generateRandomString(5) . "-" . $this->generateRandomString(15);
+            }
+        }
+        return $dropRef;
+    }
+
+    private function generateRandomString($length = 10) {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
 //    public function loadLocalProduct(Request $request)
