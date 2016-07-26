@@ -49,6 +49,7 @@ class FrontService
             $shopHost = $proposition->getShopHost();
             $tab["created_at"] = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
             $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
+            $tab["status"] = $proposition->getStatus();
             $tab["shopGuest"]["name"] = $shopGuest->getName();
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
@@ -63,6 +64,7 @@ class FrontService
             $shopHost = $proposition->getShopHost();
             $tab["created_at"] = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
             $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
+            $tab["status"] = $proposition->getStatus();
             $tab["shopGuest"]["name"] = $shopGuest->getName();
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
