@@ -25,4 +25,11 @@ class FrontService
         $products = $productRepository->findAll();
         return $products;
     }
+
+    public function getProduct($shop, $reference)
+    {
+        $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
+        $product = $productRepository->findOneBy(["dropshippersRef" => $reference]);
+        return $product;
+    }
 }
