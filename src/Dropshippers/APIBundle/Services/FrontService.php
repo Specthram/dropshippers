@@ -36,4 +36,40 @@ class FrontService
         $product = $productRepository->findOneBy(["dropshippersRef" => $reference]);
         return $product;
     }
+    
+    public function getShopPropositions($shop)
+    {
+        $results = array();
+        $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+
+        $propositions = $requestRepository->findBy(["shopGuest" => $shop]);
+        foreach ($propositions as $proposition){
+            $tab = array();
+            $shopGuest = $proposition->getShopGuest();
+            $shopHost = $proposition->getShopHost();
+            $tab["created_at"] = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
+            $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
+            $tab["shopGuest"]["name"] = $shopGuest->getName();
+            $tab["shopGuest"]["id"] = $shopGuest->getId();
+            $tab["shopHost"]["name"] = $shopHost->getName();
+            $tab["shopHost"]["id"] = $shopHost->getId();
+            $results["guest"][] = $tab;
+        }
+
+        $propositions = $requestRepository->findBy(["shopHost" => $shop]);
+        foreach ($propositions as $proposition){
+            $tab = array();
+            $shopGuest = $proposition->getShopGuest();
+            $shopHost = $proposition->getShopHost();
+            $tab["created_at"] = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
+            $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
+            $tab["shopGuest"]["name"] = $shopGuest->getName();
+            $tab["shopGuest"]["id"] = $shopGuest->getId();
+            $tab["shopHost"]["name"] = $shopHost->getName();
+            $tab["shopHost"]["id"] = $shopHost->getId();
+            $results["host"][] = $tab;
+        }
+
+        return $results;
+    }
 }

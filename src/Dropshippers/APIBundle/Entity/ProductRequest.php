@@ -42,6 +42,16 @@ class ProductRequest
     private $status;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Dropshippers\APIBundle\Entity\Shop")
+     */
+    private $shopHost;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Dropshippers\APIBundle\Entity\Shop")
+     */
+    private $shopGuest;
+
+    /**
      * Get id
      *
      * @return integer
@@ -121,5 +131,55 @@ class ProductRequest
     public function getStatus()
     {
         return $this->status;
+    }
+
+
+
+    /**
+     * Set shopHost
+     *
+     * @param \Dropshippers\APIBundle\Entity\Shop $shopHost
+     *
+     * @return ProductRequest
+     */
+    public function setShopHost(\Dropshippers\APIBundle\Entity\Shop $shopHost = null)
+    {
+        $this->shopHost = $shopHost;
+
+        return $this;
+    }
+
+    /**
+     * Get shopHost
+     *
+     * @return \Dropshippers\APIBundle\Entity\Shop
+     */
+    public function getShopHost()
+    {
+        return $this->shopHost;
+    }
+
+    /**
+     * Set shopGuest
+     *
+     * @param \Dropshippers\APIBundle\Entity\Shop $shopGuest
+     *
+     * @return ProductRequest
+     */
+    public function setShopGuest(\Dropshippers\APIBundle\Entity\Shop $shopGuest = null)
+    {
+        $this->shopGuest = $shopGuest;
+
+        return $this;
+    }
+
+    /**
+     * Get shopGuest
+     *
+     * @return \Dropshippers\APIBundle\Entity\Shop
+     */
+    public function getShopGuest()
+    {
+        return $this->shopGuest;
     }
 }

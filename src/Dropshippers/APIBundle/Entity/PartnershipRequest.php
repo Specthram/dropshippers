@@ -15,12 +15,12 @@ class PartnershipRequest
     /**
      * @ORM\ManyToOne(targetEntity="Dropshippers\APIBundle\Entity\Shop")
      */
-    private $shop_host;
+    private $shopHost;
 
     /**
      * @ORM\ManyToOne(targetEntity="Dropshippers\APIBundle\Entity\Shop")
      */
-    private $shop_guest;
+    private $shopGuest;
 
     /**
      * @var int
@@ -132,53 +132,5 @@ class PartnershipRequest
     public function getPartnershipRequestStatus()
     {
         return $this->partnershipRequestStatus;
-    }
-
-    /**
-     * Set shopHost
-     *
-     * @param \Dropshippers\APIBundle\Entity\Shop $shopHost
-     *
-     * @return PartnershipRequest
-     */
-    public function setShopHost(Shop $shopHost = null)
-    {
-        $this->shop_host = $shopHost;
-
-        return $this;
-    }
-
-    /**
-     * Get shopHost
-     *
-     * @return \Dropshippers\APIBundle\Entity\Shop
-     */
-    public function getShopHost()
-    {
-        return $this->shop_host;
-    }
-
-    /**
-     * Set shopGuest
-     *
-     * @param \Dropshippers\APIBundle\Entity\Shop $shopGuest
-     *
-     * @return PartnershipRequest
-     */
-    public function setShopGuest(Shop $shopGuest = null)
-    {
-        $this->shop_guest = $shopGuest;
-
-        return $this;
-    }
-
-    /**
-     * Get shopGuest
-     *
-     * @return \Dropshippers\APIBundle\Entity\Shop
-     */
-    public function getShopGuest()
-    {
-        return $this->shop_guest;
     }
 }
