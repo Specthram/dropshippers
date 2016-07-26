@@ -141,7 +141,17 @@ GET dropshippers.dev/v1/front/common/products
 
 example
 ```
-
+{
+    "products": [
+        "http://dropshippers.dev/v1/front/common/products/HOTUGJPX-YX215HRR7MLPJ6D",
+        "http://dropshippers.dev/v1/front/common/products/HOTRDMJI-JJ1ZMBT3VJ0UG2V",
+        "http://dropshippers.dev/v1/front/common/products/HOTMKMER-9ZHS5VKJH311M20",
+        "http://dropshippers.dev/v1/front/common/products/HOT9ETC9-CC4TFZG0MUSVT9O",
+        "http://dropshippers.dev/v1/front/common/products/HOTZ48IM-BKNYMO81HLBUYFO",
+        "http://dropshippers.dev/v1/front/common/products/HOTEE4E1-Y6WSGLSLTA85UV4",
+        "http://dropshippers.dev/v1/front/common/products/HOTHKCI1-YTWW9LBNQPPPWLH"
+    ]
+}
 ```
 
 GET dropshippers.dev/v1/ps/16/products/id
