@@ -23,7 +23,11 @@ class FrontService
     {
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
         $products = $productRepository->findAll();
-        return $products;
+        $refs = array();
+        foreach($products as $product){
+            $refs[] = "http://" . $_SERVER['SERVER_NAME'] . "/v1/front/common/products/" . $product->getDropshippersRef();
+        }
+        return $refs;
     }
 
     public function getProduct($reference)
