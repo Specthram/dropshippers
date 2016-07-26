@@ -46,4 +46,21 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         $result = $frontService->getProduct($refProduct);
         return array("product" => $result);
     }
+
+    /**
+     * Get Route annotation
+     * @Get("/front/user/propositions")
+     */
+    public function getUserPropositionsAction(Request $request)
+    {
+        $as = $this->get("dropshippers_api.authentication");
+        $token = $request->headers->get("token");
+        $shop = $as->getShopFromToken($token);
+        if (!$shop){
+            throw new AccessDeniedHttpException("invalid token.");
+        }
+        $frontService = $this->get("dropshippers_api.front");
+        $result = $frontService->getShopPropositions($shop);
+        return array("propositions" => $result);
+    }
 }
