@@ -52,6 +52,11 @@ class ProductRequest
     private $shopGuest;
 
     /**
+     * @ORM\ManyToOne(targetEntity="LocalPsProduct")
+     */
+    private $products;
+
+    /**
      * Get id
      *
      * @return integer
@@ -181,5 +186,21 @@ class ProductRequest
     public function getShopGuest()
     {
         return $this->shopGuest;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    /**
+     * @param mixed $products
+     */
+    public function setProducts(\Dropshippers\APIBundle\Entity\LocalPsProduct $products)
+    {
+        $this->products = $products;
     }
 }
