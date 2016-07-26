@@ -188,3 +188,33 @@ example
     }
 }
 ```
+
+GET dropshippers.dev/v1/user/propositions
+-----------------------------------------
+Permet d'avoir les propositions d'un shop
+
+* Header : token
+* Retour : propositions (array)
+
+example :
+
+```
+{
+    "propositions": {
+        "host": [
+            {
+                "created_at": "2016-07-26T00:00:00+0200",
+                "updated_at": "2016-07-26T00:00:00+0200",
+                "shopGuest": {
+                    "name": "pretty regrets",
+                    "id": 26
+                },
+                "shopHost": {
+                    "name": "red mad coon",
+                    "id": 25
+                }
+            }
+        ]
+    }
+}
+```
