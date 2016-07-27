@@ -136,7 +136,7 @@ GET dropshippers.dev/v1/ps/16/products
 ```
 {
     "external": [
-        "product": {
+        {
             "product_id": 3,
             "name": "Robe imprimée",
             "active": true,
@@ -152,7 +152,7 @@ GET dropshippers.dev/v1/ps/16/products
         }
     ],
     "local": [
-        "product": {
+        {
             "product_id": 4,
             "name": "Robe imprimée",
             "active": true,
