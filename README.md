@@ -261,3 +261,22 @@ example :
     }
 }
 ```
+
+POST dropshippers.dev/v1/front/user/partners/products/proposition
+-----------------------------------------------------------------
+Permet de faire une demande de partenariat sur un produit
+
+* Header : token
+* request parameters: refproduit, shopHostId
+* retour : true si ok 500 si erreur (on verra plus tard pour une meilleur gestion)
+
+Ne pas oublier:
+
+```
+php bin/console doctrine:schema:update --force
+```
+
+```
+php bin/console doctrine:fixtures:load
+```
+=======

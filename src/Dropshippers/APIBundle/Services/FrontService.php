@@ -9,6 +9,7 @@
 namespace Dropshippers\APIBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Dropshippers\APIBundle\Entity\ProductRequest;
 
 class FrontService
 {
@@ -73,5 +74,29 @@ class FrontService
         }
 
         return $results;
+    }
+
+    public function registerProductRequest($shopGuest, $shopHostId, $products){
+
+
+        $entityManager = $this->doctrine->getManager();
+
+        $shopHost = $this->doctrine->getRepository("DropshippersAPIBundle:Shop")->findBy(["id" => $shopHostId]);
+
+        $productRequest = new ProductRequest();
+        $productRequest->setShopGuest($shopGuest);
+        $productRequest->setShopHost($shopHost[0]);
+        $productRequest->setCreatedAt(new \DateTime());
+        $productRequest->setUpdatedAt(new \DateTime());
+        $productRequest->setStatus("new");
+
+
+        // faudrai opti pour pouvoir sur une row avoir tout les produits de la demande
+        foreach($products as $prod){
+            $productRequest->setProducts($prod);
+        }
+
+        $entityManager->persist($productRequest);
+        $entityManager->flush();
     }
 }

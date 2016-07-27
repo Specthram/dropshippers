@@ -63,4 +63,37 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         $result = $frontService->getShopPropositions($shop);
         return array("propositions" => $result);
     }
+
+    /**
+     * POST Route annotation
+     * @Post("/front/user/partners/products/proposition")
+     */
+    public function postPartnerProductsRequestAction(Request $request){
+
+        $as = $this->get("dropshippers_api.authentication");
+        $token = $request->headers->get("token");
+        $retRequest = $request->request->get("refproduit");
+        $shopHostId = $request->request->get("shopHostId");
+        $products = explode(",", $retRequest);
+
+        $shopGuest = $as->getShopFromToken($token);
+        if (!$shopGuest){
+            throw new AccessDeniedHttpException("invalid token.");
+        }
+
+        if (empty($products) || empty($shopHostId)){
+            throw new AccessDeniedHttpException("missing param.");
+        }
+
+        $frontService = $this->get("dropshippers_api.front");
+        $allProduct = array();
+        foreach($products as $product){
+            array_push($allProduct, $frontService->getProduct($product));
+        }
+
+        $frontService->registerProductRequest($shopGuest, $shopHostId, $allProduct);
+
+        return true;
+
+    }
 }
