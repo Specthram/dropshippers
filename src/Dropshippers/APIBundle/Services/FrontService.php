@@ -93,7 +93,7 @@ class FrontService
 
         // faudrai opti pour pouvoir sur une row avoir tout les produits de la demande
         foreach($products as $prod){
-            $productRequest->setProducts($prod);
+            $productRequest->setProduct($prod);
         }
 
         $entityManager->persist($productRequest);

@@ -54,7 +54,7 @@ class ProductRequest
     /**
      * @ORM\ManyToOne(targetEntity="LocalPsProduct")
      */
-    private $products;
+    private $product;
 
     /**
      * Get id
@@ -147,7 +147,7 @@ class ProductRequest
      *
      * @return ProductRequest
      */
-    public function setShopHost(\Dropshippers\APIBundle\Entity\Shop $shopHost = null)
+    public function setShopHost(Shop $shopHost = null)
     {
         $this->shopHost = $shopHost;
 
@@ -171,7 +171,7 @@ class ProductRequest
      *
      * @return ProductRequest
      */
-    public function setShopGuest(\Dropshippers\APIBundle\Entity\Shop $shopGuest = null)
+    public function setShopGuest(Shop $shopGuest = null)
     {
         $this->shopGuest = $shopGuest;
 
@@ -193,14 +193,14 @@ class ProductRequest
      */
     public function getProducts()
     {
-        return $this->products;
+        return $this->product;
     }
 
     /**
-     * @param mixed $products
+     * @param mixed $product
      */
-    public function setProducts(\Dropshippers\APIBundle\Entity\LocalPsProduct $products)
+    public function setProducts(LocalPsProduct $product)
     {
-        $this->products = $products;
+        $this->product = $product;
     }
 }
