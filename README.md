@@ -127,6 +127,49 @@ Permet de poster un array de produit
    },...
 ```
 
+GET dropshippers.dev/v1/ps/16/products
+--------------------------------------
+
+* Header : token
+* Retour : external / local
+
+```
+{
+    "external": [
+        {
+            "product_id": 3,
+            "name": "Robe imprimée",
+            "active": true,
+            "price": 25.999852,
+            "reference": "demo_3",
+            "ecotax": 0,
+            "weight": 0,
+            "quantity": 0,
+            "description_html": "<p>Fashion propose des vêtements de qualité depuis 2010. La marque propose une gamme féminine composée d'élégants vêtements à coordonner et de robes originales et offre désormais une collection complète de prêt-à-porter, regroupant toutes les pièces qu'une femme doit avoir dans sa garde-robe. Fashion se distingue avec des looks à la fois cool, simples et rafraîchissants, alliant élégance et chic, pour un style reconnaissable entre mille. Chacune des magnifiques pièces de la collection est fabriquée avec le plus grand soin en Italie. Fashion enrichit son offre avec une gamme d'accessoires incluant chaussures, chapeaux, ceintures et bien plus encore !</p>",
+            "available_order": true,
+            "dropshippers_ref": "HOTMKMER-9ZHS5VKJH311M20",
+            "updated_at": "2016-07-26T02:50:45+0200"
+        }
+    ],
+    "local": [
+        {
+            "product_id": 4,
+            "name": "Robe imprimée",
+            "active": true,
+            "price": 25.999852,
+            "reference": "demo_3",
+            "ecotax": 0,
+            "weight": 0,
+            "quantity": 0,
+            "description_html": "<p>Fashion propose des vêtements de qualité depuis 2010. La marque propose une gamme féminine composée d'élégants vêtements à coordonner et de robes originales et offre désormais une collection complète de prêt-à-porter, regroupant toutes les pièces qu'une femme doit avoir dans sa garde-robe. Fashion se distingue avec des looks à la fois cool, simples et rafraîchissants, alliant élégance et chic, pour un style reconnaissable entre mille. Chacune des magnifiques pièces de la collection est fabriquée avec le plus grand soin en Italie. Fashion enrichit son offre avec une gamme d'accessoires incluant chaussures, chapeaux, ceintures et bien plus encore !</p>",
+            "available_order": true,
+            "dropshippers_ref": "HOTMKMER-9ZHS5VKJH311M20",
+            "updated_at": "2016-07-26T02:50:45+0200"
+        }
+    ]
+}
+```
+
 POST dropshippers.dev/v1/login/register
 ---------------------------------------
 Permet d'enregistrer un nouvel utilisateur
@@ -236,3 +279,4 @@ php bin/console doctrine:schema:update --force
 ```
 php bin/console doctrine:fixtures:load
 ```
+=======

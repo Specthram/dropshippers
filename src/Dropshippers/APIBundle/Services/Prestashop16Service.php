@@ -56,6 +56,20 @@ class Prestashop16Service
         }
         return TRUE;
     }
+
+    public function getShopLocalProducts($shop)
+    {
+        $tab = array();
+        $entities = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findBy(array("shop" => $shop));
+        foreach($entities as $entity){
+            if ($shop->getId() != $entity->getShopOrigin()->getId()){
+                $tab["external"][] = $entity;
+            } else {
+                $tab["local"][] = $entity;
+            }
+        }
+        return $tab;
+    }
     
     public function getCheckProductPresence(Shop $shop, $id)
     {
