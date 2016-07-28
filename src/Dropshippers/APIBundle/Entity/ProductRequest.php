@@ -241,7 +241,7 @@ class ProductRequest
      *
      * @return ProductRequest
      */
-    public function setProduct(\Dropshippers\APIBundle\Entity\LocalPsProduct $product = null)
+    public function setProduct(LocalPsProduct $product = null)
     {
         $this->product = $product;
 
