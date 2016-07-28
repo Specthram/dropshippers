@@ -68,7 +68,12 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
      * POST Route annotation
      * @Post("/front/user/partners/products/proposition")
      */
-    public function postPartnerProductsRequestAction(Request $request){
+    public function postPartnerProductsRequestAction(Request $request)
+    {
+        //attention lors du requete, un host propose a un eventuel guest de vendre ses produits
+        //ici le token designe le host, et donc l'id rapporté dans la requete le guest
+        //attention, une requete ne peut concerner qu'un produit ainsi qu'une quantité ! Pour le moment pas besoin de plus
+        //il faut verifier si la quantité ne depasse pas le stock au passage
 
         $as = $this->get("dropshippers_api.authentication");
         $token = $request->headers->get("token");
@@ -89,11 +94,11 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         $allProduct = array();
         foreach($products as $product){
             array_push($allProduct, $frontService->getProduct($product));
+            //simplifiable par la syntaxe allProduct[] = $frontService->getProduct($product);
         }
 
         $frontService->registerProductRequest($shopGuest, $shopHostId, $allProduct);
 
-        return true;
-
+        return true; //return plutot un array avec message etc
     }
 }

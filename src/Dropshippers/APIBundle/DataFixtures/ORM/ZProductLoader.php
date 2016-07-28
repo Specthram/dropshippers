@@ -94,6 +94,20 @@ class ProductLoader implements FixtureInterface
         $product5->setCreatedAt(new \DateTime());
         $product5->setUpdatedAt(new \DateTime());
 
+        $product5 = new LocalPsProduct();
+        $product5->setProductId(6);
+        $product5->setDropshippersRef("ffffff");
+        $product5->setShop($t[1]);
+        $product5->setShopOrigin($t[0]);
+        $product5->setDescription("ce pokemon sauvage au nom bien étrange fesant allusion aux danses ancestrale des pokemon légendaires érotiques banane choux poireau, est en voie de disparition malgrès un taux de reproduction très elevé. Ce pokemon reste a ce jour un grand mystere.");
+        $product5->setName("addelalalilabou");
+        $product5->setActive(true);
+        $product5->setPrice(47.2);
+        $product5->setSupplierReference("dsgdfgdfgdg");
+        $product5->setAvailableOrder(true);
+        $product5->setCreatedAt(new \DateTime());
+        $product5->setUpdatedAt(new \DateTime());
+
         $manager->persist($product1);
         $manager->persist($product2);
         $manager->persist($product3);

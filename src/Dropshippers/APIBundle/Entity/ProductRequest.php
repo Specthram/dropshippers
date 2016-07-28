@@ -21,6 +21,12 @@ class ProductRequest
     private $id;
 
     /**
+     * @var string
+     * @ORM\Column(name="product_request_dropshippers_reference", type="string", length=255)
+     */
+    private $dropshippersRef;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="product_request_created_at", type="datetimetz")
@@ -202,5 +208,53 @@ class ProductRequest
     public function setProducts(LocalPsProduct $product)
     {
         $this->product = $product;
+    }
+
+    /**
+     * Set dropshippersRef
+     *
+     * @param string $dropshippersRef
+     *
+     * @return ProductRequest
+     */
+    public function setDropshippersRef($dropshippersRef)
+    {
+        $this->dropshippersRef = $dropshippersRef;
+
+        return $this;
+    }
+
+    /**
+     * Get dropshippersRef
+     *
+     * @return string
+     */
+    public function getDropshippersRef()
+    {
+        return $this->dropshippersRef;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \Dropshippers\APIBundle\Entity\LocalPsProduct $product
+     *
+     * @return ProductRequest
+     */
+    public function setProduct(\Dropshippers\APIBundle\Entity\LocalPsProduct $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Dropshippers\APIBundle\Entity\LocalPsProduct
+     */
+    public function getProduct()
+    {
+        return $this->product;
     }
 }
