@@ -24,11 +24,13 @@ class LocalPsProduct
 
     /**
      * @ORM\ManyToOne(targetEntity="Shop")
+     * @ORM\JoinColumn(name="shop_id", referencedColumnName="id", nullable=false)
      */
     private $shop;
 
     /**
      * @ORM\ManyToOne(targetEntity="Shop")
+     * @ORM\JoinColumn(name="shop_origin_id", referencedColumnName="id", nullable=false)
      */
     private $shopOrigin;
     
