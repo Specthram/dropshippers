@@ -76,15 +76,16 @@ class FrontService
         return $results;
     }
 
-    public function registerProductRequest($shopGuest, $shopHostId, $products){
-
-
+    public function registerProductRequest($shopGuest, $shopHostId, $products)
+    {
+        //n'hesites pas a faire des verifications, il y a des variables qui pourrait etre vides et ca causerai des erreurs
         $entityManager = $this->doctrine->getManager();
 
         $shopHost = $this->doctrine->getRepository("DropshippersAPIBundle:Shop")->findBy(["id" => $shopHostId]);
 
         $productRequest = new ProductRequest();
         $productRequest->setShopGuest($shopGuest);
+        $productRequest->setDropshippersRef($this->generateRequestRef($shopHost->getName(), $shopGuest->getName()));
         $productRequest->setShopHost($shopHost[0]);
         $productRequest->setCreatedAt(new \DateTime());
         $productRequest->setUpdatedAt(new \DateTime());
@@ -98,5 +99,31 @@ class FrontService
 
         $entityManager->persist($productRequest);
         $entityManager->flush();
+    }
+
+    private function generateRequestRef($hostName, $guestName)
+    {
+        $dropRef = strtoupper("REQ-" . strtoupper(substr($hostName, 0, 3)) . "-" . strtoupper(substr($guestName, 0, 3)) . "-" . $this->generateRandomString(15));
+        $repository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+        $flag = 1;
+        while ($flag){
+            $product = $repository->findOneBy(array("dropshippersRef" => $dropRef));
+            if (!$product){
+                $flag = 0;
+            } else {
+                $dropRef = strtoupper("REQ-" . strtoupper(substr($hostName, 0, 3)) . "-" . strtoupper(substr($guestName, 0, 3)) . "-" . $this->generateRandomString(15));
+            }
+        }
+        return $dropRef;
+    }
+
+    private function generateRandomString($length = 10) {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }
