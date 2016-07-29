@@ -1,8 +1,8 @@
 services:
-    kernel.listener.your_listener_name:
-        class: Dropshippers\APIBundle\EventListener\ResponseListener
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+#    kernel.listener.your_listener_name:
+#        class: Dropshippers\APIBundle\EventListener\ResponseListener
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
     dropshippers_api.prestashop16:
         class: Dropshippers\APIBundle\Services\Prestashop16Service
         arguments: [ '@doctrine' ]

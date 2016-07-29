@@ -111,23 +111,23 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
         return array("message" => "Vous êtes bien enregistré");
     }
 
-    /**
-     * Options Route annotation
-     * @Options("/login/register")
-     */
-    public function optionsRegisterAction(Request $request)
-    {
-        //return $this->forward("DropshippersAPIBundle:Login:postRegister");
-        return array("message" => "connexion acceptée", "code" => "1");
-    }
+//    /**
+//     * Options Route annotation
+//     * @Options("/login/register")
+//     */
+//    public function optionsRegisterAction(Request $request)
+//    {
+//        //return $this->forward("DropshippersAPIBundle:Login:postRegister");
+//        return array("message" => "connexion acceptée", "code" => "1");
+//    }
 
-    /**
-     * Options Route annotation
-     * @Options("/login/signin")
-     */
-    public function optionsSigninAction(Request $request)
-    {
-        //return $this->forward("DropshippersAPIBundle:Login:postSignin");
-        return array("message" => "connexion acceptée", "code" => "1");
-    }
+//    /**
+//     * Options Route annotation
+//     * @Options("/login/signin")
+//     */
+//    public function optionsSigninAction(Request $request)
+//    {
+//        //return $this->forward("DropshippersAPIBundle:Login:postSignin");
+//        return array("message" => "connexion acceptée", "code" => "1");
+//    }
 }
