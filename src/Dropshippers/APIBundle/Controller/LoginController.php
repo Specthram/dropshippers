@@ -84,9 +84,10 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
         $email    = $request->get('email');
         $password = $request->get('password');
         $token    = $request->get('token');
+        $shopName = $request->get("shop_name");
 
         $auth_service = $this->get("dropshippers_api.authentication");
-        $toto = $auth_service->setUser($username, $email, $password, $token);
+        $toto = $auth_service->setUser($username, $email, $password, $token, $shopName);
 
         if ($toto == -1){
             throw new AccessDeniedHttpException("Registration failed");
@@ -95,16 +96,16 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
             throw new AccessDeniedHttpException("Invalid token");
         }
         elseif ($toto == -3) {
-            throw new AccessDeniedHttpException("Y a un champ à nul");
+            throw new AccessDeniedHttpException("L'un des champs requis n'est pas renseigné");
         }
         elseif ($toto == -4) {
             throw new AccessDeniedHttpException("Utilisateur déjà existant");
         }
         elseif ($toto == -5) {
             throw new AccessDeniedHttpException("Email déjà existant");
+        } elseif($toto == -6){
+            throw new AccessDeniedHttpException("une boutique portant le même nom existe déjà");
         }
-
-
 
         return array("message" => "Vous êtes bien enregistré");
     }

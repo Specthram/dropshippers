@@ -22,6 +22,11 @@ class LocalProductImage
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="LocalPsProduct")
+     */
+    private $localProduct;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="product_local_image_type", type="string", length=255, nullable=true)
@@ -184,5 +189,29 @@ class LocalProductImage
     public function getProductLocalImageUpdatedAt()
     {
         return $this->productLocalImageUpdatedAt;
+    }
+
+    /**
+     * Set localProduct
+     *
+     * @param \Dropshippers\APIBundle\Entity\LocalPsProduct $localProduct
+     *
+     * @return LocalProductImage
+     */
+    public function setLocalProduct(\Dropshippers\APIBundle\Entity\LocalPsProduct $localProduct = null)
+    {
+        $this->localProduct = $localProduct;
+
+        return $this;
+    }
+
+    /**
+     * Get localProduct
+     *
+     * @return \Dropshippers\APIBundle\Entity\LocalPsProduct
+     */
+    public function getLocalProduct()
+    {
+        return $this->localProduct;
     }
 }
