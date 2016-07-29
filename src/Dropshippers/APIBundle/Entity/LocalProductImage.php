@@ -31,35 +31,42 @@ class LocalProductImage
      *
      * @ORM\Column(name="product_local_image_type", type="string", length=255, nullable=true)
      */
-    private $productLocalImageType;
+    private $type;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="product_local_image_name", type="string", length=255, nullable=true)
+     */
+    private $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="product_local_image_path", type="string", length=255, nullable=true)
      */
-    private $productLocalImagePath;
+    private $path;
 
     /**
      * @var string
      *
      * @ORM\Column(name="product_local_image_link", type="string", length=255, nullable=true)
      */
-    private $productLocalImageLink;
+    private $link;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="product_local_image_created_at", type="datetimetz")
      */
-    private $productLocalImageCreatedAt;
+    private $createdAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="product_local_image_updated_at", type="datetimetz")
      */
-    private $productLocalImageUpdatedAt;
+    private $updatedAt;
 
     /**
      * Get id
@@ -72,123 +79,123 @@ class LocalProductImage
     }
 
     /**
-     * Set productLocalImageType
+     * Set type
      *
-     * @param string $productLocalImageType
+     * @param string $type
      *
      * @return LocalProductImage
      */
-    public function setProductLocalImageType($productLocalImageType)
+    public function setType($type)
     {
-        $this->productLocalImageType = $productLocalImageType;
+        $this->type = $type;
 
         return $this;
     }
 
     /**
-     * Get productLocalImageType
+     * Get type
      *
      * @return string
      */
-    public function getProductLocalImageType()
+    public function getType()
     {
-        return $this->productLocalImageType;
+        return $this->type;
     }
 
     /**
-     * Set productLocalImagePath
+     * Set path
      *
-     * @param string $productLocalImagePath
+     * @param string $path
      *
      * @return LocalProductImage
      */
-    public function setProductLocalImagePath($productLocalImagePath)
+    public function setPath($path)
     {
-        $this->productLocalImagePath = $productLocalImagePath;
+        $this->path = $path;
 
         return $this;
     }
 
     /**
-     * Get productLocalImagePath
+     * Get path
      *
      * @return string
      */
-    public function getProductLocalImagePath()
+    public function getPath()
     {
-        return $this->productLocalImagePath;
+        return $this->path;
     }
 
     /**
-     * Set productLocalImageLink
+     * Set link
      *
-     * @param string $productLocalImageLink
+     * @param string $link
      *
      * @return LocalProductImage
      */
-    public function setProductLocalImageLink($productLocalImageLink)
+    public function setLink($link)
     {
-        $this->productLocalImageLink = $productLocalImageLink;
+        $this->link = $link;
 
         return $this;
     }
 
     /**
-     * Get productLocalImageLink
+     * Get link
      *
      * @return string
      */
-    public function getProductLocalImageLink()
+    public function getLink()
     {
-        return $this->productLocalImageLink;
+        return $this->link;
     }
 
     /**
-     * Set productLocalImageCreatedAt
+     * Set createdAt
      *
-     * @param \DateTime $productLocalImageCreatedAt
+     * @param \DateTime $createdAt
      *
      * @return LocalProductImage
      */
-    public function setProductLocalImageCreatedAt($productLocalImageCreatedAt)
+    public function setCreatedAt($createdAt)
     {
-        $this->productLocalImageCreatedAt = $productLocalImageCreatedAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Get productLocalImageCreatedAt
+     * Get createdAt
      *
      * @return \DateTime
      */
-    public function getProductLocalImageCreatedAt()
+    public function getCreatedAt()
     {
-        return $this->productLocalImageCreatedAt;
+        return $this->createdAt;
     }
 
     /**
-     * Set productLocalImageUpdatedAt
+     * Set updatedAt
      *
-     * @param \DateTime $productLocalImageUpdatedAt
+     * @param \DateTime $updatedAt
      *
      * @return LocalProductImage
      */
-    public function setProductLocalImageUpdatedAt($productLocalImageUpdatedAt)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->productLocalImageUpdatedAt = $productLocalImageUpdatedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
     /**
-     * Get productLocalImageUpdatedAt
+     * Get updatedAt
      *
      * @return \DateTime
      */
-    public function getProductLocalImageUpdatedAt()
+    public function getUpdatedAt()
     {
-        return $this->productLocalImageUpdatedAt;
+        return $this->updatedAt;
     }
 
     /**
@@ -213,5 +220,29 @@ class LocalProductImage
     public function getLocalProduct()
     {
         return $this->localProduct;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return LocalProductImage
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

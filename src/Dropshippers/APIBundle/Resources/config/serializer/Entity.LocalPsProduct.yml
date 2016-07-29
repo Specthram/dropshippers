@@ -7,6 +7,8 @@ Dropshippers\APIBundle\Entity\LocalPsProduct:
             expose: true
         name:
             expose: true
+        images:
+            expose: true
         active:
             expose: true
         price:
