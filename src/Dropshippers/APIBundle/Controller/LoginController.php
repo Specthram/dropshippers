@@ -9,6 +9,7 @@ use FOS\UserBundle\Doctrine\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\Options;
 use FOS\RestBundle\Controller\Annotations\Get;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -110,4 +111,21 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
         return array("message" => "Vous êtes bien enregistré");
     }
 
+    /**
+     * Options Route annotation
+     * @Options("/login/register")
+     */
+    public function optionsRegisterAction(Request $request)
+    {
+        return array("message" => "connexion acceptée", "code" => "1");
+    }
+
+    /**
+     * Options Route annotation
+     * @Options("/login/signin")
+     */
+    public function optionsSigninAction(Request $request)
+    {
+        return array("message" => "connexion acceptée", "code" => "1");
+    }
 }
