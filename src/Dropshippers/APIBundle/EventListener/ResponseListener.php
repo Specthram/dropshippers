@@ -18,6 +18,7 @@ class ResponseListener
         // set the custom header of the response
         $event->getResponse()->headers->set('Access-Control-Allow-Origin', '*');
         $event->getResponse()->headers->set('Access-Control-Allow-Headers', '*');
+        $event->getResponse()->headers->set('Access-Control-Allow-Credentials', '*');
         $event->getResponse()->headers->set('Access-Control-Allow-Methods', 'GET,OPTIONS,POST,PUT,DELETE');
     }
 }
