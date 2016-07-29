@@ -25,7 +25,7 @@ class LocalPsProduct
     private $categories;
 
     /**
-     * @ORM\OneToMany(targetEntity="LocalProductImage", mappedBy="localProduct")
+     * @ORM\OneToMany(targetEntity="LocalProductImage", mappedBy="localProduct", cascade={"persist"})
      */
     private $images;
 
