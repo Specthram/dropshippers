@@ -11,9 +11,9 @@ class ResponseListener
         $request = $event->getRequest();
 
         // only do something on some situations
-        if (false === strpos($request->headers->get('Foobar'), 'barfoo')) {
-            return;
-        }
+        //if (false === strpos($request->headers->get('Foobar'), 'barfoo')) {
+        //    return;
+        //}
 
         // set the custom header of the response
         $event->getResponse()->headers->set('Access-Control-Allow-Origin', '*');
