@@ -58,6 +58,7 @@ class Prestashop16Service
                 $image->setUpdatedAt(new \DateTime());
                 $image->setLink($product->image_link);
                 $entity->addImage($image);
+                $image->setLocalProduct($entity);
             }
             $em->persist($entity);
             $em->flush();
