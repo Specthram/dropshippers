@@ -117,6 +117,7 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
      */
     public function optionsRegisterAction(Request $request)
     {
+        //return $this->forward("DropshippersAPIBundle:Login:postRegister");
         return array("message" => "connexion acceptée", "code" => "1");
     }
 
@@ -126,6 +127,7 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
      */
     public function optionsSigninAction(Request $request)
     {
+        //return $this->forward("DropshippersAPIBundle:Login:postSignin");
         return array("message" => "connexion acceptée", "code" => "1");
     }
 }
