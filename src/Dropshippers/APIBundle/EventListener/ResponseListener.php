@@ -16,8 +16,8 @@ class ResponseListener
         //}
 
         // set the custom header of the response
-        $event->getResponse()->headers->set('Access-Control-Allow-Origin', '*');
-        $event->getResponse()->headers->set('Access-Control-Allow-Headers', '*');
+        $event->getResponse()->headers->set('Access-Control-Allow-Origin', 'true');
+        $event->getResponse()->headers->set('Access-Control-Allow-Headers', 'Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, auth-token');
         $event->getResponse()->headers->set('Access-Control-Allow-Credentials', '*');
         $event->getResponse()->headers->set('Access-Control-Allow-Methods', 'GET,OPTIONS,POST,PUT,DELETE');
     }
