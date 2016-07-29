@@ -76,29 +76,39 @@ class FrontService
         return $results;
     }
 
-    public function registerProductRequest($shopGuest, $shopHostId, $products)
+    public function registerProductRequest($shopGuest, $product, $quantity)
     {
-        //n'hesites pas a faire des verifications, il y a des variables qui pourrait etre vides et ca causerai des erreurs
+
         $entityManager = $this->doctrine->getManager();
 
-        $shopHost = $this->doctrine->getRepository("DropshippersAPIBundle:Shop")->findBy(["id" => $shopHostId]);
+
+        $product = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(["id" => $product]);
+        if(empty($product))
+            return "Le produit demandé n'existe pas";
+
+        $shopHost = $this->doctrine->getRepository("DropshippersAPIBundle:Shop")->findOneBy(["id" => $product->getShopOrigin()]);
+
 
         $productRequest = new ProductRequest();
         $productRequest->setShopGuest($shopGuest);
+        $productRequest->setShopHost($shopHost);
+
         $productRequest->setDropshippersRef($this->generateRequestRef($shopHost->getName(), $shopGuest->getName()));
-        $productRequest->setShopHost($shopHost[0]);
         $productRequest->setCreatedAt(new \DateTime());
         $productRequest->setUpdatedAt(new \DateTime());
         $productRequest->setStatus("new");
 
+        if ($quantity <= $product->getQuantity())
+            $productRequest->setQuantity($quantity);
+        else
+            return "La quantité demandé n'est pas possible.";
+        $productRequest->setProduct($product);
 
-        // faudrai opti pour pouvoir sur une row avoir tout les produits de la demande
-        foreach($products as $prod){
-            $productRequest->setProduct($prod);
-        }
 
         $entityManager->persist($productRequest);
         $entityManager->flush();
+
+        return $productRequest;
     }
 
     private function generateRequestRef($hostName, $guestName)

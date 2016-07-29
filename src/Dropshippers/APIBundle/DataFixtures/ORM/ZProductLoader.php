@@ -28,6 +28,7 @@ class ProductLoader implements FixtureInterface
         $product1->setDropshippersRef("aaaa");
         $product1->setShop($t[0]);
         $product1->setShopOrigin($t[0]);
+        $product1->setQuantity(0);
         $product1->setDescription("Le MarcOunet sauvage est un pokemon travailleur, d'origine asiatique, il produit à une cadence monstre, il aime les caresse. Il vous ai permis d'abuser de lui, sexuellement");
         $product1->setName("MarcOunet");
         $product1->setActive(true);
@@ -42,6 +43,7 @@ class ProductLoader implements FixtureInterface
         $product2->setDropshippersRef("bbbb");
         $product2->setShop($t[0]);
         $product2->setShopOrigin($t[1]);
+        $product1->setQuantity(10);
         $product2->setDescription("L'Antonato sauvage est un pokemon bizarre, d'origine inconnue, quand il est fatigué, il a le regard vitreux et ne capte plus aucun message et signaux, il aime pas les caresse mais il vous ai permis d'abuser de lui, sexuellement");
         $product2->setName("Antonato");
         $product2->setActive(true);
@@ -57,6 +59,7 @@ class ProductLoader implements FixtureInterface
         $product3->setDropshippersRef("cccc");
         $product3->setShopOrigin($t[1]);
         $product3->setShop($t[0]);
+        $product3->setQuantity(100);
         $product3->setDescription("Le Scofieraptu sauvage est un pokemon discret, d'origine asiatique, il aime le foot. Attention un Scofieraptu peut en cacher un autre");
         $product3->setName("Scofieraptu");
         $product3->setActive(true);
@@ -71,6 +74,7 @@ class ProductLoader implements FixtureInterface
         $product4->setDropshippersRef("dddd");
         $product4->setShopOrigin($t[2]);
         $product4->setShop($t[0]);
+        $product4->setQuantity(100);
         $product4->setDescription("La Sibatata sauvage est un pokemon joyeux, d'origine inconnu, son attack criStrident fait beaucoup de dégat, elle a des trou dans les oreilles et un anneaux dans le nez, il rafolle de spykotrope et festoche");
         $product4->setName("Sibatata");
         $product4->setActive(true);

@@ -70,35 +70,24 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
      */
     public function postPartnerProductsRequestAction(Request $request)
     {
-        //attention lors du requete, un host propose a un eventuel guest de vendre ses produits
-        //ici le token designe le host, et donc l'id rapporté dans la requete le guest
-        //attention, une requete ne peut concerner qu'un produit ainsi qu'une quantité ! Pour le moment pas besoin de plus
-        //il faut verifier si la quantité ne depasse pas le stock au passage
 
         $as = $this->get("dropshippers_api.authentication");
         $token = $request->headers->get("token");
-        $retRequest = $request->request->get("refproduit");
-        $shopHostId = $request->request->get("shopHostId");
-        $products = explode(",", $retRequest);
+        $productRequest = $request->request->get("refproduit");
+        $quantity = $request->request->get("quantity");
 
         $shopGuest = $as->getShopFromToken($token);
         if (!$shopGuest){
             throw new AccessDeniedHttpException("invalid token.");
         }
 
-        if (empty($products) || empty($shopHostId)){
+        if (empty($productRequest) || empty($quantity)){
             throw new AccessDeniedHttpException("missing param.");
         }
 
         $frontService = $this->get("dropshippers_api.front");
-        $allProduct = array();
-        foreach($products as $product){
-            array_push($allProduct, $frontService->getProduct($product));
-            //simplifiable par la syntaxe allProduct[] = $frontService->getProduct($product);
-        }
+        $result = $frontService->registerProductRequest($shopGuest, $productRequest, $quantity);
 
-        $frontService->registerProductRequest($shopGuest, $shopHostId, $allProduct);
-
-        return true; //return plutot un array avec message etc
+        return array("demande de propositions" => $result);
     }
 }
