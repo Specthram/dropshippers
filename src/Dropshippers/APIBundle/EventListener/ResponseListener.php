@@ -20,5 +20,6 @@ class ResponseListener
         $event->getResponse()->headers->set('Access-Control-Allow-Headers', 'Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, auth-token, token');
         $event->getResponse()->headers->set('Access-Control-Allow-Credentials', 'true');
         $event->getResponse()->headers->set('Access-Control-Allow-Methods', 'GET,OPTIONS,POST,PUT,DELETE');
+        $event->getResponse()->headers->set('Access-Control-Max-Age', '3600');
     }
 }
