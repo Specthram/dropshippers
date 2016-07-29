@@ -267,16 +267,122 @@ POST dropshippers.dev/v1/front/user/partners/products/proposition
 Permet de faire une demande de partenariat sur un produit
 
 * Header : token
-* request parameters: refproduit, shopHostId
-* retour : true si ok 500 si erreur (on verra plus tard pour une meilleur gestion)
+* request parameters: refproduit, quantity
+* retour : Array avec le result ou un message
 
-Ne pas oublier:
-
-```
-php bin/console doctrine:schema:update --force
-```
+example :
 
 ```
-php bin/console doctrine:fixtures:load
+{
+  "demande de propositions": {
+    "id": 21,
+    "dropshippers_ref": "REQ-RED-PRE-G3SFNLRO7377JDJ",
+    "created_at": "2016-07-29T11:14:43+0200",
+    "updated_at": "2016-07-29T11:14:43+0200",
+    "status": "new",
+    "shop_host": {
+      "token": "V2JsuRTjI6QmC1X86FsFcATVymXAAlavoUYTMSduY4QA5OIctaRFKLBi7yTIU3eiXdbK5pe3t4DzSmLmxD2hoEAwcue7xtqvGCfL",
+      "products": [],
+      "request_host": [],
+      "request_guest": [],
+      "users": [
+        {
+          "id": 16,
+          "username": "superman",
+          "username_canonical": "superman",
+          "email": "superman@mail.fr",
+          "email_canonical": "superman@mail.fr",
+          "enabled": false,
+          "salt": "kftukdoirq8k08ggcw8kk080ss4cco0",
+          "password": "aaaaaaaaa",
+          "locked": false,
+          "expired": false,
+          "roles": [],
+          "credentials_expired": false,
+          "token": "OApfNITDIvqJeLuBKYqJEiw3i54UxLWlmlB94uNNZeweZ1QJ0gtEy0HQ5MLDyIYV4z494SW36si6u9Pupi8XiQOoCA1bi06nzbwD"
+        }
+      ],
+      "modules": [
+        {
+          "id": 16,
+          "type": "prestashop16",
+          "name": "main",
+          "lang": "fr",
+          "token": "FvAg5nCDhmzVuRj1S2kxMrjgUSp6I6zoCaEIxhlPEVL8N5aF7ucTWvaRozY6FyuiI91grm65iRd5XoL4TXYPt8GRHFYndtGWDHc4",
+          "active": true
+        }
+      ],
+      "id": 16,
+      "name": "red mad coon",
+      "status": "active",
+      "phone": "0122334455",
+      "mail": "contact@efzef.fr",
+      "url": "http://monsite.com/",
+      "created_at": "2016-07-29T08:50:02+0200",
+      "updated_at": "2016-07-29T08:50:02+0200",
+      "address_zipcode": "75000",
+      "city": "paris",
+      "address": "18 avenue de la paix"
+    },
+    "shop_guest": {
+      "token": "1uOuys3rPOOmrQEQufmHJBOh4eMLQ2wSwlm5OpxDdlZFbDvGSSnCtcTyrGjiIQafbwlZVSC9eCOqgk69cuLFGEe7kxp3nzjz6Fy2",
+      "products": [],
+      "request_host": [],
+      "request_guest": [],
+      "users": [
+        {
+          "id": 17,
+          "username": "darknight",
+          "username_canonical": "darknight",
+          "email": "darknight@mail.fr",
+          "email_canonical": "darknight@mail.fr",
+          "enabled": false,
+          "salt": "idrdgds4ftsggsg0s0wo8os8c8w4s44",
+          "password": "aaaaaaaaa",
+          "locked": false,
+          "expired": false,
+          "roles": [],
+          "credentials_expired": false,
+          "token": "tdip5cjq9ay5X8kKMhl8CIv6ZPmsBMy4ZRt54NvdY4jVcEGYV17yJCEJs0b3MK8MBCRGpnTnrcjDQZCM1JkKmZuOZFSMp0z1CrH1"
+        }
+      ],
+      "modules": [
+        {
+          "id": 17,
+          "type": "prestashop16",
+          "name": "main",
+          "lang": "fr",
+          "token": "4j9mbnr8LccEaauEjbv0Quo3X4ZALcEPvObGbCOXP0BZb5Dug9v7DTaBXacImQxREJxQmmNbnpbyuO3LYySCs3dpdp8zgGrVpZLL",
+          "active": true
+        }
+      ],
+      "id": 17,
+      "name": "pretty regrets",
+      "status": "active",
+      "phone": "0256738923",
+      "mail": "contact@eftrhyj.com",
+      "url": "http://prettyregrets.com/",
+      "created_at": "2016-07-29T08:50:02+0200",
+      "updated_at": "2016-07-29T08:50:02+0200",
+      "address_zipcode": "36000",
+      "city": "lavillettope",
+      "address": "1 rue de la fonte"
+    },
+    "product": {
+      "product_id": 1,
+      "description": "Le MarcOunet sauvage est un pokemon travailleur, d'origine asiatique, il produit à une cadence monstre, il aime les caresse. Il vous ai permis d'abuser de lui, sexuellement",
+      "name": "MarcOunet",
+      "active": true,
+      "price": 15.2,
+      "supplier_reference": "dsgdfgdfgdg",
+      "quantity": 10,
+      "available_order": true,
+      "dropshippers_ref": "aaaa",
+      "updated_at": "2016-07-29T08:50:03+0200"
+    },
+    "quantity": 1
+  }
+}
 ```
+
 =======

@@ -63,6 +63,13 @@ class ProductRequest
     private $product;
 
     /**
+    * @var int
+    *
+    * @ORM\Column(name="product_request_quantity", type="integer", nullable=true)
+    */
+    private $quantity;
+
+    /**
      * Get id
      *
      * @return integer
@@ -256,5 +263,21 @@ class ProductRequest
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * @return int
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param int $quantity
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
     }
 }
