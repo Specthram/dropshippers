@@ -3,6 +3,10 @@
 namespace Dropshippers\APIBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Dropshippers\APIBundle\Entity\Product;
+use Dropshippers\APIBundle\Entity\PartnershipRequest;
+use Dropshippers\APIBundle\Entity\User;
+use Dropshippers\APIBundle\Entity\Module;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,14 +17,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Shop
 {
-    //manage pour plu tard, id shop directement dans user
-//    /**
-//     * @var ArrayCollection
-//     * @ORM\OneToMany(targetEntity="Manage", mappedBy="shop")
-//     */
-//    private $manage;
-
-
     /**
      * @var string
      *
@@ -64,7 +60,6 @@ class Shop
      */
     public function __construct()
     {
-//        $this->manage = new ArrayCollection();
         $this->products = new ArrayCollection();
         $this->request_host = new ArrayCollection();
         $this->request_guest = new ArrayCollection();
@@ -101,18 +96,16 @@ class Shop
     /**
      * @var string
      *
-     * @ORM\Column(name="shop_mail", type="string", length=255)
+     * @ORM\Column(name="shop_mail", type="string", length=255, nullable=true)
      */
     private $mail;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="shop_url", type="string", length=255)
+     * @ORM\Column(name="shop_url", type="string", length=255, nullable=true)
      */
     private $url;
-
-
 
     /**
      * @var \DateTime
@@ -131,14 +124,14 @@ class Shop
     /**
      * @var string
      *
-     * @ORM\Column(name="shop_address_zipcode", type="string", length=255)
+     * @ORM\Column(name="shop_address_zipcode", type="string", length=255, nullable=true)
      */
     private $addressZipcode;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="shop_city", type="string", length=255)
+     * @ORM\Column(name="shop_city", type="string", length=255, nullable=true)
      */
     private $city;
 
@@ -146,7 +139,7 @@ class Shop
     /**
      * @var string
      *
-     * @ORM\Column(name="shop_address", type="string", length=255)
+     * @ORM\Column(name="shop_address", type="string", length=255, nullable=true)
      */
     private $address;
 
@@ -407,7 +400,7 @@ class Shop
      *
      * @return Shop
      */
-    public function addProduct(\Dropshippers\APIBundle\Entity\Product $product)
+    public function addProduct(Product $product)
     {
         $this->products[] = $product;
 
@@ -419,7 +412,7 @@ class Shop
      *
      * @param \Dropshippers\APIBundle\Entity\Product $product
      */
-    public function removeProduct(\Dropshippers\APIBundle\Entity\Product $product)
+    public function removeProduct(Product $product)
     {
         $this->products->removeElement($product);
     }
@@ -441,7 +434,7 @@ class Shop
      *
      * @return Shop
      */
-    public function addRequestHost(\Dropshippers\APIBundle\Entity\PartnershipRequest $requestHost)
+    public function addRequestHost(PartnershipRequest $requestHost)
     {
         $this->request_host[] = $requestHost;
 
@@ -453,7 +446,7 @@ class Shop
      *
      * @param \Dropshippers\APIBundle\Entity\PartnershipRequest $requestHost
      */
-    public function removeRequestHost(\Dropshippers\APIBundle\Entity\PartnershipRequest $requestHost)
+    public function removeRequestHost(PartnershipRequest $requestHost)
     {
         $this->request_host->removeElement($requestHost);
     }
@@ -475,7 +468,7 @@ class Shop
      *
      * @return Shop
      */
-    public function addRequestGuest(\Dropshippers\APIBundle\Entity\PartnershipRequest $requestGuest)
+    public function addRequestGuest(PartnershipRequest $requestGuest)
     {
         $this->request_guest[] = $requestGuest;
 
@@ -487,7 +480,7 @@ class Shop
      *
      * @param \Dropshippers\APIBundle\Entity\PartnershipRequest $requestGuest
      */
-    public function removeRequestGuest(\Dropshippers\APIBundle\Entity\PartnershipRequest $requestGuest)
+    public function removeRequestGuest(PartnershipRequest $requestGuest)
     {
         $this->request_guest->removeElement($requestGuest);
     }
@@ -509,7 +502,7 @@ class Shop
      *
      * @return Shop
      */
-    public function addUser(\Dropshippers\APIBundle\Entity\User $user)
+    public function addUser(User $user)
     {
         $this->users[] = $user;
 
@@ -521,7 +514,7 @@ class Shop
      *
      * @param \Dropshippers\APIBundle\Entity\User $user
      */
-    public function removeUser(\Dropshippers\APIBundle\Entity\User $user)
+    public function removeUser(User $user)
     {
         $this->users->removeElement($user);
     }
@@ -543,7 +536,7 @@ class Shop
      *
      * @return Shop
      */
-    public function addModule(\Dropshippers\APIBundle\Entity\Module $module)
+    public function addModule(Module $module)
     {
         $this->modules[] = $module;
 
@@ -555,7 +548,7 @@ class Shop
      *
      * @param \Dropshippers\APIBundle\Entity\Module $module
      */
-    public function removeModule(\Dropshippers\APIBundle\Entity\Module $module)
+    public function removeModule(Module $module)
     {
         $this->modules->removeElement($module);
     }

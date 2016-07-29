@@ -3,6 +3,8 @@
 namespace Dropshippers\APIBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Dropshippers\APIBundle\Entity\Shop;
 
 /**
  * LocalPsProduct
@@ -23,6 +25,11 @@ class LocalPsProduct
     private $categories;
 
     /**
+     * @ORM\OneToMany(targetEntity="LocalProductImage", mappedBy="localProduct")
+     */
+    private $images;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Shop")
      * @ORM\JoinColumn(name="shop_id", referencedColumnName="id", nullable=false)
      */
@@ -39,8 +46,8 @@ class LocalPsProduct
      */
     public function __construct()
     {
-        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tags = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     /**
@@ -539,7 +546,7 @@ class LocalPsProduct
      *
      * @return LocalPsProduct
      */
-    public function addTag(\Dropshippers\APIBundle\Entity\LocalProductTag $tag)
+    public function addTag(LocalProductTag $tag)
     {
         $this->tags[] = $tag;
 
@@ -551,7 +558,7 @@ class LocalPsProduct
      *
      * @param \Dropshippers\APIBundle\Entity\LocalProductTag $tag
      */
-    public function removeTag(\Dropshippers\APIBundle\Entity\LocalProductTag $tag)
+    public function removeTag(LocalProductTag $tag)
     {
         $this->tags->removeElement($tag);
     }
@@ -573,7 +580,7 @@ class LocalPsProduct
      *
      * @return LocalPsProduct
      */
-    public function addCategory(\Dropshippers\APIBundle\Entity\LocalProductCategory $category)
+    public function addCategory(LocalProductCategory $category)
     {
         $this->categories[] = $category;
 
@@ -585,7 +592,7 @@ class LocalPsProduct
      *
      * @param \Dropshippers\APIBundle\Entity\LocalProductCategory $category
      */
-    public function removeCategory(\Dropshippers\APIBundle\Entity\LocalProductCategory $category)
+    public function removeCategory(LocalProductCategory $category)
     {
         $this->categories->removeElement($category);
     }
@@ -607,7 +614,7 @@ class LocalPsProduct
      *
      * @return LocalPsProduct
      */
-    public function setShop(\Dropshippers\APIBundle\Entity\Shop $shop = null)
+    public function setShop(Shop $shop = null)
     {
         $this->shop = $shop;
 
@@ -655,7 +662,7 @@ class LocalPsProduct
      *
      * @return LocalPsProduct
      */
-    public function setShopOrigin(\Dropshippers\APIBundle\Entity\Shop $shopOrigin = null)
+    public function setShopOrigin(Shop $shopOrigin = null)
     {
         $this->shopOrigin = $shopOrigin;
 
@@ -670,5 +677,39 @@ class LocalPsProduct
     public function getShopOrigin()
     {
         return $this->shopOrigin;
+    }
+
+    /**
+     * Add image
+     *
+     * @param \Dropshippers\APIBundle\Entity\LocalProductImage $image
+     *
+     * @return LocalPsProduct
+     */
+    public function addImage(\Dropshippers\APIBundle\Entity\LocalProductImage $image)
+    {
+        $this->images[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * Remove image
+     *
+     * @param \Dropshippers\APIBundle\Entity\LocalProductImage $image
+     */
+    public function removeImage(\Dropshippers\APIBundle\Entity\LocalProductImage $image)
+    {
+        $this->images->removeElement($image);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getImages()
+    {
+        return $this->images;
     }
 }

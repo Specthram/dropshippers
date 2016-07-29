@@ -29,7 +29,7 @@ class Module
     /**
      * @var string
      *
-     * @ORM\Column(name="module_type", type="string", length=255)
+     * @ORM\Column(name="module_type", type="string", length=255, nullable=true)
      */
     private $type;
 

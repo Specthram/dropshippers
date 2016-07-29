@@ -6,6 +6,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Query\AST\NullComparisonExpression;
 use Dropshippers\APIBundle\Entity\LocalPsProduct;
 use Dropshippers\APIBundle\Entity\Shop;
+use Dropshippers\APIBundle\Entity\Module;
 use Dropshippers\APIBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -56,11 +57,12 @@ class AuthenticationService
         return NULL;
     }
 
-    public function setUser($name, $email, $password, $token)
+    public function setUser($name, $email, $password, $token, $shopName)
     {
         if ($name == NULL || $email == NULL || $password == NULL)
             return -3;
         $userRepository = $this->doctrine->getRepository("DropshippersAPIBundle:User");
+        $shopRepository = $this->doctrine->getRepository("DropshippersAPIBundle:Shop");
 
         $user = $userRepository->findOneBy(["username" => $name]);
         $user2 = $userRepository->findOneBy(["email" => $email]);
@@ -77,18 +79,33 @@ class AuthenticationService
         $entity->setPassword($password);
 
         if ($token != NULL) {
-            $shopRepository = $this->doctrine->getRepository("DropshippersAPIBundle:Shop");
             $shop = $shopRepository->findOneBy(["token" => $token]);
             if ($shop) {
                 $entity->setShop($shop);
             } else {
                 return -2;
             }
+        } elseif ($shopName != NULL){
+            $shop = $shopRepository->findOneBy(["name" => $shopName]);
+            if ($shop){
+                return -6;
+            }
+            $shop = new Shop();
+            $shop->setName($shopName);
+            $entity->setShop($shop);
+            $shop->setToken($this->generateRandomString(100));
+            $shop->setCreatedAt(new \DateTime());
+            $shop->setUpdatedAt(new \DateTime());
+            $shop->setStatus("active");
+            $em->persist($shop);
+            $module = new Module();
+            $module->setName("default");
+            $module->setActive(1);
+            $module->setToken($this->generateRandomString(100));
+            $shop->addModule($module);
+            $em->persist($module);
         }
-
-
         $entity->setToken($this->generateRandomString(100));
-
         $em->persist($entity);
 
         $em->flush();
