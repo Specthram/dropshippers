@@ -1,0 +1,15 @@
+Dropshippers\APIBundle\Entity\Users:
+    exclusion_policy: ALL
+    properties:
+        type:
+            expose: true
+        link:
+            expose: true
+        path:
+            expose: true
+        createdAt:
+            expose: true
+        updatedAt:
+            expose: true
+        name:
+            expose: true

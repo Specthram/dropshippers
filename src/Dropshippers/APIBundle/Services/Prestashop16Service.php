@@ -11,6 +11,7 @@ namespace Dropshippers\APIBundle\Services;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Dropshippers\APIBundle\Entity\LocalPsProduct;
 use Dropshippers\APIBundle\Entity\Shop;
+use Dropshippers\APIBundle\Entity\LocalProductImage;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,6 @@ class Prestashop16Service
         $entities = array();
         foreach ($json as $product){
             $entity = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(array("productId" => $product->id_product, "shop" => $shop));
-            //il manque : categories, tax, manufacturer
             if ($entity == NULL)
             {
                 $entity = new LocalPsProduct();
@@ -51,6 +51,14 @@ class Prestashop16Service
             $entity->setShop($shop);
             $entity->setShopOrigin($shop);
             $entity->setDropshippersRef($this->generateRandomRef($shop->getName()));
+            if (isset($product->image_link)){
+                $image = new LocalProductImage();
+                $image->setType("link");
+                $image->setCreatedAt(new \DateTime());
+                $image->setUpdatedAt(new \DateTime());
+                $image->setLink($product->image_link);
+                $entity->addImage($image);
+            }
             $em->persist($entity);
             $em->flush();
         }
