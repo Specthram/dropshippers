@@ -111,7 +111,6 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
         } elseif($toto == -6){
             throw new AccessDeniedHttpException("une boutique portant le même nom existe déjà");
         }
-
         return array("message" => "Vous êtes bien enregistré");
     }
 
