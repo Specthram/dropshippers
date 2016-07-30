@@ -44,6 +44,11 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
         if ($token == NULL){
             throw new AccessDeniedHttpException("invalid credentials.");
         }
+
+//        $view = $this->view($token, 200)
+//            ->setTemplateVar("token")
+//            ->setTemplateData(array("token" => $token));
+//        return $this->handleView($view);
         return array("token" => $token);
 
 //        $repository = $this->getDoctrine()->getRepository("DropshippersAPIBundle:User");
