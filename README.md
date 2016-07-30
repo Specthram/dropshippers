@@ -82,7 +82,7 @@ POST dropshippers.dev/v1/login/signin
 -------------------------------------
 Permet d'obtenir le token d'un utilisateur
 
-* Paramètres : login, password
+* Paramètres : username, password
 * Retour : 200, token
 
 POST dropshippers.dev/v1/ps/16/products
@@ -282,8 +282,21 @@ example :
 Codes Erreurs
 =============
 
+10000 - Identification / Registration / Syntaxe
+-----------------------------------------------
+
+* 10000 : authentification reussie
 * 10001 : identifiants invalides
+* 10002 : token invalide
+* 10003 : paramètres attendus manquants
+
+20000 - Produits
+----------------
+
 * 20001 : le produit n'existe pas
 * 20002 : la quantité demandé depasse celle disponible
+
+30000 - requetes produits
+-------------------------
+
 * 30001 : Requete produit effectuée
-* 10002 : paramètres attendus manquants

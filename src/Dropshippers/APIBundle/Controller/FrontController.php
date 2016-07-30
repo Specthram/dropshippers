@@ -70,11 +70,14 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
      */
     public function getUserPropositionAction(Request $request, $dropshippersRef)
     {
+        $response = new Response();
         $as = $this->get("dropshippers_api.authentication");
         $token = $request->headers->get("token");
         $shop = $as->getShopFromToken($token);
         if (!$shop){
-            throw new AccessDeniedHttpException("invalid token.");
+            $response->setStatusCode(403);
+            $response->setContent(json_encode(array("code" => 10002, "message" => "token invalide")));
+            return $response;
         }
         $frontService = $this->get("dropshippers_api.front");
         $result = $frontService->getShopPropositions($shop, $dropshippersRef);
@@ -96,12 +99,12 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         $shopHost = $as->getShopFromToken($token);
         if (!$shopHost){
             $response->setStatusCode(403);
-            $response->setContent(json_encode(array("code" => 10001, "message" => "Le produit demandé n'existe pas")));
+            $response->setContent(json_encode(array("code" => 10002, "message" => "token invalide")));
             return $response;
         }
         if (!$productRequest || !$quantity){
             $response->setStatusCode(403);
-            $response->setContent(json_encode(array("code" => 10002, "message" => "Le produit demandé n'existe pas")));
+            $response->setContent(json_encode(array("code" => 10003, "message" => "parametres manquants")));
             return $response;
         }
 

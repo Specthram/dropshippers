@@ -28,27 +28,27 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
         $response["logout"] = $base_url . "/logout";
         return $response;
     }
-
-
-
+    
     /**
      * POST Route annotation
      * @Post("/login/signin")
      */
     public function postSigninAction(Request $request)
     {
-        $username = $request->get('login');
+        $response = new Response();
+        $username = $request->get('username');
         $password = $request->get('password');
         $as = $this->get("dropshippers_api.authentication");
         $token = $as->getTokenFromUser($username, $password);
         if ($token == NULL){
-            //throw new AccessDeniedHttpException("invalid credentials.");
-            $response = new Response();
             $response->setContent(json_encode(array("code" => 10001, "message" => "invalid credentials")));
             $response->setStatusCode(403);
             return $response;
         }
-        return array("token" => $token);
+        
+        $response->setStatusCode(200);
+        $response->setContent(json_encode(array("code" => 1000, "token" => $token, "message" => "authentification réussie")));
+        return $response;
 
 //        $repository = $this->getDoctrine()->getRepository("DropshippersAPIBundle:User");
 //        $userManager = $this->get('fos_user.user_manager');

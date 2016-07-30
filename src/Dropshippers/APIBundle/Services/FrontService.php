@@ -58,6 +58,8 @@ class FrontService
             $tab[] = $this->base_url . "/user/propositions/" . $proposition->getDropshippersRef();
             $results["host"][] = $tab;
         }
+
+        return $results;
     }
     
     public function getShopPropositions($shop, $dropshippersRef)
@@ -65,7 +67,7 @@ class FrontService
         $results = array();
         $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
 
-        $propositions = $requestRepository->findBy(["shopGuest" => $shop]);
+        $propositions = $requestRepository->findBy(["shopGuest" => $shop, "dropshippersRef" => $dropshippersRef]);
         foreach ($propositions as $proposition){
             $tab = array();
             $shopGuest = $proposition->getShopGuest();
@@ -81,7 +83,7 @@ class FrontService
             $results["guest"][] = $tab;
         }
 
-        $propositions = $requestRepository->findBy(["shopHost" => $shop]);
+        $propositions = $requestRepository->findBy(["shopHost" => $shop, "dropshippersRef" => $dropshippersRef]);
         foreach ($propositions as $proposition){
             $tab = array();
             $shopGuest = $proposition->getShopGuest();
