@@ -282,13 +282,17 @@ example :
 Codes Erreurs
 =============
 
+0 - Général
+-----------
+
+* 1 : Traitement réussi
+* 2 : Paramètres manquants
+
 10000 - Identification / Registration / Syntaxe
 -----------------------------------------------
 
-* 10000 : authentification reussie
 * 10001 : identifiants invalides
 * 10002 : token invalide
-* 10003 : paramètres attendus manquants
 
 20000 - Produits
 ----------------
