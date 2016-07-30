@@ -28,27 +28,27 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
         $response["logout"] = $base_url . "/logout";
         return $response;
     }
-
-
-
+    
     /**
      * POST Route annotation
      * @Post("/login/signin")
      */
     public function postSigninAction(Request $request)
     {
-        $username = $request->get('login');
+        $response = new Response();
+        $username = $request->get('username');
         $password = $request->get('password');
         $as = $this->get("dropshippers_api.authentication");
         $token = $as->getTokenFromUser($username, $password);
         if ($token == NULL){
-            //throw new AccessDeniedHttpException("invalid credentials.");
-            $response = new Response();
             $response->setContent(json_encode(array("code" => 10001, "message" => "invalid credentials")));
             $response->setStatusCode(403);
             return $response;
         }
-        return array("token" => $token);
+        
+        $response->setStatusCode(200);
+        $response->setContent(json_encode(array("code" => 1000, "token" => $token, "message" => "authentification réussie")));
+        return $response;
 
 //        $repository = $this->getDoctrine()->getRepository("DropshippersAPIBundle:User");
 //        $userManager = $this->get('fos_user.user_manager');
@@ -85,6 +85,7 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
      */
     public function postRegisterAction(Request $request)
     {
+        $response = new Response();
         $username = $request->get('username');
         $email    = $request->get('email');
         $password = $request->get('password');
@@ -95,43 +96,36 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
         $toto = $auth_service->setUser($username, $email, $password, $token, $shopName);
 
         if ($toto == -1){
-            throw new AccessDeniedHttpException("Registration failed");
+            $response->setStatusCode(403);
+            $response->setContent(json_encode(array("code" => 10003, "message" => "Registration failed")));
+            return $response;
         }
         elseif ($toto == -2) {
-            throw new AccessDeniedHttpException("Invalid token");
+            $response->setStatusCode(403);
+            $response->setContent(json_encode(array("code" => 10002, "message" => "token invalide")));
+            return $response;
         }
         elseif ($toto == -3) {
-            throw new AccessDeniedHttpException("L'un des champs requis n'est pas renseigné");
+            $response->setStatusCode(403);
+            $response->setContent(json_encode(array("code" => 2, "message" => "paramètres manquants")));
+            return $response;
         }
         elseif ($toto == -4) {
-            throw new AccessDeniedHttpException("Utilisateur déjà existant");
+            $response->setStatusCode(403);
+            $response->setContent(json_encode(array("code" => 10004, "message" => "Utilisateur existant")));
+            return $response;
         }
         elseif ($toto == -5) {
-            throw new AccessDeniedHttpException("Email déjà existant");
+            $response->setStatusCode(403);
+            $response->setContent(json_encode(array("code" => 10003, "message" => "email deha enregistré")));
+            return $response;
         } elseif($toto == -6){
-            throw new AccessDeniedHttpException("une boutique portant le même nom existe déjà");
+            $response->setStatusCode(403);
+            $response->setContent(json_encode(array("code" => 10005, "message" => "Boutique deja existante")));
+            return $response;
         }
-
-        return array("message" => "Vous êtes bien enregistré");
+        $response->setStatusCode(200);
+        $response->setContent(json_encode(array("code" => 10006, "message" => "Registration successful")));
+        return $response;
     }
-
-//    /**
-//     * Options Route annotation
-//     * @Options("/login/register")
-//     */
-//    public function optionsRegisterAction(Request $request)
-//    {
-//        //return $this->forward("DropshippersAPIBundle:Login:postRegister");
-//        return array("message" => "connexion acceptée", "code" => "1");
-//    }
-
-//    /**
-//     * Options Route annotation
-//     * @Options("/login/signin")
-//     */
-//    public function optionsSigninAction(Request $request)
-//    {
-//        //return $this->forward("DropshippersAPIBundle:Login:postSignin");
-//        return array("message" => "connexion acceptée", "code" => "1");
-//    }
 }
