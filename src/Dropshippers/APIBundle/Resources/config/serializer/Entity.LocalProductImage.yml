@@ -1,4 +1,4 @@
-Dropshippers\APIBundle\Entity\Users:
+Dropshippers\APIBundle\Entity\LocalProductImage:
     exclusion_policy: ALL
     properties:
         type:
