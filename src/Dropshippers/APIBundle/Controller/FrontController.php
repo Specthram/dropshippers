@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Put;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class FrontController extends FOSRestController implements ClassResourceInterface
@@ -127,6 +128,24 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         } else {
             $response->setStatusCode(200);
             $response->setContent(json_encode(array("code" => 30001, "message" => "requête produit effectuée")));
+            return $response;
+        }
+    }
+
+    /**
+     * PUT Route annotation
+     * @Put("/front/user/propositions/{dropshippersRef}")
+     */
+    public function putUserPropositionAction(Request $request, $dropshippersRef)
+    {
+        $response = new Response();
+        $as = $this->get("dropshippers_api.authentication");
+        $
+        $token = $request->headers->get("token");
+        $shopHost = $as->getShopFromToken($token);
+        if (!$shopHost){
+            $response->setStatusCode(403);
+            $response->setContent(json_encode(array("code" => 10002, "message" => "token invalide")));
             return $response;
         }
     }
