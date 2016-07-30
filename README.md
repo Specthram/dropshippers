@@ -178,7 +178,7 @@ Permet d'enregistrer un nouvel utilisateur
 * Retour : message ou 403
 
 GET dropshippers.dev/v1/front/common/products
-----------
+---------------------------------------------
 * Header : token
 * Retour : products : array de ressources
 
@@ -385,4 +385,7 @@ example :
 }
 ```
 
-=======
+Codes Erreurs
+=============
+
+* 10001 : invalid credentials
