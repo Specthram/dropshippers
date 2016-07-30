@@ -48,14 +48,14 @@ class FrontService
         $propositions = $requestRepository->findBy(["shopGuest" => $shop]);
         foreach ($propositions as $proposition){
             $tab = array();
-            $tab[] = $this->base_url . "/user/propositions/" . $proposition->getDropshippersRef();
+            $tab[] = $this->base_url . "/front/user/propositions/" . $proposition->getDropshippersRef();
             $results["guest"][] = $tab;
         }
 
         $propositions = $requestRepository->findBy(["shopHost" => $shop]);
         foreach ($propositions as $proposition){
             $tab = array();
-            $tab[] = $this->base_url . "/user/propositions/" . $proposition->getDropshippersRef();
+            $tab[] = $this->base_url . "/front/user/propositions/" . $proposition->getDropshippersRef();
             $results["host"][] = $tab;
         }
 
