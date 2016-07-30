@@ -293,6 +293,10 @@ Codes Erreurs
 
 * 10001 : identifiants invalides
 * 10002 : token invalide
+* 10003 : email deja utilisé
+* 10004 : utilisateur deja existant
+* 10005 : boutique deja existante
+* 10006 : enregistrement effectué
 
 20000 - Produits
 ----------------
