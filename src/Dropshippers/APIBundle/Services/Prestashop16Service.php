@@ -29,10 +29,9 @@ class Prestashop16Service
     {
         $em = $this->doctrine->getManager();
         $json = json_decode($request->getContent());
-        $entities = array();
         foreach ($json as $product){
             $entity = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(array("productId" => $product->id_product, "shop" => $shop));
-            if ($entity == NULL)
+            if (!$entity)
             {
                 $entity = new LocalPsProduct();
                 $entity->setCreatedAt(new \DateTime());
@@ -52,13 +51,16 @@ class Prestashop16Service
             $entity->setShopOrigin($shop);
             $entity->setDropshippersRef($this->generateRandomRef($shop->getName()));
             if (isset($product->image_link)){
-                $image = new LocalProductImage();
-                $image->setType("link");
-                $image->setCreatedAt(new \DateTime());
+                $image = $this->doctrine->getRepository("DropshipperAPIBundle:LocalProductImage")->findOneBy(array('link' => $product->image_link, "shop" => $shop));
+                if (!$image){
+                    $image = new LocalProductImage();
+                    $image->setCreatedAt(new \DateTime());
+                    $entity->addImage($image);
+                    $image->setLocalProduct($entity);
+                    $image->setType("link");
+                }
                 $image->setUpdatedAt(new \DateTime());
                 $image->setLink($product->image_link);
-                $entity->addImage($image);
-                $image->setLocalProduct($entity);
             }
             $em->persist($entity);
             $em->flush();
