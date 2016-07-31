@@ -51,7 +51,7 @@ class Prestashop16Service
             $entity->setShopOrigin($shop);
             $entity->setDropshippersRef($this->generateRandomRef($shop->getName()));
             if (isset($product->image_link)){
-                $image = $this->doctrine->getRepository("DropshipperAPIBundle:LocalProductImage")->findOneBy(array('link' => $product->image_link, "shop" => $shop));
+                $image = $this->doctrine->getRepository("DropshippersAPIBundle:LocalProductImage")->findOneBy(array('link' => $product->image_link));
                 if (!$image){
                     $image = new LocalProductImage();
                     $image->setCreatedAt(new \DateTime());
