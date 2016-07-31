@@ -22,15 +22,26 @@ class FrontService
         $this->base_url = "http://" . $_SERVER['SERVER_NAME'] . "/v1";
     }
 
+//    public function getAllProducts()
+//    {
+//        $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
+//        $products = $productRepository->findAll();
+//        $refs = array();
+//        foreach($products as $product){
+//            $refs[] = "http://" . $_SERVER['SERVER_NAME'] . "/v1/front/common/products/" . $product->getDropshippersRef();
+//        }
+//        return $refs;
+//    }
+
     public function getAllProducts()
     {
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
         $products = $productRepository->findAll();
-        $refs = array();
+        $results = array();
         foreach($products as $product){
-            $refs[] = "http://" . $_SERVER['SERVER_NAME'] . "/v1/front/common/products/" . $product->getDropshippersRef();
+            $results[] = $product;
         }
-        return $refs;
+        return $results;
     }
 
     public function getProduct($reference)
@@ -40,6 +51,28 @@ class FrontService
         return $product;
     }
 
+//    public function getAllShopPropositions($shop)
+//    {
+//        $results = array();
+//        $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+//
+//        $propositions = $requestRepository->findBy(["shopGuest" => $shop]);
+//        foreach ($propositions as $proposition){
+//            $tab = array();
+//            $tab[] = $this->base_url . "/front/user/propositions/" . $proposition->getDropshippersRef();
+//            $results["guest"][] = $tab;
+//        }
+//
+//        $propositions = $requestRepository->findBy(["shopHost" => $shop]);
+//        foreach ($propositions as $proposition){
+//            $tab = array();
+//            $tab[] = $this->base_url . "/front/user/propositions/" . $proposition->getDropshippersRef();
+//            $results["host"][] = $tab;
+//        }
+//
+//        return $results;
+//    }
+
     public function getAllShopPropositions($shop)
     {
         $results = array();
@@ -48,14 +81,32 @@ class FrontService
         $propositions = $requestRepository->findBy(["shopGuest" => $shop]);
         foreach ($propositions as $proposition){
             $tab = array();
-            $tab[] = $this->base_url . "/front/user/propositions/" . $proposition->getDropshippersRef();
+            $shopGuest = $proposition->getShopGuest();
+            $shopHost = $proposition->getShopHost();
+            $tab["created_at"] = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
+            $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
+            $tab["status"] = $proposition->getStatus();
+            $tab["quantity"] = $proposition->getQuantity();
+            $tab["shopGuest"]["name"] = $shopGuest->getName();
+            $tab["shopGuest"]["id"] = $shopGuest->getId();
+            $tab["shopHost"]["name"] = $shopHost->getName();
+            $tab["shopHost"]["id"] = $shopHost->getId();
             $results["guest"][] = $tab;
         }
 
         $propositions = $requestRepository->findBy(["shopHost" => $shop]);
         foreach ($propositions as $proposition){
             $tab = array();
-            $tab[] = $this->base_url . "/front/user/propositions/" . $proposition->getDropshippersRef();
+            $shopGuest = $proposition->getShopGuest();
+            $shopHost = $proposition->getShopHost();
+            $tab["created_at"] = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
+            $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
+            $tab["status"] = $proposition->getStatus();
+            $tab["quantity"] = $proposition->getQuantity();
+            $tab["shopGuest"]["name"] = $shopGuest->getName();
+            $tab["shopGuest"]["id"] = $shopGuest->getId();
+            $tab["shopHost"]["name"] = $shopHost->getName();
+            $tab["shopHost"]["id"] = $shopHost->getId();
             $results["host"][] = $tab;
         }
 
@@ -167,6 +218,7 @@ class FrontService
                                     $newProduct->setUpdatedAt(new \DateTime());
                                     $newProduct->setQuantity($productRequest->getQuantity());
                                     $newProduct->setShop($shopHost);
+                                    $newProduct->setDropshippersRef($this->generateRandomRef($shopHost->getName()));
                                     $em->persist($product);
                                     $em->persist($newProduct);
                                 } else {
