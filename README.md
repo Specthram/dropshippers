@@ -326,6 +326,33 @@ exemple retour :
 }
 ```
 
+GET dropshippers.dev/ps/{version}/shop/products/shared
+------------------------------------------------------
+permet de savoir quels sont les produits de la boutique actuellements partagés
+
+* Header : token
+* retour : array json
+
+```
+{
+    "shared_products": [
+        {
+            "product": {
+                "dropshippersRef": "dddd",
+                "id_local": 4,
+                "quantity": 100
+            },
+            "shop": {
+                "name": "red mad coon",
+                "address": "18 avenue de la paix",
+                "zipcode": "75000",
+                "city": "paris"
+            }
+        }
+    ]
+}
+```
+
 Codes Erreurs
 =============
 
