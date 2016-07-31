@@ -302,6 +302,29 @@ example :
 }
 ```
 
+PATCH dropshippers.dev/v1/front/user/propositions/{dropshippersRef}
+-------------------------------------------------------------------
+Permet de changer l'etat d'une ressource
+
+* Header : token
+* Body : Json (valeurs acceptée pour value dans /status : "new", "waiting", "refused", "accepted"
+* retour : code, message
+
+exemple body JSON pour remplacer le status par la valeur waiting :
+```
+[
+    { "op": "replace", "path" : "/status", "value" : "waiting"}
+]
+```
+
+exemple retour :
+```
+{
+    "code": 1,
+    "message": "effectué"
+}
+```
+
 Codes Erreurs
 =============
 
@@ -310,6 +333,7 @@ Codes Erreurs
 
 * 1 : Traitement réussi
 * 2 : Paramètres manquants
+* 3 : mauvaise syntaxe du body de la requete
 
 10000 - Identification / Registration / Syntaxe
 -----------------------------------------------
@@ -331,3 +355,5 @@ Codes Erreurs
 -------------------------
 
 * 30001 : Requete produit effectuée
+* 30002 : format du json de la requete incorrecte
+* 30003 : Mauvaise reference
