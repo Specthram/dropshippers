@@ -307,13 +307,14 @@ PATCH dropshippers.dev/v1/front/user/propositions/{dropshippersRef}
 Permet de changer l'etat d'une ressource
 
 * Header : token
-* Body : Json (valeurs acceptée pour value dans /status : "new", "waiting", "refused", "accepted"
+* Body : Json avec plusieurs tableaux contenant chaun op, path, value (valeurs acceptée pour value dans /status : "new", "waiting", "refused", "accepted")
 * retour : code, message
 
-exemple body JSON pour remplacer le status par la valeur waiting :
+exemple body JSON pour remplacer le status par la valeur waiting (syntaxe a respecter imperativement):
 ```
 [
-    { "op": "replace", "path" : "/status", "value" : "waiting"}
+    { "op": "replace", "path" : "/status", "value" : "waiting"},
+    {...}
 ]
 ```
 
