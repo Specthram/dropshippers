@@ -357,3 +357,4 @@ Codes Erreurs
 * 30001 : Requete produit effectuée
 * 30002 : format du json de la requete incorrecte
 * 30003 : Mauvaise reference
+* 30004 : Impossible de modifier une requete deja acceptée

@@ -185,9 +185,15 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         } elseif ($response == -7) {
             $response->setStatusCode(422);
             $response->setContent(json_encode(array("code" => 30002, "message" => "Mauvaise reference")));
+            return $response;
         } elseif ($response == -8) {
             $response->setStatusCode(422);
             $response->setContent(json_encode(array("code" => 20002, "message" => "Quantité non disponible")));
+            return $response;
+        } elseif ($response == -9) {
+            $response->setStatusCode(409);
+            $response->setContent(json_encode(array("code" => 30004, "message" => "Modification d'une requete acceptée impossible")));
+            return $response;
         }
         $response->setStatusCode(200);
         $response->setContent(json_encode(array("code" => 1, "message" => "effectué")));

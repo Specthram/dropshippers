@@ -154,12 +154,14 @@ class FrontService
                         $productRequest = $repository->findOneBy(["dropshippersRef" => $dropshippersRef]);
                         if (!$productRequest){
                             return -7;
+                        } elseif ($productRequest->getStatus() == "accepted") {
+                            return -9;
                         } else {
                             if ($instruction->value == "accepted"){
                                 $product = $productRequest->getProduct();
-                                if (($product->getQuantity - $productRequest->getQuantity()) >= 0){
+                                if (($product->getQuantity() - $productRequest->getQuantity()) >= 0){
                                     $newProduct = clone $product;
-                                    $product->setQuantity($product->getQuantity - $productRequest->getQuantity());
+                                    $product->setQuantity($product->getQuantity() - $productRequest->getQuantity());
                                     $product->setUpdatedAt(new \DateTime());
                                     $newProduct->setCreatedAt(new \DateTime());
                                     $newProduct->setUpdatedAt(new \DateTime());
@@ -173,6 +175,7 @@ class FrontService
                             }
                             $productRequest->setStatus($instruction->value);
                             $productRequest->setUpdatedAt(new \DateTime());
+                            $em->persist($productRequest);
                         }
                     } else {
                         return -6;
