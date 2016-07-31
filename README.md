@@ -243,18 +243,41 @@ example :
 
 ```
 {
+    "code": 1,
     "propositions": {
         "host": [
+            [
+                "http://dropshippers.dev/v1/user/propositions/REQ-HOT-RED-O063LPPNGLDXMO9"
+            ]
+        ]
+    }
+}
+```
+
+GET dropshippers.dev/v1/front/user/propositions/{dropshippersRef}
+-----------------------------------------------------------------
+Permet de recuperer une request
+
+* Header : token
+* retour : proposition
+
+```
+{
+    "code": 1,
+    "proposition": {
+        "host": [
             {
-                "created_at": "2016-07-26T00:00:00+0200",
-                "updated_at": "2016-07-26T00:00:00+0200",
+                "created_at": "2016-07-30T23:47:08+0200",
+                "updated_at": "2016-07-30T23:47:08+0200",
+                "status": "new",
+                "quantity": 5,
                 "shopGuest": {
-                    "name": "pretty regrets",
-                    "id": 26
+                    "name": "red mad coon",
+                    "id": 31
                 },
                 "shopHost": {
-                    "name": "red mad coon",
-                    "id": 25
+                    "name": "HotDogs",
+                    "id": 33
                 }
             }
         ]
@@ -279,6 +302,30 @@ example :
 }
 ```
 
+PATCH dropshippers.dev/v1/front/user/propositions/{dropshippersRef}
+-------------------------------------------------------------------
+Permet de changer l'etat d'une ressource
+
+* Header : token
+* Body : Json avec plusieurs tableaux contenant chaun op, path, value (valeurs acceptée pour value dans /status : "new", "waiting", "refused", "accepted")
+* retour : code, message
+
+exemple body JSON pour remplacer le status par la valeur waiting (syntaxe a respecter imperativement):
+```
+[
+    { "op": "replace", "path" : "/status", "value" : "waiting"},
+    {...}
+]
+```
+
+exemple retour :
+```
+{
+    "code": 1,
+    "message": "effectué"
+}
+```
+
 Codes Erreurs
 =============
 
@@ -287,6 +334,7 @@ Codes Erreurs
 
 * 1 : Traitement réussi
 * 2 : Paramètres manquants
+* 3 : mauvaise syntaxe du body de la requete
 
 10000 - Identification / Registration / Syntaxe
 -----------------------------------------------
@@ -308,3 +356,6 @@ Codes Erreurs
 -------------------------
 
 * 30001 : Requete produit effectuée
+* 30002 : format du json de la requete incorrecte
+* 30003 : Mauvaise reference
+* 30004 : Impossible de modifier une requete deja acceptée

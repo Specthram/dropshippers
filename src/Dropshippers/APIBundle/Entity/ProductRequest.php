@@ -202,22 +202,6 @@ class ProductRequest
     }
 
     /**
-     * @return mixed
-     */
-    public function getProducts()
-    {
-        return $this->product;
-    }
-
-    /**
-     * @param mixed $product
-     */
-    public function setProducts(LocalPsProduct $product)
-    {
-        $this->product = $product;
-    }
-
-    /**
      * Set dropshippersRef
      *
      * @param string $dropshippersRef
