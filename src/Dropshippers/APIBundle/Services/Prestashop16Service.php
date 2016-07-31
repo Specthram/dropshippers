@@ -91,6 +91,27 @@ class Prestashop16Service
             return False;
         }
     }
+    
+    public function getSharedProducts($shop)
+    {
+        $tab = array();
+        $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
+        $products = $productRepository->findBy(array("shopOrigin" => $shop));
+        foreach ($products as $product){
+            if (($product->getShopOrigin()->getId()) != ($product->getShop()->getId())){
+                $temp = array();
+                $temp["product"]["dropshippersRef"] = $product->getDropshippersRef();
+                $temp["product"]["id_local"] = $product->getProductId();
+                $temp["product"]["quantity"] = $product->getQuantity();
+                $temp["shop"]["name"] = $product->getShop()->getName();
+                $temp["shop"]["address"] = $product->getShop()->getAddress();
+                $temp["shop"]["zipcode"] = $product->getShop()->getAddressZipcode();
+                $temp["shop"]["city"] = $product->getShop()->getCity();
+                $tab["shared_products"][] = $temp;
+            }
+        }
+        return $tab;
+    }
 
     private function generateRandomRef($shopName)
     {

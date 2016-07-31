@@ -36,7 +36,6 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
      */
     public function postProductsAction(Request $request, $version)
     {
-        //cette ligne appele le service dedié au module prestashop. Il est configuré pour se construire avec doctrine dedans !
         $as = $this->get("dropshippers_api.authentication");
         $token = $request->headers->get("token");
         $shop = $as->getShopFromToken($token);
@@ -74,6 +73,10 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
         return $response;
     }
 
+    /**
+     * Get Route annotation
+     * @Get("/ps/{version}/products/id")
+     */
     public function getProductIdAction(Request $request)
     {
         $as = $this->get("dropshippers_api.authentication");
@@ -93,5 +96,22 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
         } else {
             return array("message" => "false");
         }
+    }
+
+    /**
+     * Get Route annotation
+     * @Get("/ps/{version}/shop/products/shared")
+     */
+    public function getShopProductSharedAction(Request $request, $version)
+    {
+        $as = $this->get("dropshippers_api.authentication");
+        $token = $request->headers->get("token");
+        $shop = $as->getShopFromToken($token);
+        if (!$shop){
+            throw new AccessDeniedHttpException("invalid token.");
+        }
+        $service = $this->get("dropshippers_api.prestashop" . $version);
+        $response = $service->getSharedProducts($shop);
+        return $response;
     }
 }
