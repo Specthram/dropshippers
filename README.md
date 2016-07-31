@@ -243,18 +243,41 @@ example :
 
 ```
 {
+    "code": 1,
     "propositions": {
         "host": [
+            [
+                "http://dropshippers.dev/v1/user/propositions/REQ-HOT-RED-O063LPPNGLDXMO9"
+            ]
+        ]
+    }
+}
+```
+
+GET dropshippers.dev/v1/front/user/propositions/{dropshippersRef}
+-----------------------------------------------------------------
+Permet de recuperer une request
+
+* Header : token
+* retour : proposition
+
+```
+{
+    "code": 1,
+    "proposition": {
+        "host": [
             {
-                "created_at": "2016-07-26T00:00:00+0200",
-                "updated_at": "2016-07-26T00:00:00+0200",
+                "created_at": "2016-07-30T23:47:08+0200",
+                "updated_at": "2016-07-30T23:47:08+0200",
+                "status": "new",
+                "quantity": 5,
                 "shopGuest": {
-                    "name": "pretty regrets",
-                    "id": 26
+                    "name": "red mad coon",
+                    "id": 31
                 },
                 "shopHost": {
-                    "name": "red mad coon",
-                    "id": 25
+                    "name": "HotDogs",
+                    "id": 33
                 }
             }
         ]

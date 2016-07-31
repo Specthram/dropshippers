@@ -140,7 +140,6 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
     {
         $response = new Response();
         $as = $this->get("dropshippers_api.authentication");
-        $
         $token = $request->headers->get("token");
         $shopHost = $as->getShopFromToken($token);
         if (!$shopHost){
