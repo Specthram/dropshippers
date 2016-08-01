@@ -200,5 +200,35 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         return $response;
     }
 
+    /**
+     * GET Route annotation
+     * @Get("/front/user/shop/modules")
+     */
+    public function getShopModuleByUserAction(Request $request){
+
+        $response = new Response();
+        $as = $this->get("dropshippers_api.authentication");
+        $token = $request->headers->get("token");
+
+        $shop = $as->getShopFromToken($token);
+
+        if (!$shop){
+            $response->setStatusCode(403);
+            $response->setContent(json_encode(array("code" => 10002, "message" => "token invalide")));
+            return $response;
+        }
+
+        $result = $this->get("dropshippers_api.front")->getModulebyShop($shop);
+
+        if ($result == -1){
+            $response->setStatusCode(422);
+            $response->setContent(json_encode(array("code" => 10007, "message" => "Aucun module trouvé")));
+            return $response;
+        }
+
+        $response->setStatusCode(200);
+        $response->setContent(json_encode(array("code" => 1, "resultat"=> $result)));
+        return $response;
+    }
 
 }

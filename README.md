@@ -353,6 +353,31 @@ permet de savoir quels sont les produits de la boutique actuellements partagés
 }
 ```
 
+GET dropshippers.dev/v1/front/user/shop/modules
+--------------------
+permet de savoir quels sont les modules du shop d'un utilisateur
+
+* Header : token
+* retour : array json
+
+```
+{
+  "code": 1,
+  "resultat": [
+    {
+      "name": "main",
+      "type": "prestashop16",
+      "token": "lzWIY7htWlfVU8xmbKMoaUYqApmZo8KKHHtFPK9M6oH0wenHZ96945AEuXET5pDM66sWRBIYZpZwEmeDwlNAqoeUlTOqirdpyFlq"
+    },
+    {
+      "name": "test",
+      "type": "dropshippers",
+      "token": ""
+    }
+  ]
+}
+```
+
 Codes Erreurs
 =============
 
@@ -372,6 +397,7 @@ Codes Erreurs
 * 10004 : utilisateur deja existant
 * 10005 : boutique deja existante
 * 10006 : enregistrement effectué
+* 10007 : aucun module trouvé
 
 20000 - Produits
 ----------------
