@@ -268,4 +268,21 @@ class FrontService
         }
         return $randomString;
     }
+
+    public function getModulebyShop($shop){
+
+        $module = $this->doctrine->getRepository("DropshippersAPIBundle:Module")->findBy(["shop" => $shop]);
+        if (!$module){
+            return -1;
+        }
+
+        $result = array();
+        foreach($module as $key => $mod){
+            $result[$key]["name"] = $mod->getName();
+            $result[$key]["type"] = $mod->getType();
+            $result[$key]["token"] = $mod->getToken();
+        }
+
+        return $result;
+    }
 }
