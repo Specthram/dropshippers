@@ -178,13 +178,13 @@ class FrontService
         $productRequest->setUpdatedAt(new \DateTime());
         $productRequest->setStatus("new");
         $productRequest->setProduct($product);
-        
+
         $entityManager->persist($productRequest);
         $entityManager->flush();
 
         return 0;
     }
-    
+
     public function modifyProductRequest($shopHost, $instructions, $dropshippersRef)
     {
         $em = $this->doctrine->getManager();

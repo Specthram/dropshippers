@@ -157,7 +157,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
 
         $frontService = $this->get("dropshippers_api.front");
         $result = $frontService->modifyProductRequest($shopHost, $instructions, $dropshippersRef);
-        
+
         if ($result == -1){
             $response->setStatusCode(422);
             $response->setContent(json_encode(array("code" => 30002, "message" => "op is missing in instruction")));

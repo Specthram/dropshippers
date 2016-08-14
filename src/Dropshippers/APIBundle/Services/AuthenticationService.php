@@ -26,7 +26,7 @@ class AuthenticationService
         if ($username == null || $password == NULL){
             return NULL;
         }
-        
+
         $repository = $this->doctrine->getRepository("DropshippersAPIBundle:User");
         $user = $repository->findOneBy(array("username" => $username, "password" => $password));
         if ($user){
@@ -35,7 +35,7 @@ class AuthenticationService
             return NULL;
         }
     }
-    
+
     public function getShopFromToken($token)
     {
         if ($token == NULL){
@@ -48,12 +48,12 @@ class AuthenticationService
             return $user->getShop();
         }
         $moduleRepository = $this->doctrine->getRepository("DropshippersAPIBundle:Module");
-        
+
         $module = $moduleRepository->findOneBy(["token" => $token]);
         if ($module){
             return $module->getShop();
         }
-        
+
         return NULL;
     }
 
