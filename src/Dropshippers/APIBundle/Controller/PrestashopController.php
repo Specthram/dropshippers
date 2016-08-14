@@ -44,7 +44,7 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
         }
         $service = $this->get("dropshippers_api.prestashop".$version);
         $content = $request->getContent();
-        
+
         if (NULL == ($json = json_decode($content))){
             return new Response("Invalid JSON", 400);
         }
