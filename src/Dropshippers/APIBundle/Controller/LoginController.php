@@ -45,7 +45,14 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
             $response->setStatusCode(403);
             return $response;
         }
-        
+        $notificationLink = $request->get('notificationLink');
+        if (isset($notificationLink) && !empty($notificationLink)) {
+            $shop = $as->getShopFromToken($token);
+            //FIXME : how to identify which module to get?
+            $module = $shop->getModules()->first();
+            $prestashop16Service = $this->get("dropshippers_api.prestashop16");
+            $prestashop16Service->registerNotificationLink($module->getId(), $notificationLink);
+        }
         $response->setStatusCode(200);
         $response->setContent(json_encode(array("code" => 1000, "token" => $token, "message" => "authentification réussie")));
         return $response;

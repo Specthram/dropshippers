@@ -139,6 +139,17 @@ class Prestashop16Service
         return $randomString;
     }
 
+    // Takes a module and assigns a notification link to it
+    public function registerNotificationLink($moduleId, $notificationLink)
+    {
+        $entityManager = $this->doctrine->getManager();
+        $modulesRepository = $this->doctrine->getRepository('DropshippersAPIBundle:Module');
+        $module = $modulesRepository->findOneById($moduleId);
+        $module->setNotificationLink($notificationLink);
+        $entityManager->persist($module);
+        $entityManager->flush();
+    }
+
 //    public function loadLocalProduct(Request $request)
 //    {
 //        $em = $this->doctrine->getManager();
