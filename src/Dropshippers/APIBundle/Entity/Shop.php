@@ -56,16 +56,6 @@ class Shop
     private $modules;
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->products = new ArrayCollection();
-        $this->request_host = new ArrayCollection();
-        $this->request_guest = new ArrayCollection();
-    }
-
-    /**
      * @ORM\Id
      * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -142,6 +132,16 @@ class Shop
      * @ORM\Column(name="shop_address", type="string", length=255, nullable=true)
      */
     private $address;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+        $this->request_host = new ArrayCollection();
+        $this->request_guest = new ArrayCollection();
+    }
 
     /**
      * Get id
