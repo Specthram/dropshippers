@@ -62,6 +62,37 @@ class Module
     private $active;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="notification_link", type="text")
+     */
+    private $notificationLink;
+
+    /**
+     * Set notification link
+     *
+     * @param string $notificationLink
+     *
+     * @return Module
+     */
+    public function setNotificationLink($notificationLink)
+    {
+        $this->notificationLink = $notificationLink;
+
+        return $this;
+    }
+
+    /**
+     * Get notification link
+     *
+     * @return string
+     */
+    public function getNotificationLink()
+    {
+        return $this->getNotificationLink();
+    }
+
+    /**
      * Get id
      *
      * @return integer
