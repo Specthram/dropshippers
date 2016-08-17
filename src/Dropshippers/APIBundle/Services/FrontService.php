@@ -10,6 +10,7 @@ namespace Dropshippers\APIBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Dropshippers\APIBundle\Entity\ProductRequest;
+use GuzzleHttp\Exception\RequestException;
 
 class FrontService
 {
