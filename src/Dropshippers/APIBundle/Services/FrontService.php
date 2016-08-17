@@ -229,6 +229,7 @@ class FrontService
                             $productRequest->setStatus($instruction->value);
                             $productRequest->setUpdatedAt(new \DateTime());
                             $em->persist($productRequest);
+                            $this->notifyMerchants($productRequest);
                         }
                     } else {
                         return -6;
@@ -285,5 +286,36 @@ class FrontService
         }
 
         return $result;
+    }
+
+    /**
+     * This method is fired when a productRequest is set to accepted
+     */
+    public function notifyMerchants($productRequest)
+    {
+        $moduleRepository = $this->doctrine->getRepository("DropshippersAPIBundle:Module");
+        $shopRepository   = $this->doctrine->getRepository('DropshippersAPIBundle:Shop');
+        $moduleGuest      = $moduleRepository->findOneBy(array('shop_id' => $productRequest->getShopGuest()));
+        $shopHost         = $shopRepository->findOneById($productRequest->getShopHost());
+        $guzzle           = new GuzzleHttp\Client(['base_uri' => $moduleGuest->getNotificationLink()]);
+        $params           = array(
+            'action'       => 'createCustomer',
+            'shop_name'    => $shopHost->getName(),
+            'shop_email'   => $shopHost->getMail(),
+            'shop_url'     => $shopHost->getUrl(),
+            'shop_address' => $shopHost->getAddress(),
+            'shop_city'    => $shopHost->getCity(),
+        );
+
+        // Create a new Customer on the guest store
+        try {
+            $response = $guzzle->request(
+                'POST',
+                '/',
+                $params
+            );
+        } catch (RequestException $e) {
+            //TODO
+        }
     }
 }
