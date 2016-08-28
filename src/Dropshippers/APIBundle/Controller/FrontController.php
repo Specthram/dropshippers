@@ -143,13 +143,13 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         $as = $this->get("dropshippers_api.authentication");
         $token = $request->headers->get("token");
         $instructions = json_decode($request->getContent());
-        if (!$instructions){
+        if (!$instructions) {
             $response->setStatusCode(400);
             $response->setContent(array("code" => 3, "message" => "content must contains json decodable syntax"));
             return $response;
         }
         $shopHost = $as->getShopFromToken($token);
-        if (!$shopHost){
+        if (!$shopHost) {
             $response->setStatusCode(403);
             $response->setContent(json_encode(array("code" => 10002, "message" => "token invalide")));
             return $response;
@@ -157,8 +157,8 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
 
         $frontService = $this->get("dropshippers_api.front");
         $result = $frontService->modifyProductRequest($shopHost, $instructions, $dropshippersRef);
-        
-        if ($result == -1){
+
+        if ($result == -1) {
             $response->setStatusCode(422);
             $response->setContent(json_encode(array("code" => 30002, "message" => "op is missing in instruction")));
             return $response;
