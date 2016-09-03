@@ -70,6 +70,40 @@ class ProductRequest
     private $quantity;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="product_request_price", type="float")
+     */
+    private $price;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="product_request_isSendDirectly",type="boolean")
+     */
+    private $isSendDirectly;
+
+    /**
+     * @ORM\Column(name="product_request_isWhiteMark",type="boolean")
+     */
+    private $isWhiteMark;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="product_request_deliveryArea", type="string")
+     */
+    private $deliveryArea;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="product_request_message", type="string")
+     */
+    private $message;
+
+
+    /**
      * Get id
      *
      * @return integer
@@ -263,5 +297,85 @@ class ProductRequest
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsSendDirectly()
+    {
+        return $this->isSendDirectly;
+    }
+
+    /**
+     * @param mixed $isSendDirectly
+     */
+    public function setIsSendDirectly($isSendDirectly)
+    {
+        $this->isSendDirectly = $isSendDirectly;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsWhiteMark()
+    {
+        return $this->isWhiteMark;
+    }
+
+    /**
+     * @param mixed $isWhiteMark
+     */
+    public function setIsWhiteMark($isWhiteMark)
+    {
+        $this->isWhiteMark = $isWhiteMark;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeliveryArea()
+    {
+        return $this->deliveryArea;
+    }
+
+    /**
+     * @param mixed $deliveryArea
+     */
+    public function setDeliveryArea($deliveryArea)
+    {
+        $this->deliveryArea = $deliveryArea;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param mixed $message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
     }
 }
