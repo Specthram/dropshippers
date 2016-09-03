@@ -48,6 +48,8 @@ class FrontService
             $item["description"] = $product->getDescription();
             $item["active"] = $product->getActive();
             $item["updated_at"] = $product->getUpdatedAt();
+            $item["shopName"] = $product->getShop()->getName();
+            $item["shopRef"] = $product->getShop()->getName();
             $results[] = $item;
         }
         return $results;
