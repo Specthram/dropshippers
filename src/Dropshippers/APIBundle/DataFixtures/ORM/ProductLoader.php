@@ -120,4 +120,9 @@ class ProductLoader implements FixtureInterface
 
         $manager->flush();
     }
+
+    public function getOrder()
+    {
+        return 2;
+    }
 }

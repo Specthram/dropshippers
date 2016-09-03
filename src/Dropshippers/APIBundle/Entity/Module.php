@@ -64,7 +64,7 @@ class Module
     /**
      * @var string
      *
-     * @ORM\Column(name="notification_link", type="text")
+     * @ORM\Column(name="notification_link", type="text", nullable=true)
      */
     private $notificationLink;
 

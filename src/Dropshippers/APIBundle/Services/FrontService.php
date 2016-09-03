@@ -40,7 +40,15 @@ class FrontService
         $products = $productRepository->findAll();
         $results = array();
         foreach($products as $product){
-            $results[] = $product;
+            $item = array();
+            $item["name"] = $product->getName();
+            $item["type"] = $product->getCategories();
+            $item["price"] = $product->getPrice();
+            $item["images"] = $product->getImages();
+            $item["description"] = $product->getDescription();
+            $item["active"] = $product->getActive();
+            $item["updated_at"] = $product->getUpdatedAt();
+            $results[] = $item;
         }
         return $results;
     }

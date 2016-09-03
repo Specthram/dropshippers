@@ -33,3 +33,5 @@ Dropshippers\APIBundle\Entity\LocalPsProduct:
             expose: true
         updatedAt:
             expose: true
+        shop:
+            expose: true

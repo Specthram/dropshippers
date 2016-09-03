@@ -1,0 +1,5 @@
+Dropshippers\APIBundle\Entity\Shop:
+    exclusion_policy: ALL
+    properties:
+        name:
+            expose: true

@@ -128,4 +128,9 @@ class UserLoader implements FixtureInterface
         }
         return $randomString;
     }
+
+    public function getOrder()
+    {
+        return 1;
+    }
 }
