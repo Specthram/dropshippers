@@ -154,31 +154,49 @@ class FrontService
         return $results;
     }
 
-    public function registerProductRequest($shopHost, $product, $quantity)
+    public function registerProductRequest($shopHost, $paramsArray)
     {
 
+
         $entityManager = $this->doctrine->getManager();
-        $product = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(["dropshippersRef" => $product]);
+
+
+        $product = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(["dropshippersRef" => $paramsArray["productRequest"]]);
+
         if(!$product)
             return -1;
 
         $productRequest = new ProductRequest();
 
-        if ($quantity < $product->getQuantity())
-            $productRequest->setQuantity($quantity);
+        if ($paramsArray["quantity"] < $product->getQuantity()) {
+
+            $productRequest->setQuantity($paramsArray["quantity"]);
+        }
         else
             return -2;
+
+
 
         $shopGuest = $product->getShopOrigin();
 
         $productRequest->setShopGuest($shopGuest);
         $productRequest->setShopHost($shopHost);
 
+
+
         $productRequest->setDropshippersRef($this->generateRequestRef($shopHost->getName(), $shopGuest->getName()));
         $productRequest->setCreatedAt(new \DateTime());
         $productRequest->setUpdatedAt(new \DateTime());
         $productRequest->setStatus("new");
         $productRequest->setProduct($product);
+        $productRequest->setPrice($paramsArray["price"]);
+        $productRequest->setIsSendDirectly($paramsArray["isSendDirectly"]);
+        $productRequest->setIsWhiteMark($paramsArray["isWhiteMark"]);
+        $productRequest->setDeliveryArea($paramsArray["deliveryArea"]);
+        $productRequest->setMessage($paramsArray["message"]);
+
+
+
 
         $entityManager->persist($productRequest);
         $entityManager->flush();

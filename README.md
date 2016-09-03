@@ -291,7 +291,7 @@ POST dropshippers.dev/v1/front/user/partners/products/proposition
 Permet de faire une demande de partenariat sur un produit
 
 * Header : token
-* request parameters: product_reference, quantity
+* request parameters: product_reference, quantity, price, isSendDirectly, isWhiteMark, deliveryArea, message
 * retour : code, message
 
 example :

@@ -102,8 +102,16 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         $response = new Response();
         $as = $this->get("dropshippers_api.authentication");
         $token = $request->headers->get("token");
-        $productRequest = $request->get("product_reference");
-        $quantity = $request->get("quantity");
+
+        $paramsArray = array(
+            "productRequest" => $request->get("product_reference"),
+            "quantity" => $request->get("quantity"),
+            "price" => $request->get("price"),
+            "isSendDirectly" => $request->get("isSendDirectly"),
+            "isWhiteMark" => $request->get("isWhiteMark"),
+            "deliveryArea" => $request->get("deliveryArea"),
+            "message" => $request->get("message")
+        );
 
         $shopHost = $as->getShopFromToken($token);
         if (!$shopHost){
@@ -111,15 +119,16 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
             $response->setContent(json_encode(array("code" => 10002, "message" => "token invalide")));
             return $response;
         }
-        if (!$productRequest || !$quantity){
+        if (in_array("", $paramsArray)){
             $response->setStatusCode(403);
             $response->setContent(json_encode(array("code" => 10003, "message" => "parametres manquants")));
             return $response;
         }
 
-        $frontService = $this->get("dropshippers_api.front");
-        $result = $frontService->registerProductRequest($shopHost, $productRequest, $quantity);
 
+        $frontService = $this->get("dropshippers_api.front");
+        $result = $frontService->registerProductRequest($shopHost, $paramsArray);
+        
         if ($result == -1){
             $response->setStatusCode(403);
             $response->setContent(json_encode(array("code" => 20001, "message" => "Le produit demandé n'existe pas")));
@@ -131,6 +140,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
             $response->setContent(json_encode(array("code" => 30001, "message" => "requête produit effectuée")));
             return $response;
         }
+        return $response;
     }
 
     /**
