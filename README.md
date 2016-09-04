@@ -266,19 +266,36 @@ Permet d'avoir les propositions d'un shop
 
 * Header : token
 * Retour : propositions (array)
+* Paramètres : (facultatif) productRef
 
 example :
 
 ```
 {
-    "code": 1,
-    "propositions": {
-        "host": [
-            [
-                "http://dropshippers.dev/v1/user/propositions/REQ-HOT-RED-O063LPPNGLDXMO9"
-            ]
-        ]
-    }
+  "code": 1,
+  "propositions": {
+    "guest": [
+      {
+        "created_at": "2016-09-04T00:00:00+0200",
+        "updated_at": "2016-09-04T00:00:00+0200",
+        "status": "waiting",
+        "quantity": 10,
+        "RequestRef": "defcghjlkhgfdfhj",
+        "shopGuest": {
+          "name": "red mad coon",
+          "id": 16
+        },
+        "shopHost": {
+          "name": "pretty regrets",
+          "id": 17
+        },
+        "product": {
+          "productRef": "ffffff",
+          "name": "addelalalilabou"
+        }
+      }
+    ]
+  }
 }
 ```
 

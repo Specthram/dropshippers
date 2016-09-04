@@ -85,11 +85,15 @@ class FrontService
 //        return $results;
 //    }
 
-    public function getAllShopPropositions($shop)
+    public function getAllShopPropositions($shop, $filters)
     {
         $results = array();
         $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
-
+        if (!empty($filters)){
+            if(isset($filters["productRef"])){
+                $productRef = $filters["productRef"];
+            }
+        }
         $propositions = $requestRepository->findBy(["shopGuest" => $shop]);
         foreach ($propositions as $proposition){
             $tab = array();
@@ -99,12 +103,20 @@ class FrontService
             $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
             $tab["status"] = $proposition->getStatus();
             $tab["quantity"] = $proposition->getQuantity();
-            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+            $tab["RequestRef"] = $proposition->getDropshippersRef();
             $tab["shopGuest"]["name"] = $shopGuest->getName();
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
             $tab["shopHost"]["id"] = $shopHost->getId();
-            $results["guest"][] = $tab;
+            $tab["product"]["productRef"] = $proposition->getProduct()->getDropshippersRef();
+            $tab["product"]["name"] = $proposition->getProduct()->getName();
+            if (isset($productRef)){
+                if ($tab["product"]["productRef"] == $productRef){
+                    $results["guest"][] = $tab;
+                }
+            } else {
+                $results["guest"][] = $tab;
+            }
         }
 
         $propositions = $requestRepository->findBy(["shopHost" => $shop]);
@@ -116,14 +128,21 @@ class FrontService
             $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
             $tab["status"] = $proposition->getStatus();
             $tab["quantity"] = $proposition->getQuantity();
-            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+            $tab["requestRef"] = $proposition->getDropshippersRef();
             $tab["shopGuest"]["name"] = $shopGuest->getName();
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
             $tab["shopHost"]["id"] = $shopHost->getId();
-            $results["host"][] = $tab;
+            $tab["product"]["productRef"] = $proposition->getProduct()->getDropshippersRef();
+            $tab["product"]["name"] = $proposition->getProduct()->getName();
+            if (isset($productRef)){
+                if ($tab["product"]["productRef"] == $productRef){
+                    $results["guest"][] = $tab;
+                }
+            } else {
+                $results["guest"][] = $tab;
+            }
         }
-
         return $results;
     }
     

@@ -65,7 +65,11 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
             return $response;
         }
         $frontService = $this->get("dropshippers_api.front");
-        $result = $frontService->getAllShopPropositions($shop);
+        $filters = array();
+        if ($request->get("productRef")){
+            $filters["productRef"] = $request->get("productRef");
+        }
+        $result = $frontService->getAllShopPropositions($shop, $filters);
         $response->setStatusCode(200);
         $response->setContent(json_encode(array("code" => 1, "propositions" => $result)));
         return $response;
