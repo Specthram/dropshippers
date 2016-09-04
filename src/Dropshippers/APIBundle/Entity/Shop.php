@@ -134,6 +134,13 @@ class Shop
     private $address;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="dropshippersRef", type="string", length=255)
+     */
+    private $dropshippersRef;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -585,5 +592,29 @@ class Shop
     public function getToken()
     {
         return $this->token;
+    }
+
+    /**
+     * Set dropshippersRef
+     *
+     * @param string $dropshippersRef
+     *
+     * @return Shop
+     */
+    public function setDropshippersRef($dropshippersRef)
+    {
+        $this->dropshippersRef = $dropshippersRef;
+
+        return $this;
+    }
+
+    /**
+     * Get dropshippersRef
+     *
+     * @return string
+     */
+    public function getDropshippersRef()
+    {
+        return $this->dropshippersRef;
     }
 }
