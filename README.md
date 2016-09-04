@@ -86,6 +86,33 @@ Permet d'obtenir le token d'un utilisateur
 * Paramètres : username, password
 * Retour : 200, token
 
+GET dropshippers.dev/v1/front/user
+----------------------------------
+Permet d'obtenir les informations de l'utilisateur actuel
+
+* Header : token
+* Retour : code, currentUser
+
+```
+{
+  "code": 1,
+  "currentUser": {
+    "user": {
+      "username": "admin",
+      "email": "admin@admin.fr"
+    },
+    "shop": {
+      "name": "red mad coon",
+      "status": "active",
+      "email": "contact@efzef.fr",
+      "address": "18 avenue de la paix",
+      "zipcode": "75000",
+      "city": "paris"
+    }
+  }
+}
+```
+
 POST dropshippers.dev/v1/ps/16/products
 ---------------------------------------
 Permet de poster un array de produit
