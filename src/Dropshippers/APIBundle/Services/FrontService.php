@@ -144,6 +144,17 @@ class FrontService
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
             $tab["shopHost"]["id"] = $shopHost->getId();
+            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+            $messages = $proposition->getMessages();
+            $results = array();
+            foreach ($messages as $message){
+                $mess = array();
+                $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
+                $mess["message"] = $message->getMessage();
+                $mess["price"] = $message->getPrice();
+                $mess["status"] = $message->getStatus();
+                $tab["messages"][] = $mess;
+            }
             $results["guest"][] = $tab;
         }
 
@@ -160,6 +171,17 @@ class FrontService
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
             $tab["shopHost"]["id"] = $shopHost->getId();
+            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+            $messages = $proposition->getMessages();
+            $results = array();
+            foreach ($messages as $message){
+                $mess = array();
+                $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
+                $mess["message"] = $message->getMessage();
+                $mess["price"] = $message->getPrice();
+                $mess["status"] = $message->getStatus();
+                $tab["messages"][] = $mess;
+            }
             $results["host"][] = $tab;
         }
 
