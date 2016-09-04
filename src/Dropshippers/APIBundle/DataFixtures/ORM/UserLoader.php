@@ -45,6 +45,7 @@ class UserLoader implements FixtureInterface
         $shop1->setName("red mad coon");
         $shop1->setPhone("0122334455");
         $shop1->setStatus("active");
+        $shop1->setDropshippersRef(uniqid("shop_"));
         $shop1->setToken($this->generateRandomString(100));
         $shop1->setUrl("http://monsite.com/");
         $shop1->setCreatedAt(new \DateTime());
@@ -59,6 +60,7 @@ class UserLoader implements FixtureInterface
         $shop2->setPhone("0256738923");
         $shop2->setStatus("active");
         $shop2->setToken($this->generateRandomString(100));
+        $shop2->setDropshippersRef(uniqid("shop_"));
         $shop2->setUrl("http://prettyregrets.com/");
         $shop2->setCreatedAt(new \DateTime());
         $shop2->setUpdatedAt(new \DateTime());
@@ -72,6 +74,7 @@ class UserLoader implements FixtureInterface
         $shop3->setPhone("0167895436");
         $shop3->setStatus("active");
         $shop3->setToken($this->generateRandomString(100));
+        $shop3->setDropshippersRef(uniqid("shop_"));
         $shop3->setUrl("http://hotdogs.com/");
         $shop3->setCreatedAt(new \DateTime());
         $shop3->setUpdatedAt(new \DateTime());

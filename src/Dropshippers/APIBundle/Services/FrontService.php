@@ -23,17 +23,6 @@ class FrontService
         $this->base_url = "http://" . $_SERVER['SERVER_NAME'] . "/v1";
     }
 
-//    public function getAllProducts()
-//    {
-//        $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
-//        $products = $productRepository->findAll();
-//        $refs = array();
-//        foreach($products as $product){
-//            $refs[] = "http://" . $_SERVER['SERVER_NAME'] . "/v1/front/common/products/" . $product->getDropshippersRef();
-//        }
-//        return $refs;
-//    }
-
     public function getAllProducts()
     {
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
@@ -49,7 +38,7 @@ class FrontService
             $item["active"] = $product->getActive();
             $item["updated_at"] = $product->getUpdatedAt();
             $item["shopName"] = $product->getShop()->getName();
-            $item["shopRef"] = $product->getShop()->getName();
+            $item["shopRef"] = $product->getShop()->getDropshippersRef();
             $item["dropshippers_ref"] = $product->getDropshippersRef();
             $results[] = $item;
         }
@@ -110,6 +99,20 @@ class FrontService
             $tab["shopHost"]["id"] = $shopHost->getId();
             $tab["product"]["productRef"] = $proposition->getProduct()->getDropshippersRef();
             $tab["product"]["name"] = $proposition->getProduct()->getName();
+            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+            $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
+            $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
+            $tab["price"] = $proposition->getPrice();
+            $tab["deliveryArea"] = $proposition->getDeliveryArea();
+            $messages = $proposition->getMessages();
+            foreach ($messages as $message){
+                $mess = array();
+                $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
+                $mess["message"] = $message->getMessage();
+                $mess["price"] = $message->getPrice();
+                $mess["status"] = $message->getStatus();
+                $tab["messages"][] = $mess;
+            }
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
                     $results["guest"][] = $tab;
@@ -135,6 +138,20 @@ class FrontService
             $tab["shopHost"]["id"] = $shopHost->getId();
             $tab["product"]["productRef"] = $proposition->getProduct()->getDropshippersRef();
             $tab["product"]["name"] = $proposition->getProduct()->getName();
+            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+            $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
+            $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
+            $tab["price"] = $proposition->getPrice();
+            $tab["deliveryArea"] = $proposition->getDeliveryArea();
+            $messages = $proposition->getMessages();
+            foreach ($messages as $message){
+                $mess = array();
+                $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
+                $mess["message"] = $message->getMessage();
+                $mess["price"] = $message->getPrice();
+                $mess["status"] = $message->getStatus();
+                $tab["messages"][] = $mess;
+            }
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
                     $results["guest"][] = $tab;
@@ -167,6 +184,7 @@ class FrontService
             $tab["dropshippersRef"] = $proposition->getDropshippersRef();
             $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
             $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
+            $tab["price"] = $proposition->getPrice();
             $tab["deliveryArea"] = $proposition->getDeliveryArea();
             $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
             $messages = $proposition->getMessages();
@@ -197,6 +215,7 @@ class FrontService
             $tab["shopHost"]["id"] = $shopHost->getId();
             $tab["dropshippersRef"] = $proposition->getDropshippersRef();
             $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
+            $tab["price"] = $proposition->getPrice();
             $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
             $tab["deliveryArea"] = $proposition->getDeliveryArea();
             $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
