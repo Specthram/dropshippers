@@ -145,6 +145,10 @@ class FrontService
             $tab["shopHost"]["name"] = $shopHost->getName();
             $tab["shopHost"]["id"] = $shopHost->getId();
             $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+            $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
+            $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
+            $tab["deliveryArea"] = $proposition->getDeliveryArea();
+            $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
             $messages = $proposition->getMessages();
             $results = array();
             foreach ($messages as $message){
@@ -172,6 +176,10 @@ class FrontService
             $tab["shopHost"]["name"] = $shopHost->getName();
             $tab["shopHost"]["id"] = $shopHost->getId();
             $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+            $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
+            $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
+            $tab["deliveryArea"] = $proposition->getDeliveryArea();
+            $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
             $messages = $proposition->getMessages();
             $results = array();
             foreach ($messages as $message){
