@@ -98,6 +98,7 @@ class FrontService
             $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
             $tab["status"] = $proposition->getStatus();
             $tab["quantity"] = $proposition->getQuantity();
+            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
             $tab["shopGuest"]["name"] = $shopGuest->getName();
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
@@ -114,6 +115,7 @@ class FrontService
             $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
             $tab["status"] = $proposition->getStatus();
             $tab["quantity"] = $proposition->getQuantity();
+            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
             $tab["shopGuest"]["name"] = $shopGuest->getName();
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
@@ -345,5 +347,25 @@ class FrontService
         } catch (RequestException $e) {
             //TODO
         }
+    }
+
+    public function getPropositionMessages($dropshippersRef)
+    {
+        $repository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+        $request = $repository->findOneBy(["dropshippersRef" => $dropshippersRef]);
+        if (!$request){
+            return -1;
+        }
+        $messages = $request->getMessages();
+        $results = array();
+        foreach ($messages as $message){
+            $tab = array();
+            $tab["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
+            $tab["message"] = $message->getMessage();
+            $tab["price"] = $message->getPrice();
+            $tab["status"] = $message->getStatus();
+            $results[] = $tab;
+        }
+        return $results;
     }
 }

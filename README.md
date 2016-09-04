@@ -303,6 +303,32 @@ example :
 }
 ```
 
+GET dropshippers.dev/v1/front/user/propositions/{dropshippersRef}/messages
+--------------------------------------------------------------------------
+Permet de récupérer les messages liés a une request product
+
+* Header : token
+* retour : code, messages
+
+example :
+```
+{
+  "code": 1,
+  "messages": [
+    {
+      "date": "2016-09-04T00:00:00+0200",
+      "message": "je suis le premier message d'\u00e9change",
+      "price": 20,
+      "status": "waiting"
+    },
+    {
+      ...
+    }
+  ]
+}
+```
+
+
 PATCH dropshippers.dev/v1/front/user/propositions/{dropshippersRef}
 -------------------------------------------------------------------
 Permet de changer l'etat d'une ressource

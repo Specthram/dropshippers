@@ -3,6 +3,8 @@
 namespace Dropshippers\APIBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Dropshippers\APIBundle\Entity\ProductRequestMessage;
 
 /**
  * ProductRequest
@@ -12,6 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ProductRequest
 {
+    public function __construct()
+    {
+        $this->message = new ArrayCollection();
+    }
+
     /**
      *
      * @ORM\Column(name="id", type="integer")
@@ -61,6 +68,11 @@ class ProductRequest
      * @ORM\ManyToOne(targetEntity="LocalPsProduct")
      */
     private $product;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ProductRequestMessage", mappedBy="productRequest")
+     */
+    private $messages;
 
     /**
     * @var int
@@ -377,5 +389,39 @@ class ProductRequest
     public function setMessage($message)
     {
         $this->message = $message;
+    }
+
+    /**
+     * Add message
+     *
+     * @param \Dropshippers\APIBundle\Entity\ProductRequestMessage $message
+     *
+     * @return ProductRequest
+     */
+    public function addMessage(\Dropshippers\APIBundle\Entity\ProductRequestMessage $message)
+    {
+        $this->messages[] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Remove message
+     *
+     * @param \Dropshippers\APIBundle\Entity\ProductRequestMessage $message
+     */
+    public function removeMessage(\Dropshippers\APIBundle\Entity\ProductRequestMessage $message)
+    {
+        $this->messages->removeElement($message);
+    }
+
+    /**
+     * Get messages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMessages()
+    {
+        return $this->messages;
     }
 }
