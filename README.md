@@ -320,6 +320,9 @@ example :
       "message": "je suis le premier message d'\u00e9change",
       "price": 20,
       "status": "waiting"
+    },
+    {
+      ...
     }
   ]
 }
