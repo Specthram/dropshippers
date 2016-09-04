@@ -314,17 +314,37 @@ example :
 ```
 {
   "code": 1,
-  "messages": [
-    {
-      "date": "2016-09-04T00:00:00+0200",
-      "message": "je suis le premier message d'\u00e9change",
-      "price": 20,
-      "status": "waiting"
-    },
-    {
-      ...
-    }
-  ]
+  "proposition": {
+    "guest": [
+      {
+        "created_at": "2016-09-04T00:00:00+0200",
+        "updated_at": "2016-09-04T00:00:00+0200",
+        "status": "waiting",
+        "quantity": 10,
+        "shopGuest": {
+          "name": "red mad coon",
+          "id": 16
+        },
+        "shopHost": {
+          "name": "pretty regrets",
+          "id": 17
+        },
+        "dropshippersRef": "defcghjlkhgfdfhj",
+        "isSendDirectly": true,
+        "isWhiteMark": false,
+        "deliveryArea": "france",
+        "productDropshippersRef": "ffffff",
+        "messages": [
+          {
+            "date": "2016-09-04T00:00:00+0200",
+            "message": "je suis le premier message d'\u00e9change",
+            "price": 20,
+            "status": "waiting"
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
