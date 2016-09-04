@@ -253,9 +253,16 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         if (!$shop){
             throw new AccessDeniedHttpException("invalid token.");
         }
+        $response = new Response();
         $frontService = $this->get("dropshippers_api.front");
         $result = $frontService->getPropositionMessages($dropshippersRef);
-        return ("ok");
-        return array("messages" => $result);
+        if ($result == -1){
+            $response->setStatusCode(422);
+            $response->setContent(json_encode(array("code" => 10007, "message" => "Aucune request trouvée")));
+        } else {
+            $response->setStatusCode(200);
+            $response->setContent(json_encode(array("code" => 1, "messages" => $result)));
+        }
+        return $response;
     }
 }

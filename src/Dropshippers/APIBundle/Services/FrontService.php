@@ -348,4 +348,24 @@ class FrontService
             //TODO
         }
     }
+
+    public function getPropositionMessages($dropshippersRef)
+    {
+        $repository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+        $request = $repository->findOneBy(["dropshippersRef" => $dropshippersRef]);
+        if (!$request){
+            return -1;
+        }
+        $messages = $request->getMessages();
+        $results = array();
+        foreach ($messages as $message){
+            $tab = array();
+            $tab["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
+            $tab["message"] = $message->getMessage();
+            $tab["price"] = $message->getPrice();
+            $tab["status"] = $message->getStatus();
+            $results[] = $tab;
+        }
+        return $results;
+    }
 }
