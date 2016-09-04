@@ -304,7 +304,7 @@ example :
 ```
 
 GET dropshippers.dev/v1/front/user/propositions/{dropshippersRef}/messages
------------------------------------------
+--------------------------------------------------------------------------
 Permet de récupérer les messages liés a une request product
 
 * Header : token
