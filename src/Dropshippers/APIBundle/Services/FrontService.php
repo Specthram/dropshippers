@@ -98,6 +98,7 @@ class FrontService
             $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
             $tab["status"] = $proposition->getStatus();
             $tab["quantity"] = $proposition->getQuantity();
+            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
             $tab["shopGuest"]["name"] = $shopGuest->getName();
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
@@ -114,6 +115,7 @@ class FrontService
             $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
             $tab["status"] = $proposition->getStatus();
             $tab["quantity"] = $proposition->getQuantity();
+            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
             $tab["shopGuest"]["name"] = $shopGuest->getName();
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
