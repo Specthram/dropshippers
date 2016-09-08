@@ -79,6 +79,8 @@ class FrontService
     {
         $results = array();
         $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+        $i = 0;
+
         if (!empty($filters)){
             if(isset($filters["productRef"])){
                 $productRef = $filters["productRef"];
@@ -116,11 +118,12 @@ class FrontService
             }
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
-                    $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
+                    $results[$i][] = $tab;
                 }
             } else {
-                $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
+                $results[$i][] = $tab;
             }
+            $i++;
         }
 
         $propositions = $requestRepository->findBy(["shopHost" => $shop]);
@@ -155,11 +158,12 @@ class FrontService
             }
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
-                    $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
+                    $results[$i][] = $tab;
                 }
             } else {
-                $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
+                $results[$i][] = $tab;
             }
+            $i++;
         }
         return $results;
     }
@@ -168,6 +172,7 @@ class FrontService
     {
         $results = array();
         $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+        $i = 0;
 
         $propositions = $requestRepository->findBy(["shopGuest" => $shop, "dropshippersRef" => $dropshippersRef]);
         foreach ($propositions as $proposition){
@@ -198,7 +203,8 @@ class FrontService
                 $mess["status"] = $message->getStatus();
                 $tab["messages"][] = $mess;
             }
-            $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
+            $results[$i][] = $tab;
+            $i++;
         }
 
         $propositions = $requestRepository->findBy(["shopHost" => $shop, "dropshippersRef" => $dropshippersRef]);
@@ -230,7 +236,8 @@ class FrontService
                 $mess["status"] = $message->getStatus();
                 $tab["messages"][] = $mess;
             }
-            $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
+            $results[$i][] = $tab;
+            $i++;
         }
 
         return $results;
