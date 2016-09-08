@@ -10,6 +10,7 @@ namespace Dropshippers\APIBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Dropshippers\APIBundle\Entity\ProductRequest;
+use Dropshippers\APIBundle\Entity\ProductRequestMessage;
 use GuzzleHttp\Exception\RequestException;
 
 class FrontService
@@ -78,6 +79,8 @@ class FrontService
     {
         $results = array();
         $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+        $i = 0;
+
         if (!empty($filters)){
             if(isset($filters["productRef"])){
                 $productRef = $filters["productRef"];
@@ -115,11 +118,12 @@ class FrontService
             }
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
-                    $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
+                    $results[$i][] = $tab;
                 }
             } else {
-                $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
+                $results[$i][] = $tab;
             }
+            $i++;
         }
 
         $propositions = $requestRepository->findBy(["shopHost" => $shop]);
@@ -154,11 +158,12 @@ class FrontService
             }
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
-                    $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
+                    $results[$i][] = $tab;
                 }
             } else {
-                $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
+                $results[$i][] = $tab;
             }
+            $i++;
         }
         return $results;
     }
@@ -167,6 +172,7 @@ class FrontService
     {
         $results = array();
         $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+        $i = 0;
 
         $propositions = $requestRepository->findBy(["shopGuest" => $shop, "dropshippersRef" => $dropshippersRef]);
         foreach ($propositions as $proposition){
@@ -197,7 +203,8 @@ class FrontService
                 $mess["status"] = $message->getStatus();
                 $tab["messages"][] = $mess;
             }
-            $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
+            $results[$i][] = $tab;
+            $i++;
         }
 
         $propositions = $requestRepository->findBy(["shopHost" => $shop, "dropshippersRef" => $dropshippersRef]);
@@ -229,7 +236,8 @@ class FrontService
                 $mess["status"] = $message->getStatus();
                 $tab["messages"][] = $mess;
             }
-            $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
+            $results[$i][] = $tab;
+            $i++;
         }
 
         return $results;
@@ -248,23 +256,18 @@ class FrontService
         }
 
         $productRequest = new ProductRequest();
+        $messageRequest = new ProductRequestMessage();
 
         if ($paramsArray["quantity"] < $product->getQuantity()) {
-
             $productRequest->setQuantity($paramsArray["quantity"]);
         }
         else
             return -2;
 
-
-
         $shopGuest = $product->getShopOrigin();
 
         $productRequest->setShopGuest($shopGuest);
         $productRequest->setShopHost($shopHost);
-
-
-
         $productRequest->setDropshippersRef($this->generateRequestRef($shopHost->getName(), $shopGuest->getName()));
         $productRequest->setCreatedAt(new \DateTime());
         $productRequest->setUpdatedAt(new \DateTime());
@@ -276,10 +279,16 @@ class FrontService
         $productRequest->setDeliveryArea($paramsArray["deliveryArea"]);
         $productRequest->setMessage($paramsArray["message"]);
 
-
-
+        $messageRequest->setCreatedAt(new \DateTime());
+        $messageRequest->setUpdatedAt(new \DateTime());
+        $messageRequest->setMessage($paramsArray["message"]);
+        $messageRequest->setPrice($paramsArray["price"]);
+        $messageRequest->setStatus("waiting");
+        $messageRequest->setProductRequest($productRequest);
 
         $entityManager->persist($productRequest);
+        $entityManager->persist($messageRequest);
+
         $entityManager->flush();
 
         return 0;
