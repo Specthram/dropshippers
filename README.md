@@ -274,26 +274,34 @@ example :
 {
   "code": 1,
   "propositions": {
-    "guest": [
+    "cccc": [
       {
-        "created_at": "2016-09-04T00:00:00+0200",
-        "updated_at": "2016-09-04T00:00:00+0200",
-        "status": "waiting",
-        "quantity": 10,
-        "RequestRef": "defcghjlkhgfdfhj",
+        "created_at": "2016-09-08T00:00:00+0200",
+        "updated_at": "2016-09-08T00:00:00+0200",
+        "status": "wainting",
+        "quantity": 2,
+        "RequestRef": "REF-HFEFHZ-456",
         "shopGuest": {
-          "name": "red mad coon",
-          "id": 16
+          "name": "HotDogs",
+          "id": 21
         },
         "shopHost": {
           "name": "pretty regrets",
-          "id": 17
+          "id": 20
         },
         "product": {
-          "productRef": "ffffff",
-          "name": "addelalalilabou"
-        }
+          "productRef": "cccc",
+          "name": "Scofieraptu"
+        },
+        "dropshippersRef": "REF-HFEFHZ-456",
+        "isSendDirectly": true,
+        "isWhiteMark": false,
+        "price": 19,
+        "deliveryArea": "france"
       }
+    ],
+    [
+        ...
     ]
   }
 }
@@ -308,25 +316,35 @@ Permet de recuperer une request
 
 ```
 {
-    "code": 1,
-    "proposition": {
-        "host": [
-            {
-                "created_at": "2016-07-30T23:47:08+0200",
-                "updated_at": "2016-07-30T23:47:08+0200",
-                "status": "new",
-                "quantity": 5,
-                "shopGuest": {
-                    "name": "red mad coon",
-                    "id": 31
-                },
-                "shopHost": {
-                    "name": "HotDogs",
-                    "id": 33
-                }
-            }
-        ]
-    }
+  "code": 1,
+  "propositions": {
+    "cccc": [
+      {
+        "created_at": "2016-09-08T00:00:00+0200",
+        "updated_at": "2016-09-08T00:00:00+0200",
+        "status": "wainting",
+        "quantity": 2,
+        "RequestRef": "REF-HFEFHZ-456",
+        "shopGuest": {
+          "name": "HotDogs",
+          "id": 21
+        },
+        "shopHost": {
+          "name": "pretty regrets",
+          "id": 20
+        },
+        "product": {
+          "productRef": "cccc",
+          "name": "Scofieraptu"
+        },
+        "dropshippersRef": "REF-HFEFHZ-456",
+        "isSendDirectly": true,
+        "isWhiteMark": false,
+        "price": 19,
+        "deliveryArea": "france"
+      }
+    ]
+  }
 }
 ```
 
@@ -503,3 +521,4 @@ Codes Erreurs
 * 30002 : format du json de la requete incorrecte
 * 30003 : Mauvaise reference
 * 30004 : Impossible de modifier une requete deja acceptée
+* 30005 : Impossible de faire une requete sur son propre produit

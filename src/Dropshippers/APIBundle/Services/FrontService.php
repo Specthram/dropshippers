@@ -237,15 +237,15 @@ class FrontService
 
     public function registerProductRequest($shopHost, $paramsArray)
     {
-
-
         $entityManager = $this->doctrine->getManager();
-
 
         $product = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(["dropshippersRef" => $paramsArray["productRequest"]]);
 
         if(!$product)
             return -1;
+        if ($product->getShop()->getId() == $shopHost->getId()){
+            return -3;
+        }
 
         $productRequest = new ProductRequest();
 
