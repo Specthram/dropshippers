@@ -521,3 +521,4 @@ Codes Erreurs
 * 30002 : format du json de la requete incorrecte
 * 30003 : Mauvaise reference
 * 30004 : Impossible de modifier une requete deja acceptée
+* 30005 : Impossible de faire une requete sur son propre produit
