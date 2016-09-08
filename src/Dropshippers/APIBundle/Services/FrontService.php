@@ -115,10 +115,10 @@ class FrontService
             }
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
-                    $results["guest"][] = $tab;
+                    $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
                 }
             } else {
-                $results["guest"][] = $tab;
+                $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
             }
         }
 
@@ -154,10 +154,10 @@ class FrontService
             }
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
-                    $results["guest"][] = $tab;
+                    $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
                 }
             } else {
-                $results["guest"][] = $tab;
+                $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
             }
         }
         return $results;
@@ -197,7 +197,7 @@ class FrontService
                 $mess["status"] = $message->getStatus();
                 $tab["messages"][] = $mess;
             }
-            $results["guest"][] = $tab;
+            $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
         }
 
         $propositions = $requestRepository->findBy(["shopHost" => $shop, "dropshippersRef" => $dropshippersRef]);
@@ -229,7 +229,7 @@ class FrontService
                 $mess["status"] = $message->getStatus();
                 $tab["messages"][] = $mess;
             }
-            $results["host"][] = $tab;
+            $results[$proposition->getProduct()->getDropshippersRef()][] = $tab;
         }
 
         return $results;
