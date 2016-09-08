@@ -10,6 +10,7 @@ namespace Dropshippers\APIBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Dropshippers\APIBundle\Entity\ProductRequest;
+use Dropshippers\APIBundle\Entity\ProductRequestMessage;
 use GuzzleHttp\Exception\RequestException;
 
 class FrontService
@@ -248,23 +249,18 @@ class FrontService
         }
 
         $productRequest = new ProductRequest();
+        $messageRequest = new ProductRequestMessage();
 
         if ($paramsArray["quantity"] < $product->getQuantity()) {
-
             $productRequest->setQuantity($paramsArray["quantity"]);
         }
         else
             return -2;
 
-
-
         $shopGuest = $product->getShopOrigin();
 
         $productRequest->setShopGuest($shopGuest);
         $productRequest->setShopHost($shopHost);
-
-
-
         $productRequest->setDropshippersRef($this->generateRequestRef($shopHost->getName(), $shopGuest->getName()));
         $productRequest->setCreatedAt(new \DateTime());
         $productRequest->setUpdatedAt(new \DateTime());
@@ -276,10 +272,16 @@ class FrontService
         $productRequest->setDeliveryArea($paramsArray["deliveryArea"]);
         $productRequest->setMessage($paramsArray["message"]);
 
-
-
+        $messageRequest->setCreatedAt(new \DateTime());
+        $messageRequest->setUpdatedAt(new \DateTime());
+        $messageRequest->setMessage($paramsArray["message"]);
+        $messageRequest->setPrice($paramsArray["price"]);
+        $messageRequest->setStatus("waiting");
+        $messageRequest->setProductRequest($productRequest);
 
         $entityManager->persist($productRequest);
+        $entityManager->persist($messageRequest);
+
         $entityManager->flush();
 
         return 0;
