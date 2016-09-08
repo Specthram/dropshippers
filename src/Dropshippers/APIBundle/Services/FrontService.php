@@ -119,11 +119,12 @@ class FrontService
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
                     $results[$i][] = $tab;
+                    $i++;
                 }
             } else {
                 $results[$i][] = $tab;
+                $i++;
             }
-            $i++;
         }
 
         $propositions = $requestRepository->findBy(["shopHost" => $shop]);
@@ -159,11 +160,12 @@ class FrontService
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
                     $results[$i][] = $tab;
+                    $i++;
                 }
             } else {
                 $results[$i][] = $tab;
+                $i++;
             }
-            $i++;
         }
         return $results;
     }
