@@ -66,7 +66,11 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
             return $response;
         }
         $frontService = $this->get("dropshippers_api.front");
-        $result = $frontService->getAllShopPropositions($shop);
+        $filters = array();
+        if ($request->get("productRef")){
+            $filters["productRef"] = $request->get("productRef");
+        }
+        $result = $frontService->getAllShopPropositions($shop, $filters);
         $response->setStatusCode(200);
         $response->setContent(json_encode(array("code" => 1, "propositions" => $result)));
         return $response;
@@ -136,6 +140,9 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         } elseif ($result == -2) {
             $response->setStatusCode(403);
             $response->setContent(json_encode(array("code" => 20002, "message" => "La quantité demandé n'est pas possible.")));
+        } elseif ($result == -3) {
+            $response->setStatusCode(403);
+            $response->setContent(json_encode(array("code" => 30005, "message" => "Impossible de faire une demande sur ses propres produits.")));
         } else {
             $response->setStatusCode(200);
             $response->setContent(json_encode(array("code" => 30001, "message" => "requête produit effectuée")));
@@ -264,6 +271,25 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
             $response->setStatusCode(200);
             $response->setContent(json_encode(array("code" => 1, "messages" => $result)));
         }
+        return $response;
+    }
+
+    /**
+     * Get Route annotation
+     * @Get("/front/user")
+     */
+    public function getUserAction(Request $request)
+    {
+        $as = $this->get("dropshippers_api.authentication");
+        $token = $request->headers->get("token");
+        $shop = $as->getShopFromToken($token);
+        if (!$shop){
+            throw new AccessDeniedHttpException("invalid token.");
+        }
+        $response = new Response();
+        $result = $as->getCurrentUser($token);
+        $response->setStatusCode(200);
+        $response->setContent(json_encode(array("code" => 1, "currentUser" => $result)));
         return $response;
     }
 }

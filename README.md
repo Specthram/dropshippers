@@ -86,6 +86,33 @@ Permet d'obtenir le token d'un utilisateur
 * Paramètres : username, password
 * Retour : 200, token
 
+GET dropshippers.dev/v1/front/user
+----------------------------------
+Permet d'obtenir les informations de l'utilisateur actuel
+
+* Header : token
+* Retour : code, currentUser
+
+```
+{
+  "code": 1,
+  "currentUser": {
+    "user": {
+      "username": "admin",
+      "email": "admin@admin.fr"
+    },
+    "shop": {
+      "name": "red mad coon",
+      "status": "active",
+      "email": "contact@efzef.fr",
+      "address": "18 avenue de la paix",
+      "zipcode": "75000",
+      "city": "paris"
+    }
+  }
+}
+```
+
 POST dropshippers.dev/v1/ps/16/products
 ---------------------------------------
 Permet de poster un array de produit
@@ -239,19 +266,44 @@ Permet d'avoir les propositions d'un shop
 
 * Header : token
 * Retour : propositions (array)
+* Paramètres : (facultatif) productRef
 
 example :
 
 ```
 {
-    "code": 1,
-    "propositions": {
-        "host": [
-            [
-                "http://dropshippers.dev/v1/user/propositions/REQ-HOT-RED-O063LPPNGLDXMO9"
-            ]
-        ]
-    }
+  "code": 1,
+  "propositions": {
+    "cccc": [
+      {
+        "created_at": "2016-09-08T00:00:00+0200",
+        "updated_at": "2016-09-08T00:00:00+0200",
+        "status": "wainting",
+        "quantity": 2,
+        "RequestRef": "REF-HFEFHZ-456",
+        "shopGuest": {
+          "name": "HotDogs",
+          "id": 21
+        },
+        "shopHost": {
+          "name": "pretty regrets",
+          "id": 20
+        },
+        "product": {
+          "productRef": "cccc",
+          "name": "Scofieraptu"
+        },
+        "dropshippersRef": "REF-HFEFHZ-456",
+        "isSendDirectly": true,
+        "isWhiteMark": false,
+        "price": 19,
+        "deliveryArea": "france"
+      }
+    ],
+    [
+        ...
+    ]
+  }
 }
 ```
 
@@ -264,25 +316,35 @@ Permet de recuperer une request
 
 ```
 {
-    "code": 1,
-    "proposition": {
-        "host": [
-            {
-                "created_at": "2016-07-30T23:47:08+0200",
-                "updated_at": "2016-07-30T23:47:08+0200",
-                "status": "new",
-                "quantity": 5,
-                "shopGuest": {
-                    "name": "red mad coon",
-                    "id": 31
-                },
-                "shopHost": {
-                    "name": "HotDogs",
-                    "id": 33
-                }
-            }
-        ]
-    }
+  "code": 1,
+  "propositions": {
+    "cccc": [
+      {
+        "created_at": "2016-09-08T00:00:00+0200",
+        "updated_at": "2016-09-08T00:00:00+0200",
+        "status": "wainting",
+        "quantity": 2,
+        "RequestRef": "REF-HFEFHZ-456",
+        "shopGuest": {
+          "name": "HotDogs",
+          "id": 21
+        },
+        "shopHost": {
+          "name": "pretty regrets",
+          "id": 20
+        },
+        "product": {
+          "productRef": "cccc",
+          "name": "Scofieraptu"
+        },
+        "dropshippersRef": "REF-HFEFHZ-456",
+        "isSendDirectly": true,
+        "isWhiteMark": false,
+        "price": 19,
+        "deliveryArea": "france"
+      }
+    ]
+  }
 }
 ```
 
@@ -459,3 +521,4 @@ Codes Erreurs
 * 30002 : format du json de la requete incorrecte
 * 30003 : Mauvaise reference
 * 30004 : Impossible de modifier une requete deja acceptée
+* 30005 : Impossible de faire une requete sur son propre produit

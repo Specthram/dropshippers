@@ -132,4 +132,27 @@ class AuthenticationService
         }
         return $randomString;
     }
+
+    public function getCurrentUser($token)
+    {
+        $userRepository = $this->doctrine->getRepository("DropshippersAPIBundle:User");
+        $result = array();
+
+        $user = $userRepository->findOneBy(["token" => $token]);
+        if (!$user){
+            return -1;
+        }
+
+        $result["user"]["username"] = $user->getUsername();
+        $result["user"]["email"] = $user->getEmail();
+
+        $result["shop"]["name"] = $user->getShop()->getName();
+        $result["shop"]["status"] = $user->getShop()->getStatus();
+        $result["shop"]["email"] = $user->getShop()->getMail();
+        $result["shop"]["address"] = $user->getShop()->getAddress();
+        $result["shop"]["zipcode"] = $user->getShop()->getAddressZipcode();
+        $result["shop"]["city"] = $user->getShop()->getCity();
+
+        return $result;
+    }
 }

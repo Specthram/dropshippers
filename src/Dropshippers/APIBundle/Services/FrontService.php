@@ -10,6 +10,7 @@ namespace Dropshippers\APIBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Dropshippers\APIBundle\Entity\ProductRequest;
+use Dropshippers\APIBundle\Entity\ProductRequestMessage;
 use GuzzleHttp\Exception\RequestException;
 
 class FrontService
@@ -22,17 +23,6 @@ class FrontService
         $this->doctrine = $doctrine;
         $this->base_url = "http://" . $_SERVER['SERVER_NAME'] . "/v1";
     }
-
-//    public function getAllProducts()
-//    {
-//        $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
-//        $products = $productRepository->findAll();
-//        $refs = array();
-//        foreach($products as $product){
-//            $refs[] = "http://" . $_SERVER['SERVER_NAME'] . "/v1/front/common/products/" . $product->getDropshippersRef();
-//        }
-//        return $refs;
-//    }
 
     public function getAllProducts($filter = array())
     {
@@ -54,7 +44,7 @@ class FrontService
             $item["active"] = $product->getActive();
             $item["updated_at"] = $product->getUpdatedAt();
             $item["shopName"] = $product->getShop()->getName();
-            $item["shopRef"] = $product->getShop()->getName();
+            $item["shopRef"] = $product->getShop()->getDropshippersRef();
             $item["dropshippers_ref"] = $product->getDropshippersRef();
             $results[] = $item;
         }
@@ -90,11 +80,17 @@ class FrontService
 //        return $results;
 //    }
 
-    public function getAllShopPropositions($shop)
+    public function getAllShopPropositions($shop, $filters)
     {
         $results = array();
         $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+        $i = 0;
 
+        if (!empty($filters)){
+            if(isset($filters["productRef"])){
+                $productRef = $filters["productRef"];
+            }
+        }
         $propositions = $requestRepository->findBy(["shopGuest" => $shop]);
         foreach ($propositions as $proposition){
             $tab = array();
@@ -104,12 +100,36 @@ class FrontService
             $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
             $tab["status"] = $proposition->getStatus();
             $tab["quantity"] = $proposition->getQuantity();
-            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+            $tab["RequestRef"] = $proposition->getDropshippersRef();
             $tab["shopGuest"]["name"] = $shopGuest->getName();
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
             $tab["shopHost"]["id"] = $shopHost->getId();
-            $results["guest"][] = $tab;
+            $tab["product"]["productRef"] = $proposition->getProduct()->getDropshippersRef();
+            $tab["product"]["name"] = $proposition->getProduct()->getName();
+            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+            $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
+            $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
+            $tab["price"] = $proposition->getPrice();
+            $tab["deliveryArea"] = $proposition->getDeliveryArea();
+            $messages = $proposition->getMessages();
+            foreach ($messages as $message){
+                $mess = array();
+                $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
+                $mess["message"] = $message->getMessage();
+                $mess["price"] = $message->getPrice();
+                $mess["status"] = $message->getStatus();
+                $tab["messages"][] = $mess;
+            }
+            if (isset($productRef)){
+                if ($tab["product"]["productRef"] == $productRef){
+                    $results[$i][] = $tab;
+                    $i++;
+                }
+            } else {
+                $results[$i][] = $tab;
+                $i++;
+            }
         }
 
         $propositions = $requestRepository->findBy(["shopHost" => $shop]);
@@ -121,14 +141,37 @@ class FrontService
             $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
             $tab["status"] = $proposition->getStatus();
             $tab["quantity"] = $proposition->getQuantity();
-            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+            $tab["requestRef"] = $proposition->getDropshippersRef();
             $tab["shopGuest"]["name"] = $shopGuest->getName();
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
             $tab["shopHost"]["id"] = $shopHost->getId();
-            $results["host"][] = $tab;
+            $tab["product"]["productRef"] = $proposition->getProduct()->getDropshippersRef();
+            $tab["product"]["name"] = $proposition->getProduct()->getName();
+            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+            $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
+            $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
+            $tab["price"] = $proposition->getPrice();
+            $tab["deliveryArea"] = $proposition->getDeliveryArea();
+            $messages = $proposition->getMessages();
+            foreach ($messages as $message){
+                $mess = array();
+                $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
+                $mess["message"] = $message->getMessage();
+                $mess["price"] = $message->getPrice();
+                $mess["status"] = $message->getStatus();
+                $tab["messages"][] = $mess;
+            }
+            if (isset($productRef)){
+                if ($tab["product"]["productRef"] == $productRef){
+                    $results[$i][] = $tab;
+                    $i++;
+                }
+            } else {
+                $results[$i][] = $tab;
+                $i++;
+            }
         }
-
         return $results;
     }
     
@@ -136,6 +179,7 @@ class FrontService
     {
         $results = array();
         $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+        $i = 0;
 
         $propositions = $requestRepository->findBy(["shopGuest" => $shop, "dropshippersRef" => $dropshippersRef]);
         foreach ($propositions as $proposition){
@@ -153,6 +197,7 @@ class FrontService
             $tab["dropshippersRef"] = $proposition->getDropshippersRef();
             $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
             $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
+            $tab["price"] = $proposition->getPrice();
             $tab["deliveryArea"] = $proposition->getDeliveryArea();
             $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
             $messages = $proposition->getMessages();
@@ -165,7 +210,8 @@ class FrontService
                 $mess["status"] = $message->getStatus();
                 $tab["messages"][] = $mess;
             }
-            $results["guest"][] = $tab;
+            $results[$i][] = $tab;
+            $i++;
         }
 
         $propositions = $requestRepository->findBy(["shopHost" => $shop, "dropshippersRef" => $dropshippersRef]);
@@ -183,6 +229,7 @@ class FrontService
             $tab["shopHost"]["id"] = $shopHost->getId();
             $tab["dropshippersRef"] = $proposition->getDropshippersRef();
             $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
+            $tab["price"] = $proposition->getPrice();
             $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
             $tab["deliveryArea"] = $proposition->getDeliveryArea();
             $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
@@ -196,7 +243,8 @@ class FrontService
                 $mess["status"] = $message->getStatus();
                 $tab["messages"][] = $mess;
             }
-            $results["host"][] = $tab;
+            $results[$i][] = $tab;
+            $i++;
         }
 
         return $results;
@@ -204,34 +252,29 @@ class FrontService
 
     public function registerProductRequest($shopHost, $paramsArray)
     {
-
-
         $entityManager = $this->doctrine->getManager();
-
 
         $product = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(["dropshippersRef" => $paramsArray["productRequest"]]);
 
         if(!$product)
             return -1;
+        if ($product->getShop()->getId() == $shopHost->getId()){
+            return -3;
+        }
 
         $productRequest = new ProductRequest();
+        $messageRequest = new ProductRequestMessage();
 
         if ($paramsArray["quantity"] < $product->getQuantity()) {
-
             $productRequest->setQuantity($paramsArray["quantity"]);
         }
         else
             return -2;
 
-
-
         $shopGuest = $product->getShopOrigin();
 
         $productRequest->setShopGuest($shopGuest);
         $productRequest->setShopHost($shopHost);
-
-
-
         $productRequest->setDropshippersRef($this->generateRequestRef($shopHost->getName(), $shopGuest->getName()));
         $productRequest->setCreatedAt(new \DateTime());
         $productRequest->setUpdatedAt(new \DateTime());
@@ -243,10 +286,16 @@ class FrontService
         $productRequest->setDeliveryArea($paramsArray["deliveryArea"]);
         $productRequest->setMessage($paramsArray["message"]);
 
-
-
+        $messageRequest->setCreatedAt(new \DateTime());
+        $messageRequest->setUpdatedAt(new \DateTime());
+        $messageRequest->setMessage($paramsArray["message"]);
+        $messageRequest->setPrice($paramsArray["price"]);
+        $messageRequest->setStatus("waiting");
+        $messageRequest->setProductRequest($productRequest);
 
         $entityManager->persist($productRequest);
+        $entityManager->persist($messageRequest);
+
         $entityManager->flush();
 
         return 0;
