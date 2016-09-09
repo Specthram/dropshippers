@@ -119,6 +119,9 @@ class FrontService
                 $mess["message"] = $message->getMessage();
                 $mess["price"] = $message->getPrice();
                 $mess["status"] = $message->getStatus();
+                $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
+                $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
+                $mess["deliveryArea"] = $proposition->getDeliveryArea();
                 $tab["messages"][] = $mess;
             }
             if (isset($productRef)){
@@ -160,6 +163,9 @@ class FrontService
                 $mess["message"] = $message->getMessage();
                 $mess["price"] = $message->getPrice();
                 $mess["status"] = $message->getStatus();
+                $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
+                $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
+                $mess["deliveryArea"] = $proposition->getDeliveryArea();
                 $tab["messages"][] = $mess;
             }
             if (isset($productRef)){
@@ -208,6 +214,9 @@ class FrontService
                 $mess["message"] = $message->getMessage();
                 $mess["price"] = $message->getPrice();
                 $mess["status"] = $message->getStatus();
+                $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
+                $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
+                $mess["deliveryArea"] = $proposition->getDeliveryArea();
                 $tab["messages"][] = $mess;
             }
             $results[$i][] = $tab;
@@ -241,6 +250,9 @@ class FrontService
                 $mess["message"] = $message->getMessage();
                 $mess["price"] = $message->getPrice();
                 $mess["status"] = $message->getStatus();
+                $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
+                $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
+                $mess["deliveryArea"] = $proposition->getDeliveryArea();
                 $tab["messages"][] = $mess;
             }
             $results[$i][] = $tab;
@@ -252,7 +264,10 @@ class FrontService
 
     public function registerProductRequest($shopHost, $paramsArray)
     {
+
+
         $entityManager = $this->doctrine->getManager();
+
 
         $product = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(["dropshippersRef" => $paramsArray["productRequest"]]);
 
@@ -266,15 +281,21 @@ class FrontService
         $messageRequest = new ProductRequestMessage();
 
         if ($paramsArray["quantity"] < $product->getQuantity()) {
+
             $productRequest->setQuantity($paramsArray["quantity"]);
         }
         else
             return -2;
 
+
+
         $shopGuest = $product->getShopOrigin();
 
         $productRequest->setShopGuest($shopGuest);
         $productRequest->setShopHost($shopHost);
+
+
+
         $productRequest->setDropshippersRef($this->generateRequestRef($shopHost->getName(), $shopGuest->getName()));
         $productRequest->setCreatedAt(new \DateTime());
         $productRequest->setUpdatedAt(new \DateTime());
@@ -452,5 +473,21 @@ class FrontService
             $results[] = $tab;
         }
         return $results;
+    }
+
+    private function generateRandomRef($shopName)
+    {
+        $dropRef = strtoupper(substr($shopName, 0, 3)) . $this->generateRandomString(5) . "-" . $this->generateRandomString(15);
+        $repository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
+        $flag = 1;
+        while ($flag){
+            $product = $repository->findOneBy(array("dropshippersRef" => $dropRef));
+            if (!$product){
+                $flag = 0;
+            } else {
+                $dropRef = strtoupper(substr($shopName, 0, 3)) . $this->generateRandomString(5) . "-" . $this->generateRandomString(15);
+            }
+        }
+        return $dropRef;
     }
 }
