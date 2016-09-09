@@ -122,6 +122,7 @@ class FrontService
                 $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
                 $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
                 $mess["deliveryArea"] = $proposition->getDeliveryArea();
+
                 $tab["messages"][] = $mess;
             }
             if (isset($productRef)){
@@ -166,6 +167,7 @@ class FrontService
                 $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
                 $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
                 $mess["deliveryArea"] = $proposition->getDeliveryArea();
+
                 $tab["messages"][] = $mess;
             }
             if (isset($productRef)){
