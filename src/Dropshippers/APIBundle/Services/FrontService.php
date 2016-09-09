@@ -266,7 +266,10 @@ class FrontService
 
     public function registerProductRequest($shopHost, $paramsArray)
     {
+
+
         $entityManager = $this->doctrine->getManager();
+
 
         $product = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(["dropshippersRef" => $paramsArray["productRequest"]]);
 
@@ -280,15 +283,21 @@ class FrontService
         $messageRequest = new ProductRequestMessage();
 
         if ($paramsArray["quantity"] < $product->getQuantity()) {
+
             $productRequest->setQuantity($paramsArray["quantity"]);
         }
         else
             return -2;
 
+
+
         $shopGuest = $product->getShopOrigin();
 
         $productRequest->setShopGuest($shopGuest);
         $productRequest->setShopHost($shopHost);
+
+
+
         $productRequest->setDropshippersRef($this->generateRequestRef($shopHost->getName(), $shopGuest->getName()));
         $productRequest->setCreatedAt(new \DateTime());
         $productRequest->setUpdatedAt(new \DateTime());
@@ -358,7 +367,7 @@ class FrontService
                             $productRequest->setStatus($instruction->value);
                             $productRequest->setUpdatedAt(new \DateTime());
                             $em->persist($productRequest);
-                            $this->notifyMerchants($productRequest);
+                            //$this->notifyMerchants($productRequest);
                         }
                     } else {
                         return -6;
