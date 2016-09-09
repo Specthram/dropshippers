@@ -143,11 +143,11 @@ class FrontService
             }
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
-                    $results[$i][] = $tab;
+                    $results[] = $tab;
                     $i++;
                 }
             } else {
-                $results[$i][] = $tab;
+                $results[] = $tab;
                 $i++;
             }
         }
@@ -191,11 +191,11 @@ class FrontService
             }
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
-                    $results[$i][] = $tab;
+                    $results[] = $tab;
                     $i++;
                 }
             } else {
-                $results[$i][] = $tab;
+                $results[] = $tab;
                 $i++;
             }
         }
@@ -249,7 +249,7 @@ class FrontService
                 $mess["deliveryArea"] = $proposition->getDeliveryArea();
                 $tab["messages"][] = $mess;
             }
-            $results[$i][] = $tab;
+            $results[] = $tab;
             $i++;
         }
 
@@ -291,7 +291,7 @@ class FrontService
                 $mess["deliveryArea"] = $proposition->getDeliveryArea();
                 $tab["messages"][] = $mess;
             }
-            $results[$i][] = $tab;
+            $results[] = $tab;
             $i++;
         }
 
@@ -300,12 +300,12 @@ class FrontService
 
     public function registerProductRequest($shopHost, $paramsArray)
     {
-
-
-        $entityManager = $this->doctrine->getManager();
+        //set variable and services
+        $entityManager      = $this->doctrine->getManager();
+        $productService     = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
 
         //get the product to check if it exist and if it's the shop product
-        $product = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(["dropshippersRef" => $paramsArray["productRequest"]]);
+        $product = $productService->findOneBy(["dropshippersRef" => $paramsArray["productRequest"]]);
 
         //checking if product exists and if it is owned by the shop
         if(!$product)
