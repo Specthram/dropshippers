@@ -24,10 +24,15 @@ class FrontService
         $this->base_url = "http://" . $_SERVER['SERVER_NAME'] . "/v1";
     }
 
-    public function getAllProducts()
+    public function getAllProducts($filter = array())
     {
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
-        $products = $productRepository->findAll();
+
+        if (!empty($filter)){
+            $products = $productRepository->findBy($filter);
+        }else{
+            $products = $productRepository->findAll();
+        }
         $results = array();
         foreach($products as $product){
             $item = array();
@@ -117,6 +122,7 @@ class FrontService
                 $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
                 $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
                 $mess["deliveryArea"] = $proposition->getDeliveryArea();
+
                 $tab["messages"][] = $mess;
             }
             if (isset($productRef)){
@@ -161,6 +167,7 @@ class FrontService
                 $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
                 $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
                 $mess["deliveryArea"] = $proposition->getDeliveryArea();
+
                 $tab["messages"][] = $mess;
             }
             if (isset($productRef)){
@@ -259,7 +266,10 @@ class FrontService
 
     public function registerProductRequest($shopHost, $paramsArray)
     {
+
+
         $entityManager = $this->doctrine->getManager();
+
 
         $product = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(["dropshippersRef" => $paramsArray["productRequest"]]);
 
@@ -273,15 +283,21 @@ class FrontService
         $messageRequest = new ProductRequestMessage();
 
         if ($paramsArray["quantity"] < $product->getQuantity()) {
+
             $productRequest->setQuantity($paramsArray["quantity"]);
         }
         else
             return -2;
 
+
+
         $shopGuest = $product->getShopOrigin();
 
         $productRequest->setShopGuest($shopGuest);
         $productRequest->setShopHost($shopHost);
+
+
+
         $productRequest->setDropshippersRef($this->generateRequestRef($shopHost->getName(), $shopGuest->getName()));
         $productRequest->setCreatedAt(new \DateTime());
         $productRequest->setUpdatedAt(new \DateTime());

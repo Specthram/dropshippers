@@ -23,12 +23,13 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
     {
         $as = $this->get("dropshippers_api.authentication");
         $token = $request->headers->get("token");
+        $filter = $request->query->all();
         $shop = $as->getShopFromToken($token);
         if (!$shop){
             throw new AccessDeniedHttpException("invalid token.");
         }
         $frontService = $this->get("dropshippers_api.front");
-        $result = $frontService->getAllProducts();
+        $result = $frontService->getAllProducts($filter);
         return array("products" => $result);
     }
 
