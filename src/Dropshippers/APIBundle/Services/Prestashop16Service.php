@@ -22,20 +22,30 @@ class Prestashop16Service
 
     public function __construct(Registry $doctrine)
     {
+        //injecting doctrine at service construction
         $this->doctrine = $doctrine;
     }
 
     public function registerLocalProduct(Request $request, Shop $shop)
     {
-        $em = $this->doctrine->getManager();
-        $json = json_decode($request->getContent());
+        //initiate variables and services
+        $em                 = $this->doctrine->getManager();
+        $json               = json_decode($request->getContent());
+        $productRepository  = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
+        $imageRepository    = $this->doctrine->getRepository("DropshippersAPIBundle:LocalProductImage");
+
+        //loop on json products
         foreach ($json as $product){
-            $entity = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(array("productId" => $product->id_product, "shop" => $shop));
-            if (!$entity)
-            {
-                $entity = new LocalPsProduct();
+            //check if product already exists
+            $entity = $productRepository->findOneBy(array("productId" => $product->id_product, "shop" => $shop));
+
+            //if no product was found, create a new product, for no duplication
+            if (!$entity) {
+                $entity     = new LocalPsProduct();
                 $entity->setCreatedAt(new \DateTime());
             }
+
+            //feed the fields
             $entity->setProductId($product->id_product);
             $entity->setName($product->name);
             $entity->setActive($product->active);
@@ -50,10 +60,12 @@ class Prestashop16Service
             $entity->setShop($shop);
             $entity->setShopOrigin($shop);
             $entity->setDropshippersRef($this->generateRandomRef($shop->getName()));
+
+            //if image link is set, create new image
             if (isset($product->image_link)){
-                $image = $this->doctrine->getRepository("DropshippersAPIBundle:LocalProductImage")->findOneBy(array('link' => $product->image_link));
+                $image = $imageRepository->findOneBy(array('link' => $product->image_link));
                 if (!$image){
-                    $image = new LocalProductImage();
+                    $image  = new LocalProductImage();
                     $image->setCreatedAt(new \DateTime());
                     $entity->addImage($image);
                     $image->setLocalProduct($entity);
@@ -62,16 +74,23 @@ class Prestashop16Service
                 $image->setUpdatedAt(new \DateTime());
                 $image->setLink($product->image_link);
             }
+
+            //persist entity
             $em->persist($entity);
             $em->flush();
         }
+
         return TRUE;
     }
 
     public function getShopLocalProducts($shop)
     {
+        //initiate variables
         $tab = array();
-        $entities = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findBy(array("shop" => $shop));
+        $productRepository  = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
+        $entities           = $productRepository->findBy(array("shop" => $shop));
+
+        //sort entities in array to separate external and internal products
         foreach($entities as $entity){
             if ($shop->getId() != $entity->getShopOrigin()->getId()){
                 $tab["external"][] = $entity;
@@ -81,10 +100,14 @@ class Prestashop16Service
         }
         return $tab;
     }
-    
+
     public function getCheckProductPresence(Shop $shop, $id)
     {
-        $entity = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(array("productId" => $id, "shop" => $shop));
+        //initiate variables
+        $productRepository  = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
+        $entity             = $productRepository->findOneBy(array("productId" => $id, "shop" => $shop));
+
+        //return true if entity exists
         if ($entity){
             return True;
         } else {
@@ -94,10 +117,17 @@ class Prestashop16Service
     
     public function getSharedProducts($shop)
     {
+        //initiate variables
         $tab = array();
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
+
+        //get products shared by the shop
         $products = $productRepository->findBy(array("shopOrigin" => $shop));
+
+        //feed array with products
         foreach ($products as $product){
+
+            //check if the shop own the product
             if (($product->getShopOrigin()->getId()) != ($product->getShop()->getId())){
                 $temp = array();
                 $temp["product"]["dropshippersRef"] = $product->getDropshippersRef();
@@ -113,6 +143,7 @@ class Prestashop16Service
         return $tab;
     }
 
+    //generate random ref
     private function generateRandomRef($shopName)
     {
         $dropRef = strtoupper(substr($shopName, 0, 3)) . $this->generateRandomString(5) . "-" . $this->generateRandomString(15);
@@ -129,6 +160,7 @@ class Prestashop16Service
         return $dropRef;
     }
 
+    //help to generate random ref
     private function generateRandomString($length = 10) {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
@@ -149,14 +181,4 @@ class Prestashop16Service
         $entityManager->persist($module);
         $entityManager->flush();
     }
-
-//    public function loadLocalProduct(Request $request)
-//    {
-//        $em = $this->doctrine->getManager();
-//        $results = $this->doctrine->getRepository("DropshippersAPIBundle:Shop")->findAll();
-//        $repository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
-//        $shop = $results[0];
-//        $products = $repository->findBy(array("shopId" => $shop->getShop()));
-//        return var_dump($products, 1);
-//    }
 }
