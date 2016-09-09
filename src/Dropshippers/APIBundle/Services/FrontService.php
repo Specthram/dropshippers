@@ -34,10 +34,15 @@ class FrontService
 //        return $refs;
 //    }
 
-    public function getAllProducts()
+    public function getAllProducts($filter = array())
     {
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
-        $products = $productRepository->findAll();
+
+        if (!empty($filter)){
+            $products = $productRepository->findBy($filter);
+        }else{
+            $products = $productRepository->findAll();
+        }
         $results = array();
         foreach($products as $product){
             $item = array();
