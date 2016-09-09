@@ -36,19 +36,26 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
      */
     public function postProductsAction(Request $request, $version)
     {
+        //set variables and services
         $as = $this->get("dropshippers_api.authentication");
         $token = $request->headers->get("token");
-        $shop = $as->getShopFromToken($token);
-        if (!$shop){
-            throw new AccessDeniedHttpException("invalid token.");
-        }
         $service = $this->get("dropshippers_api.prestashop".$version);
         $content = $request->getContent();
 
+        //find shop by token
+        $shop = $as->getShopFromToken($token);
+
+        //if no shop were found
+        if (!$shop){
+            throw new AccessDeniedHttpException("invalid token.");
+        }
+
+        //check if the content is json decodable
         if (NULL == ($json = json_decode($content))){
             return new Response("Invalid JSON", 400);
         }
 
+        //save products
         if ($service->registerLocalProduct($request, $shop) == TRUE){
             return ["message" => "produits enregistrés."];
         } else {
@@ -62,13 +69,18 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
      */
     public function getProductsAction(Request $request, $version)
     {
-        $as = $this->get("dropshippers_api.authentication");
-        $token = $request->headers->get("token");
-        $shop = $as->getShopFromToken($token);
+        //set variables and services
+        $as         = $this->get("dropshippers_api.authentication");
+        $token      = $request->headers->get("token");
+        $shop       = $as->getShopFromToken($token);
+        $service    = $this->get("dropshippers_api.prestashop" . $version);
+
+        //if shop is not found
         if (!$shop){
             throw new AccessDeniedHttpException("invalid token.");
         }
-        $service = $this->get("dropshippers_api.prestashop" . $version);
+
+        //use service to get result
         $response = $service->getShopLocalProducts($shop);
         return $response;
     }
@@ -79,18 +91,26 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
      */
     public function getProductIdAction(Request $request)
     {
-        $as = $this->get("dropshippers_api.authentication");
-        $token = $request->headers->get("token");
-        $shop = $as->getShopFromToken($token);
+        //set variables and services
+        $as         = $this->get("dropshippers_api.authentication");
+        $token      = $request->headers->get("token");
+        $shop       = $as->getShopFromToken($token);
+        $idProduct  = $request->get("id");
+        $service = $this->get("dropshippers_api.prestashop16");
+
+        //if shop is not found throw 403
         if (!$shop){
             throw new AccessDeniedHttpException("invalid token.");
         }
-        $idProduct = $request->get("id");
+
+        //id idProduct is not set throw missing parameter
         if (!$idProduct){
             return array("message" => "missing id parameter");
         }
-        $service = $this->get("dropshippers_api.prestashop16");
+
+        //get response from service
         $response = $service->getCheckProductPresence($shop, $idProduct);
+
         if ($response){
             return array("message" => "true");
         } else {
@@ -104,14 +124,20 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
      */
     public function getShopProductSharedAction(Request $request, $version)
     {
-        $as = $this->get("dropshippers_api.authentication");
-        $token = $request->headers->get("token");
-        $shop = $as->getShopFromToken($token);
+        //set variables and services
+        $as         = $this->get("dropshippers_api.authentication");
+        $token      = $request->headers->get("token");
+        $shop       = $as->getShopFromToken($token);
+        $service    = $this->get("dropshippers_api.prestashop" . $version);
+
+        //throw error if no shop found
         if (!$shop){
             throw new AccessDeniedHttpException("invalid token.");
         }
-        $service = $this->get("dropshippers_api.prestashop" . $version);
+        
+        //get result from service
         $response = $service->getSharedProducts($shop);
+
         return $response;
     }
 }

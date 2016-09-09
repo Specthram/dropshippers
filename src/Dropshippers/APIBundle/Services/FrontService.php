@@ -20,15 +20,19 @@ class FrontService
 
     public function __construct(Registry $doctrine)
     {
+        // inject doctrine at construction and build server address
         $this->doctrine = $doctrine;
         $this->base_url = "http://" . $_SERVER['SERVER_NAME'] . "/v1";
     }
 
     public function getAllProducts()
     {
+        //get all procucts in base
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
         $products = $productRepository->findAll();
         $results = array();
+
+        //feed an array of products
         foreach($products as $product){
             $item = array();
             $item["name"] = $product->getName();
@@ -43,11 +47,13 @@ class FrontService
             $item["dropshippers_ref"] = $product->getDropshippersRef();
             $results[] = $item;
         }
+
         return $results;
     }
 
     public function getProduct($reference)
     {
+        //get a single product, return empty if nothing
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
         $product = $productRepository->findOneBy(["dropshippersRef" => $reference]);
         return $product;
@@ -77,16 +83,24 @@ class FrontService
 
     public function getAllShopPropositions($shop, $filters)
     {
+        //get all shop propositions
         $results = array();
         $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+
+        //$i is for the array index
         $i = 0;
 
+        //check if there is filters
         if (!empty($filters)){
             if(isset($filters["productRef"])){
                 $productRef = $filters["productRef"];
             }
         }
+
+        //doctrine method to find all proposition where the shop us guest
         $propositions = $requestRepository->findBy(["shopGuest" => $shop]);
+
+        //feed an array with results
         foreach ($propositions as $proposition){
             $tab = array();
             $shopGuest = $proposition->getShopGuest();
@@ -108,6 +122,8 @@ class FrontService
             $tab["price"] = $proposition->getPrice();
             $tab["deliveryArea"] = $proposition->getDeliveryArea();
             $messages = $proposition->getMessages();
+
+            //get all the proposition messages
             foreach ($messages as $message){
                 $mess = array();
                 $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
@@ -130,7 +146,10 @@ class FrontService
             }
         }
 
+        //doctrine method to find all proposition where the shop as host
         $propositions = $requestRepository->findBy(["shopHost" => $shop]);
+
+        //feed array of propositions
         foreach ($propositions as $proposition){
             $tab = array();
             $shopGuest = $proposition->getShopGuest();
@@ -178,11 +197,17 @@ class FrontService
     
     public function getShopPropositions($shop, $dropshippersRef)
     {
+        //initiate variables
         $results = array();
         $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+
+        //$i is for the array index
         $i = 0;
 
+        //get all propositions in array
         $propositions = $requestRepository->findBy(["shopGuest" => $shop, "dropshippersRef" => $dropshippersRef]);
+
+        //result array construction
         foreach ($propositions as $proposition){
             $tab = array();
             $shopGuest = $proposition->getShopGuest();
@@ -201,8 +226,11 @@ class FrontService
             $tab["price"] = $proposition->getPrice();
             $tab["deliveryArea"] = $proposition->getDeliveryArea();
             $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
+
+            //get all message propositions
             $messages = $proposition->getMessages();
-            $results = array();
+
+            //construct message array
             foreach ($messages as $message){
                 $mess = array();
                 $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
@@ -218,7 +246,10 @@ class FrontService
             $i++;
         }
 
+        //get all propositions as host
         $propositions = $requestRepository->findBy(["shopHost" => $shop, "dropshippersRef" => $dropshippersRef]);
+
+        //resume construct array
         foreach ($propositions as $proposition){
             $tab = array();
             $shopGuest = $proposition->getShopGuest();
@@ -237,8 +268,11 @@ class FrontService
             $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
             $tab["deliveryArea"] = $proposition->getDeliveryArea();
             $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
+
+            //get proposition messages
             $messages = $proposition->getMessages();
-            $results = array();
+
+            //construct message array and put it in propositions
             foreach ($messages as $message){
                 $mess = array();
                 $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
@@ -261,25 +295,31 @@ class FrontService
     {
         $entityManager = $this->doctrine->getManager();
 
+        //get the product to check if it exist and if it's the shop product
         $product = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct")->findOneBy(["dropshippersRef" => $paramsArray["productRequest"]]);
 
+        //checking if product exists and if it is owned by the shop
         if(!$product)
             return -1;
         if ($product->getShop()->getId() == $shopHost->getId()){
             return -3;
         }
 
+        //initiate objects
         $productRequest = new ProductRequest();
         $messageRequest = new ProductRequestMessage();
 
+        //check if the requested quantity is great
         if ($paramsArray["quantity"] < $product->getQuantity()) {
             $productRequest->setQuantity($paramsArray["quantity"]);
-        }
-        else
+        } else {
             return -2;
+        }
 
+        //the product owner is always the guest
         $shopGuest = $product->getShopOrigin();
 
+        //feeding fields
         $productRequest->setShopGuest($shopGuest);
         $productRequest->setShopHost($shopHost);
         $productRequest->setDropshippersRef($this->generateRequestRef($shopHost->getName(), $shopGuest->getName()));
@@ -293,13 +333,18 @@ class FrontService
         $productRequest->setDeliveryArea($paramsArray["deliveryArea"]);
         $productRequest->setMessage($paramsArray["message"]);
 
+        //set message when request is created
         $messageRequest->setCreatedAt(new \DateTime());
         $messageRequest->setUpdatedAt(new \DateTime());
         $messageRequest->setMessage($paramsArray["message"]);
         $messageRequest->setPrice($paramsArray["price"]);
         $messageRequest->setStatus("waiting");
+        $messageRequest->setIsSendDirectly($paramsArray["isWhiteMark"]);
+        $messageRequest->setIsWhiteMark($paramsArray["isSendDirectly"]);
+        $messageRequest->setDeliveryArea($paramsArray["deliveryArea"]);
         $messageRequest->setProductRequest($productRequest);
 
+        //persist data
         $entityManager->persist($productRequest);
         $entityManager->persist($messageRequest);
 
@@ -310,10 +355,13 @@ class FrontService
 
     public function modifyProductRequest($shopHost, $instructions, $dropshippersRef)
     {
+        //setting variables
         $em = $this->doctrine->getManager();
         $repository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
         $allowedValues = ["new", "waiting", "refused", "accepted"];
+
+        //checking if the json is correctly constructed
         foreach($instructions as $instruction){
             if (!isset($instruction->op)){
                 return -1;
@@ -322,7 +370,9 @@ class FrontService
             } elseif (!isset($instruction->value)){
                 return -3;
             }
+            //proceed to managed operations
             if ($instruction->op == "replace"){
+                //for the moment /status is the only implemented method
                 if ($instruction->path == "/status"){
                     if (in_array($instruction->value, $allowedValues)){
                         $productRequest = $repository->findOneBy(["dropshippersRef" => $dropshippersRef]);
@@ -331,6 +381,7 @@ class FrontService
                         } elseif ($productRequest->getStatus() == "accepted") {
                             return -9;
                         } else {
+                            //only if accepted is the new state
                             if ($instruction->value == "accepted"){
                                 $product = $productRequest->getProduct();
                                 if (($product->getQuantity() - $productRequest->getQuantity()) >= 0){
@@ -344,14 +395,17 @@ class FrontService
                                     $newProduct->setDropshippersRef($this->generateRandomRef($shopHost->getName()));
                                     $em->persist($product);
                                     $em->persist($newProduct);
+
+                                    //notify merchant than the state has
+                                    //$this->notifyMerchants($productRequest);
                                 } else {
                                     return -8;
                                 }
                             }
+                            //proceed to state changing
                             $productRequest->setStatus($instruction->value);
                             $productRequest->setUpdatedAt(new \DateTime());
                             $em->persist($productRequest);
-                            //$this->notifyMerchants($productRequest);
                         }
                     } else {
                         return -6;
@@ -367,6 +421,7 @@ class FrontService
         return 0;
     }
 
+    //fonction to generate refs
     private function generateRequestRef($hostName, $guestName)
     {
         $dropRef = strtoupper("REQ-" . strtoupper(substr($hostName, 0, 3)) . "-" . strtoupper(substr($guestName, 0, 3)) . "-" . $this->generateRandomString(15));
@@ -383,6 +438,7 @@ class FrontService
         return $dropRef;
     }
 
+    //function used by ref generator
     private function generateRandomString($length = 10) {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
@@ -393,14 +449,18 @@ class FrontService
         return $randomString;
     }
 
-    public function getModulebyShop($shop){
-
+    public function getModulebyShop($shop)
+    {
+        //initiate variables
+        $result = array();
         $module = $this->doctrine->getRepository("DropshippersAPIBundle:Module")->findBy(["shop" => $shop]);
+
+        //return -1 if module is not found
         if (!$module){
             return -1;
         }
 
-        $result = array();
+        //contruct array with all shop modules
         foreach($module as $key => $mod){
             $result[$key]["name"] = $mod->getName();
             $result[$key]["type"] = $mod->getType();
@@ -424,9 +484,9 @@ class FrontService
             'action'       => 'createCustomer',
             'shop_name'    => $shopHost->getName(),
             'shop_email'   => $shopHost->getMail(),
-            'shop_url'     => $shopHost->getUrl(),
             'shop_address' => $shopHost->getAddress(),
             'shop_city'    => $shopHost->getCity(),
+            'shop_url'     => $shopHost->getUrl(),
         );
 
         // Create a new Customer on the guest store
@@ -443,13 +503,20 @@ class FrontService
 
     public function getPropositionMessages($dropshippersRef)
     {
+        //initiate variables
         $repository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
         $request = $repository->findOneBy(["dropshippersRef" => $dropshippersRef]);
+        $results = array();
+
+        //return -1 if request does not exists
         if (!$request){
             return -1;
         }
+
+        //get all the proposition messages
         $messages = $request->getMessages();
-        $results = array();
+
+        //construct message array
         foreach ($messages as $message){
             $tab = array();
             $tab["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
@@ -458,6 +525,7 @@ class FrontService
             $tab["status"] = $message->getStatus();
             $results[] = $tab;
         }
+
         return $results;
     }
 

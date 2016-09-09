@@ -35,17 +35,24 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
      */
     public function postSigninAction(Request $request)
     {
-        $response = new Response();
-        $username = $request->get('username');
-        $password = $request->get('password');
-        $as = $this->get("dropshippers_api.authentication");
+        //set variables and services
+        $response           = new Response();
+        $username           = $request->get('username');
+        $password           = $request->get('password');
+        $notificationLink   = $request->get('notificationLink');
+        $as                 = $this->get("dropshippers_api.authentication");
+
+        //get token from username and password
         $token = $as->getTokenFromUser($username, $password);
+
+        //if no token found return 403
         if ($token == NULL){
             $response->setContent(json_encode(array("code" => 10001, "message" => "invalid credentials")));
             $response->setStatusCode(403);
             return $response;
         }
-        $notificationLink = $request->get('notificationLink');
+
+        //return notification link to module if exists
         if (isset($notificationLink) && !empty($notificationLink)) {
             $shop = $as->getShopFromToken($token);
             //FIXME : how to identify which module to get?
@@ -53,37 +60,11 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
             $prestashop16Service = $this->get("dropshippers_api.prestashop16");
             $prestashop16Service->registerNotificationLink($module->getId(), $notificationLink);
         }
+
+        //return response
         $response->setStatusCode(200);
         $response->setContent(json_encode(array("code" => 1000, "token" => $token, "message" => "authentification réussie")));
         return $response;
-
-//        $repository = $this->getDoctrine()->getRepository("DropshippersAPIBundle:User");
-//        $userManager = $this->get('fos_user.user_manager');
-//
-//        //$user = $userManager->findUserByUsername($username);
-//        $user = $repository->findOneBy(array("username" => $username, "password" => $password));
-//        var_dump($user);
-//        exit();
-//        if ($user) {
-//            $clientManager = $this->container->get('fos_oauth_server.client_manager.default');
-//            $client = $clientManager->findClientBy(array("name" => "dropshippers.io"));
-//            $client_id  = $client->getPublicId();
-//            $client_secret     = $client->getSecret();
-//            $request->setMethod(Request::METHOD_GET);
-//            $token_response = $this->forward(
-//                "fos_oauth_server.controller.token:tokenAction",
-//                array(),
-//                array("client_id" => $client_id,
-//                    "client_secret" => $client_secret,
-//                    "username" => $username,
-//                    "password" => $password,
-//                    "grant_type" => "password"
-//                )
-//            );
-//            return $token_response;
-//        } else {
-//            throw new AccessDeniedHttpException("invalid credentials.");
-//        }
     }
 
     /**
@@ -92,45 +73,49 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
      */
     public function postRegisterAction(Request $request)
     {
-        $response = new Response();
-        $username = $request->get('username');
-        $email    = $request->get('email');
-        $password = $request->get('password');
-        $token    = $request->get('token');
-        $shopName = $request->get("shop_name");
+        //set variables and services
+        $response       = new Response();
+        $username       = $request->get('username');
+        $email          = $request->get('email');
+        $password       = $request->get('password');
+        $token          = $request->get('token');
+        $shopName       = $request->get("shop_name");
+        $auth_service   = $this->get("dropshippers_api.authentication");
 
-        $auth_service = $this->get("dropshippers_api.authentication");
-        $toto = $auth_service->setUser($username, $email, $password, $token, $shopName);
+        //set user with service
+        $result = $auth_service->setUser($username, $email, $password, $token, $shopName);
 
-        if ($toto == -1){
+        //error managing
+        if ($result == -1){
             $response->setStatusCode(403);
             $response->setContent(json_encode(array("code" => 10003, "message" => "Registration failed")));
             return $response;
         }
-        elseif ($toto == -2) {
+        elseif ($result == -2) {
             $response->setStatusCode(403);
             $response->setContent(json_encode(array("code" => 10002, "message" => "token invalide")));
             return $response;
         }
-        elseif ($toto == -3) {
+        elseif ($result == -3) {
             $response->setStatusCode(403);
             $response->setContent(json_encode(array("code" => 2, "message" => "paramètres manquants")));
             return $response;
         }
-        elseif ($toto == -4) {
+        elseif ($result == -4) {
             $response->setStatusCode(403);
             $response->setContent(json_encode(array("code" => 10004, "message" => "Utilisateur existant")));
             return $response;
         }
-        elseif ($toto == -5) {
+        elseif ($result == -5) {
             $response->setStatusCode(403);
             $response->setContent(json_encode(array("code" => 10003, "message" => "email deha enregistré")));
             return $response;
-        } elseif($toto == -6){
+        } elseif($result == -6){
             $response->setStatusCode(403);
             $response->setContent(json_encode(array("code" => 10005, "message" => "Boutique deja existante")));
             return $response;
         }
+
         $response->setStatusCode(200);
         $response->setContent(json_encode(array("code" => 10006, "message" => "Registration successful")));
         return $response;

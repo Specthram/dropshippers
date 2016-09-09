@@ -64,6 +64,25 @@ class ProductRequestMessage
     private $productRequest;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="product_request_isSendDirectly",type="boolean")
+     */
+    private $isSendDirectly;
+
+    /**
+     * @ORM\Column(name="product_request_isWhiteMark",type="boolean")
+     */
+    private $isWhiteMark;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="product_request_deliveryArea", type="string")
+     */
+    private $deliveryArea;
+
+    /**
      * Get id
      *
      * @return int
@@ -215,5 +234,77 @@ class ProductRequestMessage
     public function getProductRequest()
     {
         return $this->productRequest;
+    }
+
+    /**
+     * Set isSendDirectly
+     *
+     * @param boolean $isSendDirectly
+     *
+     * @return ProductRequestMessage
+     */
+    public function setIsSendDirectly($isSendDirectly)
+    {
+        $this->isSendDirectly = $isSendDirectly;
+
+        return $this;
+    }
+
+    /**
+     * Get isSendDirectly
+     *
+     * @return boolean
+     */
+    public function getIsSendDirectly()
+    {
+        return $this->isSendDirectly;
+    }
+
+    /**
+     * Set isWhiteMark
+     *
+     * @param boolean $isWhiteMark
+     *
+     * @return ProductRequestMessage
+     */
+    public function setIsWhiteMark($isWhiteMark)
+    {
+        $this->isWhiteMark = $isWhiteMark;
+
+        return $this;
+    }
+
+    /**
+     * Get isWhiteMark
+     *
+     * @return boolean
+     */
+    public function getIsWhiteMark()
+    {
+        return $this->isWhiteMark;
+    }
+
+    /**
+     * Set deliveryArea
+     *
+     * @param string $deliveryArea
+     *
+     * @return ProductRequestMessage
+     */
+    public function setDeliveryArea($deliveryArea)
+    {
+        $this->deliveryArea = $deliveryArea;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveryArea
+     *
+     * @return string
+     */
+    public function getDeliveryArea()
+    {
+        return $this->deliveryArea;
     }
 }

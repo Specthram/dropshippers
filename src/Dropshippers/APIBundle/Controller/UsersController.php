@@ -19,8 +19,14 @@ class UsersController extends FOSRestController implements ClassResourceInterfac
      */
     public function cgetAction()
     {
+        //set variables and services
         $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('DropshippersAPIBundle:User')->findAll();
+        $userRepository = $em->getRepository('DropshippersAPIBundle:User');
+
+        //find all users
+        $users = $userRepository->findAll();
+
+        //return users as array
         return array('users' => $users);
     }
 
@@ -32,6 +38,7 @@ class UsersController extends FOSRestController implements ClassResourceInterfac
      */
     public function getAction(User $user)
     {
+        //return user as array
         return array('user' => $user);
     }
 }
