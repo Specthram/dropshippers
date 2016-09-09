@@ -25,11 +25,16 @@ class FrontService
         $this->base_url = "http://" . $_SERVER['SERVER_NAME'] . "/v1";
     }
 
-    public function getAllProducts()
+    public function getAllProducts($filter = array())
     {
         //get all procucts in base
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
-        $products = $productRepository->findAll();
+
+        if (!empty($filter)){
+            $products = $productRepository->findBy($filter);
+        }else{
+            $products = $productRepository->findAll();
+        }
         $results = array();
 
         //feed an array of products
@@ -133,6 +138,7 @@ class FrontService
                 $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
                 $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
                 $mess["deliveryArea"] = $proposition->getDeliveryArea();
+
                 $tab["messages"][] = $mess;
             }
             if (isset($productRef)){
@@ -180,6 +186,7 @@ class FrontService
                 $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
                 $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
                 $mess["deliveryArea"] = $proposition->getDeliveryArea();
+
                 $tab["messages"][] = $mess;
             }
             if (isset($productRef)){
@@ -293,6 +300,8 @@ class FrontService
 
     public function registerProductRequest($shopHost, $paramsArray)
     {
+
+
         $entityManager = $this->doctrine->getManager();
 
         //get the product to check if it exist and if it's the shop product
@@ -311,6 +320,7 @@ class FrontService
 
         //check if the requested quantity is great
         if ($paramsArray["quantity"] < $product->getQuantity()) {
+
             $productRequest->setQuantity($paramsArray["quantity"]);
         } else {
             return -2;
@@ -322,6 +332,9 @@ class FrontService
         //feeding fields
         $productRequest->setShopGuest($shopGuest);
         $productRequest->setShopHost($shopHost);
+
+
+
         $productRequest->setDropshippersRef($this->generateRequestRef($shopHost->getName(), $shopGuest->getName()));
         $productRequest->setCreatedAt(new \DateTime());
         $productRequest->setUpdatedAt(new \DateTime());

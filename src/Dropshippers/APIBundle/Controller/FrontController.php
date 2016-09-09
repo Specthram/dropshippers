@@ -22,11 +22,12 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
     public function getCommonProductsAction(Request $request)
     {
         //initiate variables
-        $as = $this->get("dropshippers_api.authentication");
-        $frontService = $this->get("dropshippers_api.front");
-
-        //get token and retrieve shop
+        $as             = $this->get("dropshippers_api.authentication");
+        $frontService   = $this->get("dropshippers_api.front");
         $token = $request->headers->get("token");
+        $filter = $request->query->all();
+
+        //retrieve shop
         $shop = $as->getShopFromToken($token);
 
         //throw exception if no shop was athenticated
@@ -36,6 +37,11 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
 
         //return results array
         $result = $frontService->getAllProducts();
+
+        //
+        $frontService = $this->get("dropshippers_api.front");
+
+        $result = $frontService->getAllProducts($filter);
         return array("products" => $result);
     }
 
