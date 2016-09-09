@@ -386,7 +386,7 @@ class FrontService
                             return -9;
                         } else {
                             //only if accepted is the new state
-                            if ($instruction->value == "accepted"){
+                            if ($instruction->value == "accepted" && $productRequest->getStatus() != "accepted"){
                                 $product = $productRequest->getProduct();
                                 if (($product->getQuantity() - $productRequest->getQuantity()) >= 0){
                                     $newProduct = clone $product;
