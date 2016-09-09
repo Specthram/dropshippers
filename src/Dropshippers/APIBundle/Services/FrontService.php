@@ -92,9 +92,6 @@ class FrontService
         $results = array();
         $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
 
-        //$i is for the array index
-        $i = 0;
-
         //check if there is filters
         if (!empty($filters)){
             if(isset($filters["productRef"])){
@@ -144,11 +141,9 @@ class FrontService
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
                     $results[] = $tab;
-                    $i++;
                 }
             } else {
                 $results[] = $tab;
-                $i++;
             }
         }
 
@@ -208,9 +203,6 @@ class FrontService
         $results = array();
         $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
 
-        //$i is for the array index
-        $i = 0;
-
         //get all propositions in array
         $propositions = $requestRepository->findBy(["shopGuest" => $shop, "dropshippersRef" => $dropshippersRef]);
 
@@ -250,7 +242,6 @@ class FrontService
                 $tab["messages"][] = $mess;
             }
             $results[] = $tab;
-            $i++;
         }
 
         //get all propositions as host
@@ -292,7 +283,6 @@ class FrontService
                 $tab["messages"][] = $mess;
             }
             $results[] = $tab;
-            $i++;
         }
 
         return $results;
@@ -383,6 +373,7 @@ class FrontService
             } elseif (!isset($instruction->value)){
                 return -3;
             }
+
             //proceed to managed operations
             if ($instruction->op == "replace"){
                 //for the moment /status is the only implemented method
