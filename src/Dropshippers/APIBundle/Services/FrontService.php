@@ -351,7 +351,7 @@ class FrontService
                             $productRequest->setStatus($instruction->value);
                             $productRequest->setUpdatedAt(new \DateTime());
                             $em->persist($productRequest);
-                            $this->notifyMerchants($productRequest);
+                            //$this->notifyMerchants($productRequest);
                         }
                     } else {
                         return -6;
