@@ -183,15 +183,20 @@ class AuthenticationService
             return -1;
         }
 
-        //feed fields
+        //user
         $result["user"]["username"] = $user->getUsername();
         $result["user"]["email"] = $user->getEmail();
+        $result["user"]["last_login"] = $user->getLastLogin();
+
+        //shop
+        $result["shop"]["id"] = $user->getShop()->getId();
         $result["shop"]["name"] = $user->getShop()->getName();
         $result["shop"]["status"] = $user->getShop()->getStatus();
         $result["shop"]["email"] = $user->getShop()->getMail();
         $result["shop"]["address"] = $user->getShop()->getAddress();
         $result["shop"]["zipcode"] = $user->getShop()->getAddressZipcode();
         $result["shop"]["city"] = $user->getShop()->getCity();
+        $result["shop"]["url"] = $user->getShop()->getUrl();
 
         return $result;
     }
