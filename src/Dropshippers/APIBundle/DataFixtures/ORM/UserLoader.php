@@ -118,6 +118,46 @@ class UserLoader implements FixtureInterface
         $manager->persist($module2);
         $manager->persist($module3);
 
+        // test many to many
+        $hulk = new User();
+        $hulk->setUsername("hulk");
+        $hulk->setEmail("hulk@mail.fr");
+        $hulk->setPassword("zzzzzzzzzzzzzzz");
+        $hulk->setToken($this->generateRandomString(100));
+
+        $weedShop = new Shop();
+        $weedShop->setAddress("18 avenue de la guerre");
+        $weedShop->setAddressZipcode("75000");
+        $weedShop->setCity("paris");
+        $weedShop->setMail("sdfsdf@efzef.fr");
+        $weedShop->setName("La bédave");
+        $weedShop->setPhone("0");
+        $weedShop->setStatus("active");
+        $weedShop->setDropshippersRef(uniqid("shop_"));
+        $weedShop->setToken($this->generateRandomString(100));
+        $weedShop->setUrl("http://weedpower.com/");
+        $weedShop->setCreatedAt(new \DateTime());
+        $weedShop->setUpdatedAt(new \DateTime());
+
+        $cokeShop = new Shop();
+        $cokeShop->setAddress("19 avenue de la guerre");
+        $cokeShop->setAddressZipcode("75000");
+        $cokeShop->setCity("paris");
+        $cokeShop->setMail("aaaa@efzef.fr");
+        $cokeShop->setName("Un trait danger, deux trait sécurité");
+        $cokeShop->setPhone("");
+        $cokeShop->setStatus("active");
+        $cokeShop->setDropshippersRef(uniqid("shop_"));
+        $cokeShop->setToken($this->generateRandomString(100));
+        $cokeShop->setUrl("http://cokepower.com/");
+        $cokeShop->setCreatedAt(new \DateTime());
+        $cokeShop->setUpdatedAt(new \DateTime());
+
+        $hulk->setShop(array($weedShop, $cokeShop));
+        $manager->persist($hulk);
+
+
+
         $manager->flush();
 
     }

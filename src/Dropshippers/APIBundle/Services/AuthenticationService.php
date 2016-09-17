@@ -189,14 +189,16 @@ class AuthenticationService
         $result["user"]["last_login"] = $user->getLastLogin();
 
         //shop
-        $result["shop"]["id"] = $user->getShop()->getId();
-        $result["shop"]["name"] = $user->getShop()->getName();
-        $result["shop"]["status"] = $user->getShop()->getStatus();
-        $result["shop"]["email"] = $user->getShop()->getMail();
-        $result["shop"]["address"] = $user->getShop()->getAddress();
-        $result["shop"]["zipcode"] = $user->getShop()->getAddressZipcode();
-        $result["shop"]["city"] = $user->getShop()->getCity();
-        $result["shop"]["url"] = $user->getShop()->getUrl();
+        foreach ($user->getShop() as $key => $value){
+            $result["shop"][$key]["id"] = $value->getId();
+            $result["shop"][$key]["name"] = $value->getName();
+            $result["shop"][$key]["status"] = $value->getStatus();
+            $result["shop"][$key]["email"] = $value->getMail();
+            $result["shop"][$key]["address"] = $value->getAddress();
+            $result["shop"][$key]["zipcode"] = $value->getAddressZipcode();
+            $result["shop"][$key]["city"] = $value->getCity();
+            $result["shop"][$key]["url"] = $value->getUrl();
+        }
 
         return $result;
     }
