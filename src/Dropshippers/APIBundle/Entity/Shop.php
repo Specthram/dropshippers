@@ -43,10 +43,7 @@ class Shop
      */
     private $request_guest;
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="User", mappedBy="shop")
-     */
+
     private $users;
 
     /**
