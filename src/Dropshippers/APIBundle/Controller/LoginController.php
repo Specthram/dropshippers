@@ -63,7 +63,7 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
 
         //return response
         $response->setStatusCode(200);
-        $response->setContent(json_encode(array("code" => 1000, "token" => $token, "message" => "authentification réussie")));
+        $response->setContent(json_encode(array("code" => 10008, "token" => $token, "message" => "authentification réussie")));
         return $response;
     }
 
@@ -80,6 +80,8 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
         $password       = $request->get('password');
         $token          = $request->get('token');
         $shopName       = $request->get("shop_name");
+        //$body = $request->getContent();
+        //TODO prendre les infos du body et non des parametres (voir ci dessus le debut
         $auth_service   = $this->get("dropshippers_api.authentication");
 
         //set user with service
@@ -108,7 +110,7 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
         }
         elseif ($result == -5) {
             $response->setStatusCode(403);
-            $response->setContent(json_encode(array("code" => 10003, "message" => "email deha enregistré")));
+            $response->setContent(json_encode(array("code" => 10007, "message" => "email deja enregistré")));
             return $response;
         } elseif($result == -6){
             $response->setStatusCode(403);

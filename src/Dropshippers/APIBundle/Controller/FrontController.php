@@ -36,7 +36,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         }
 
         //return results array
-        $result = $frontService->getAllProducts();
+        //$result = $frontService->getAllProducts();
 
         //
         $frontService = $this->get("dropshippers_api.front");
@@ -145,6 +145,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         $token = $request->headers->get("token");
         $frontService = $this->get("dropshippers_api.front");
 
+        //TODO prendre les parametres du body
         //initiate array with parameters
         $paramsArray = array(
             "productRequest" => $request->get("product_reference"),

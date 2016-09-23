@@ -124,6 +124,7 @@ class AuthenticationService
             }
 
             //feed the fields
+            $shop = new Shop();
             $shop->setName($shopName);
             $entity->setShop($shop);
             $shop->setToken($this->generateRandomString(100));
