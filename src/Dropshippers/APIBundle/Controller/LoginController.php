@@ -92,27 +92,27 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
             return $response;
         }
         elseif ($result == -2) {
-            $response->setStatusCode(403);
-            $response->setContent(json_encode(array("code" => 10002, "message" => "token invalide")));
+            $response->setStatusCode(401);
+            $response->setContent(json_encode(array("code" => 10002, "message" => "Token invalide")));
             return $response;
         }
         elseif ($result == -3) {
-            $response->setStatusCode(403);
-            $response->setContent(json_encode(array("code" => 2, "message" => "paramètres manquants")));
+            $response->setStatusCode(400);
+            $response->setContent(json_encode(array("code" => 2, "message" => "Paramètres manquants")));
             return $response;
         }
         elseif ($result == -4) {
-            $response->setStatusCode(403);
+            $response->setStatusCode(409);
             $response->setContent(json_encode(array("code" => 10004, "message" => "Utilisateur existant")));
             return $response;
         }
         elseif ($result == -5) {
-            $response->setStatusCode(403);
-            $response->setContent(json_encode(array("code" => 10003, "message" => "email deha enregistré")));
+            $response->setStatusCode(409);
+            $response->setContent(json_encode(array("code" => 10003, "message" => "Email déja enregistré")));
             return $response;
         } elseif($result == -6){
-            $response->setStatusCode(403);
-            $response->setContent(json_encode(array("code" => 10005, "message" => "Boutique deja existante")));
+            $response->setStatusCode(409);
+            $response->setContent(json_encode(array("code" => 10005, "message" => "Boutique déjà existante")));
             return $response;
         }
 
