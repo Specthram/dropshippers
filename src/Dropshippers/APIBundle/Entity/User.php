@@ -2,7 +2,6 @@
 
 namespace Dropshippers\APIBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
@@ -34,9 +33,7 @@ class User extends BaseUser
 //    private $manage;
 
     /**
-     * @var ArrayCollection User $user
-     *
-     * @ORM\ManyToMany(targetEntity="Shop", inversedBy="users", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Shop")
      */
     private $shop;
 
@@ -46,42 +43,31 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-//        $this->manage = new ArrayCollection();
-        $this->shop = new ArrayCollection();
     }
 
     /**
-     * @return ArrayCollection
-     */
-    public function getShop()
-    {
-        return $this->shop;
-    }
-
-    public function setShop($items)
-    {
-        if ($items instanceof ArrayCollection || is_array($items)) {
-            foreach ($items as $item) {
-                $this->addShop($item);
-            }
-        } elseif ($items instanceof Shop) {
-            $this->addShop($items);
-        } else {
-            throw new Exception("$items doit etre une fucking instance de Shop ou un array de Shop");
-        }
-    }
-
-    /**
-     * Add Shop
+     * Set shop
      *
-     * @param Shop $shop
+     * @param \Dropshippers\APIBundle\Entity\Shop $shop
+     *
+     * @return User
      */
-    public function addShop(Shop $shop)
-    {
-        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
-        if (!$this->shop->contains($shop)) {
-            $this->shop->add($shop);
-        }
+    public function setShop(Shop $shop = null){
+
+        $this->shop = $shop;
+
+        return $this;
+    }
+
+    /**
+     * Get shop
+     *
+     * @return \Dropshippers\APIBundle\Entity\Shop
+     *
+     */
+    public function getShop(){
+
+        return $this->shop;
     }
 
     /**
