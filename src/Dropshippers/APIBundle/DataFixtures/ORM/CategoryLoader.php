@@ -11,7 +11,15 @@ use Doctrine\Common\Persistence\ObjectManager;
 class CategoryLoader implements FixtureInterface
 {
 
-    public function load(ObjectManager $manager){
+    public function load(ObjectManager $manager)
+    {
+        //prepare db
+
+        $connection = $manager->getConnection();
+        $connection->exec("DELETE FROM `ds_category_locale`WHERE id > 0;");
+        $connection->exec("DELETE FROM `ds_category` WHERE id > 0;");
+        $connection->exec("ALTER TABLE `ds_category` AUTO_INCREMENT = 1;");
+        $connection->exec("ALTER TABLE `ds_category_locale` AUTO_INCREMENT = 1;");
 
         //categories niveau adulte
 

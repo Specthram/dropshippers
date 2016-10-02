@@ -23,7 +23,7 @@ class Category
 
     /**
      * @var string
-     * @ORM\JoinColumn(nullable=true, name="parent_id")
+     * @ORM\JoinColumn(nullable=true, name="parent_id", onDelete="SET NULL")
      * @ORM\ManyToOne(targetEntity="Category")
      */
     private $parent;
@@ -55,7 +55,6 @@ class Category
      * @ORM\Column(name="updatedAt", type="datetimetz")
      */
     private $updatedAt;
-
 
     /**
      * Get id

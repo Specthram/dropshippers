@@ -20,7 +20,11 @@ class LocalPsProduct
     private $tags;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Category")
+     * @ORM\ManyToMany(targetEntity="Category", cascade={"remove", "persist"})
+     * @ORM\JoinTable(name="local_ps_product_category",
+     *     joinColumns={@ORM\JoinColumn(name="local_ps_product_id", referencedColumnName="id", onDelete="cascade")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="cascade")}
+     *     )
      */
     private $categories;
 
