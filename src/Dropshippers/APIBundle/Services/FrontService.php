@@ -64,28 +64,6 @@ class FrontService
         return $product;
     }
 
-//    public function getAllShopPropositions($shop)
-//    {
-//        $results = array();
-//        $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
-//
-//        $propositions = $requestRepository->findBy(["shopGuest" => $shop]);
-//        foreach ($propositions as $proposition){
-//            $tab = array();
-//            $tab[] = $this->base_url . "/front/user/propositions/" . $proposition->getDropshippersRef();
-//            $results["guest"][] = $tab;
-//        }
-//
-//        $propositions = $requestRepository->findBy(["shopHost" => $shop]);
-//        foreach ($propositions as $proposition){
-//            $tab = array();
-//            $tab[] = $this->base_url . "/front/user/propositions/" . $proposition->getDropshippersRef();
-//            $results["host"][] = $tab;
-//        }
-//
-//        return $results;
-//    }
-
     public function getAllShopPropositions($shop, $filters)
     {
         //get all shop propositions
@@ -187,11 +165,9 @@ class FrontService
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
                     $results[] = $tab;
-                    $i++;
                 }
             } else {
                 $results[] = $tab;
-                $i++;
             }
         }
         return $results;

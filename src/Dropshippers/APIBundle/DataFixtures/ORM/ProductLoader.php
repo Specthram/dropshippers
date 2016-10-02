@@ -10,7 +10,6 @@ namespace Dropshippers\APIBundle\DataFixture\ORM;
 
 
 use Dropshippers\APIBundle\Entity\LocalPsProduct;
-use Dropshippers\APIBundle\Entity\Product;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 

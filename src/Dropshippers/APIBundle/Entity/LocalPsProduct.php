@@ -20,7 +20,11 @@ class LocalPsProduct
     private $tags;
 
     /**
-     * @ORM\ManyToMany(targetEntity="LocalProductCategory")
+     * @ORM\ManyToMany(targetEntity="Category", cascade={"remove", "persist"})
+     * @ORM\JoinTable(name="local_ps_product_category",
+     *     joinColumns={@ORM\JoinColumn(name="local_ps_product_id", referencedColumnName="id", onDelete="cascade")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="cascade")}
+     *     )
      */
     private $categories;
 
@@ -576,11 +580,11 @@ class LocalPsProduct
     /**
      * Add category
      *
-     * @param \Dropshippers\APIBundle\Entity\LocalProductCategory $category
+     * @param \Dropshippers\APIBundle\Entity\Category $category
      *
      * @return LocalPsProduct
      */
-    public function addCategory(LocalProductCategory $category)
+    public function addCategory(Category $category)
     {
         $this->categories[] = $category;
 
@@ -590,9 +594,9 @@ class LocalPsProduct
     /**
      * Remove category
      *
-     * @param \Dropshippers\APIBundle\Entity\LocalProductCategory $category
+     * @param \Dropshippers\APIBundle\Entity\Category $category
      */
-    public function removeCategory(LocalProductCategory $category)
+    public function removeCategory(Category $category)
     {
         $this->categories->removeElement($category);
     }
