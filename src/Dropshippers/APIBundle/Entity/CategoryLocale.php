@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CategoryLocale
  *
- * @ORM\Table(name="category_locale")
+ * @ORM\Table(name="ds_category_locale")
  * @ORM\Entity(repositoryClass="Dropshippers\APIBundle\Repository\CategoryLocaleRepository")
  */
 class CategoryLocale

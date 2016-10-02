@@ -29,9 +29,9 @@ class Category
     private $parent;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="levelDepth", type="string", length=255)
+     * @ORM\Column(name="levelDepth", type="integer")
      */
     private $levelDepth;
 
