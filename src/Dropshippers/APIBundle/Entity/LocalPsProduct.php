@@ -20,7 +20,7 @@ class LocalPsProduct
     private $tags;
 
     /**
-     * @ORM\ManyToMany(targetEntity="LocalProductCategory")
+     * @ORM\ManyToMany(targetEntity="Category")
      */
     private $categories;
 
@@ -576,11 +576,11 @@ class LocalPsProduct
     /**
      * Add category
      *
-     * @param \Dropshippers\APIBundle\Entity\LocalProductCategory $category
+     * @param \Dropshippers\APIBundle\Entity\Category $category
      *
      * @return LocalPsProduct
      */
-    public function addCategory(LocalProductCategory $category)
+    public function addCategory(Category $category)
     {
         $this->categories[] = $category;
 
@@ -590,9 +590,9 @@ class LocalPsProduct
     /**
      * Remove category
      *
-     * @param \Dropshippers\APIBundle\Entity\LocalProductCategory $category
+     * @param \Dropshippers\APIBundle\Entity\Category $category
      */
-    public function removeCategory(LocalProductCategory $category)
+    public function removeCategory(Category $category)
     {
         $this->categories->removeElement($category);
     }
