@@ -131,6 +131,7 @@ class AuthenticationService
             $shop->setCreatedAt(new \DateTime());
             $shop->setUpdatedAt(new \DateTime());
             $shop->setStatus("active");
+            $shop->setDropshippersRef(uniqid("shop_"));
             $em->persist($shop);
             $module = new Module();
             $module->setName("default");
