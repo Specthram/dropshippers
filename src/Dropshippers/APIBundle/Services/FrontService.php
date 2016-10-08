@@ -35,13 +35,12 @@ class FrontService
         }else{
             $products = $productRepository->findAll();
         }
-        $results = array();
+        $results = [];
 
         //feed an array of products
         foreach($products as $product){
-            $item = array();
+            $item = [];
             $item["name"] = $product->getName();
-            $item["type"] = $product->getCategories();
             $item["price"] = $product->getPrice();
             $item["images"] = $product->getImages();
             $item["description"] = $product->getDescription();
@@ -50,6 +49,11 @@ class FrontService
             $item["shopName"] = $product->getShop()->getName();
             $item["shopRef"] = $product->getShop()->getDropshippersRef();
             $item["dropshippers_ref"] = $product->getDropshippersRef();
+            $item['categories'] = [];
+            $categories = $product->getCategories();
+            foreach ($categories as $category){
+                $item['categories'][] = $category->getId();
+            }
             $results[] = $item;
         }
 

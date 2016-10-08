@@ -35,3 +35,5 @@ Dropshippers\APIBundle\Entity\LocalPsProduct:
             expose: true
         shop:
             expose: true
+        categories:
+            expose: true
