@@ -13,7 +13,7 @@ use Dropshippers\APIBundle\Entity\LocalPsProduct;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class ProductLoader implements FixtureInterface
+class ZProductLoader implements FixtureInterface
 {
 
     public function load(ObjectManager $manager){
