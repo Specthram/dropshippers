@@ -522,3 +522,8 @@ Codes Erreurs
 * 30003 : Mauvaise reference
 * 30004 : Impossible de modifier une requete deja acceptée
 * 30005 : Impossible de faire une requete sur son propre produit
+
+40000 - requetes categories
+---------------------------
+
+* 40001 : locale non supportée

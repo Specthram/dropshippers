@@ -378,7 +378,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         if (!$categoryService->checkLocaleExists($locale)){
             $response   = new Response();
             $response->setStatusCode(404);
-            $response->setContent(json_encode(['code' => 2, 'message' => 'locale non existante']));
+            $response->setContent(json_encode(['code' => 40001, 'message' => 'locale non supportée']));
             return $response;
         }
 
