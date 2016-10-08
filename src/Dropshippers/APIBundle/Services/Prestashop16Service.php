@@ -33,6 +33,7 @@ class Prestashop16Service
         $json               = json_decode($request->getContent());
         $productRepository  = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
         $imageRepository    = $this->doctrine->getRepository("DropshippersAPIBundle:LocalProductImage");
+        $categoryRepository = $this->doctrine->getRepository('DropshippersAPIBundle:Category');
 
         //loop on json products
         foreach ($json as $product){
@@ -73,6 +74,16 @@ class Prestashop16Service
                 }
                 $image->setUpdatedAt(new \DateTime());
                 $image->setLink($product->image_link);
+            }
+
+            //set categories
+            if (isset($product->categories)){
+                foreach($product->categories as $category){
+                    $categoryObj = $categoryRepository->find($category);
+                    if ($categoryObj){
+                        $entity->addCategory($categoryObj);
+                    }
+                }
             }
 
             //persist entity

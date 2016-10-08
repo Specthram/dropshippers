@@ -32,7 +32,7 @@ class CategoryService
         $tab ['locale'] = $locale;
 
         foreach ($results as $result){
-            list( , , $categoryTab) = $this->normalizeCategory($result, $locale);
+            $categoryTab = $this->normalizeCategory($result, $locale);
             $tab['categories'][] = $categoryTab;
         }
 
@@ -57,12 +57,12 @@ class CategoryService
 
         if ($children){
             foreach ($children as $child){
-                list( , , $categoryTabb) = $this->normalizeCategory($child, $locale);
+                $categoryTabb = $this->normalizeCategory($child, $locale);
                 $categoryTab['children'][]    = $categoryTabb;
             }
         }
 
-        return [$category, $locale, $categoryTab];
+        return $categoryTab;
     }
 
 }

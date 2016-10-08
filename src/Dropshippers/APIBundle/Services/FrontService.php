@@ -39,7 +39,7 @@ class FrontService
 
         //feed an array of products
         foreach($products as $product){
-            $item = array();
+            $item = [];
             $item["name"] = $product->getName();
             $item["type"] = $product->getCategories();
             $item["price"] = $product->getPrice();
@@ -50,6 +50,11 @@ class FrontService
             $item["shopName"] = $product->getShop()->getName();
             $item["shopRef"] = $product->getShop()->getDropshippersRef();
             $item["dropshippers_ref"] = $product->getDropshippersRef();
+            $item['categories'] = [];
+            $categories = $product->getCategories();
+            foreach ($categories as $category){
+                $item['categories'][] = $category->getId();
+            }
             $results[] = $item;
         }
 
