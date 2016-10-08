@@ -7,8 +7,11 @@ services:
         class: Dropshippers\APIBundle\Services\Prestashop16Service
         arguments: [ '@doctrine' ]
     dropshippers_api.authentication:
-            class: Dropshippers\APIBundle\Services\AuthenticationService
-            arguments: [ '@doctrine' ]
+        class: Dropshippers\APIBundle\Services\AuthenticationService
+        arguments: [ '@doctrine' ]
     dropshippers_api.front:
-            class: Dropshippers\APIBundle\Services\FrontService
-            arguments: [ '@doctrine' ]
+        class: Dropshippers\APIBundle\Services\FrontService
+        arguments: [ '@doctrine' ]
+    dropshippers_api.category:
+        class: Dropshippers\APIBundle\Services\CategoryService
+        arguments: [ '@doctrine' ]

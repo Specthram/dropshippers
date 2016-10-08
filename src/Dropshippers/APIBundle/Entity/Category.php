@@ -2,6 +2,7 @@
 
 namespace Dropshippers\APIBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,6 +28,11 @@ class Category
      * @ORM\ManyToOne(targetEntity="Category")
      */
     private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="parent")
+     */
+    protected $children;
 
     /**
      * @var int
@@ -55,6 +61,16 @@ class Category
      * @ORM\Column(name="updatedAt", type="datetimetz")
      */
     private $updatedAt;
+
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
+
+    public function getChildren()
+    {
+        return $this->children;
+    }
 
     /**
      * Get id

@@ -225,6 +225,40 @@ example
 }
 ```
 
+POST dropshippers.dev/v1/login/register
+---------------------------------------
+Permet d'enregistrer un nouvel utilisateur
+
+* Paramètres : username, email, password, token shop (facultatif), shop_name (facultatif)
+* Retour : message ou 403
+
+GET dropshippers.dev/v1/front/common/categories/{locale}
+---------------------------------------------
+* Header : token
+* argument : locale (fr-FR)
+* Retour : categories : array de ressources
+
+example
+```
+{
+  "locale": "fr-FR",
+  "categories": [
+    {
+      "categoryRef": 1,
+      "name": "Adulte",
+      "children": [
+        {
+          "categoryRef": 2,
+          "name": "Armes"
+        },
+        {
+          "categoryRef": 3,
+          "name": "Erotisme"
+        }
+      ]
+    },...
+```
+
 GET dropshippers.dev/v1/ps/16/products/id
 -----------------------------------------
 Permet de savoir si un objet est deja en base
@@ -522,3 +556,8 @@ Codes Erreurs
 * 30003 : Mauvaise reference
 * 30004 : Impossible de modifier une requete deja acceptée
 * 30005 : Impossible de faire une requete sur son propre produit
+
+40000 - requetes categories
+---------------------------
+
+* 40001 : locale non supportée
