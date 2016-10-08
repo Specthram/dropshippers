@@ -65,7 +65,22 @@ class FrontService
         //get a single product, return empty if nothing
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
         $product = $productRepository->findOneBy(["dropshippersRef" => $reference]);
-        return $product;
+        $item = [];
+        $item["name"] = $product->getName();
+        $item["price"] = $product->getPrice();
+        $item["images"] = $product->getImages();
+        $item["description"] = $product->getDescription();
+        $item["active"] = $product->getActive();
+        $item["updated_at"] = $product->getUpdatedAt();
+        $item["shopName"] = $product->getShop()->getName();
+        $item["shopRef"] = $product->getShop()->getDropshippersRef();
+        $item["dropshippers_ref"] = $product->getDropshippersRef();
+        $item['categories'] = [];
+        $categories = $product->getCategories();
+        foreach ($categories as $category){
+            $item['categories'][] = $category->getId();
+        }
+        return $item;
     }
 
     public function getAllShopPropositions($shop, $filters)
