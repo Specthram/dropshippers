@@ -35,13 +35,12 @@ class FrontService
         }else{
             $products = $productRepository->findAll();
         }
-        $results = array();
+        $results = [];
 
         //feed an array of products
         foreach($products as $product){
             $item = [];
             $item["name"] = $product->getName();
-            $item["type"] = $product->getCategories();
             $item["price"] = $product->getPrice();
             $item["images"] = $product->getImages();
             $item["description"] = $product->getDescription();
