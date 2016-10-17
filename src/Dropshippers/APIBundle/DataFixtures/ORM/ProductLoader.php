@@ -9,11 +9,12 @@
 namespace Dropshippers\APIBundle\DataFixture\ORM;
 
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Dropshippers\APIBundle\Entity\LocalPsProduct;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class ZProductLoader implements FixtureInterface
+class ProductLoader extends AbstractFixture implements OrderedFixtureInterface
 {
 
     public function load(ObjectManager $manager){
@@ -131,6 +132,6 @@ class ZProductLoader implements FixtureInterface
 
     public function getOrder()
     {
-        return 2;
+        return 4;
     }
 }

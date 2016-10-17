@@ -29,10 +29,16 @@ class CategoryLocale
      */
     private $category;
 
+//    /**
+//     * @var string
+//     *
+//     * @ORM\Column(name="language", type="string", length=255)
+//     */
+//    private $language;
+
     /**
-     * @var string
-     *
-     * @ORM\Column(name="language", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Lang")
+     * @ORM\JoinColumn(name="language_id", referencedColumnName="id", nullable=false)
      */
     private $language;
 
@@ -79,30 +85,6 @@ class CategoryLocale
     }
 
     /**
-     * Set language
-     *
-     * @param string $language
-     *
-     * @return CategoryLocale
-     */
-    public function setLanguage($language)
-    {
-        $this->language = $language;
-
-        return $this;
-    }
-
-    /**
-     * Get language
-     *
-     * @return string
-     */
-    public function getLanguage()
-    {
-        return $this->language;
-    }
-
-    /**
      * Set name
      *
      * @param string $name
@@ -125,5 +107,28 @@ class CategoryLocale
     {
         return $this->name;
     }
-}
 
+    /**
+     * Set language
+     *
+     * @param Lang $language
+     *
+     * @return CategoryLocale
+     */
+    public function setLanguage(Lang $language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return Lang
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+}
