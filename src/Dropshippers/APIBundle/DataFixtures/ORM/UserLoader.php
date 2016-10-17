@@ -8,13 +8,14 @@
 
 namespace Dropshippers\APIBundle\DataFixture\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Dropshippers\APIBundle\Entity\User;
 use Dropshippers\APIBundle\Entity\Shop;
 use Dropshippers\APIBundle\Entity\Module;
 
-class UserLoader implements FixtureInterface
+class UserLoader extends AbstractFixture implements OrderedFixtureInterface
 {
 
     public function load(ObjectManager $manager)
@@ -134,6 +135,6 @@ class UserLoader implements FixtureInterface
 
     public function getOrder()
     {
-        return 1;
+        return 3;
     }
 }

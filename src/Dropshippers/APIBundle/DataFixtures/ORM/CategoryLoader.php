@@ -2,13 +2,14 @@
 
 namespace Dropshippers\APIBundle\DataFixture\ORM;
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Dropshippers\APIBundle\Entity\LocalPsProduct;
 use Dropshippers\APIBundle\Entity\Category;
 use Dropshippers\APIBundle\Entity\CategoryLocale;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class CategoryLoader implements FixtureInterface
+class CategoryLoader extends AbstractFixture implements OrderedFixtureInterface
 {
 
     public function load(ObjectManager $manager)
@@ -2879,6 +2880,6 @@ class CategoryLoader implements FixtureInterface
 
     public function getOrder()
     {
-        return 1;
+        return 2;
     }
 }
