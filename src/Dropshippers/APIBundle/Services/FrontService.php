@@ -27,33 +27,36 @@ class FrontService
 
     public function getAllProducts($filter = array())
     {
-        //get all procucts in base
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
 
-        if (!empty($filter)){
-            $products = $productRepository->findBy($filter);
-        }else{
+
+        if (empty($filter)){
             $products = $productRepository->findAll();
+        }else{
+            $products = $productRepository->findAllWithFilters($filter);
         }
+
         $results = array();
 
-        //feed an array of products
         foreach($products as $product){
             $item = array();
-            $item["name"] = $product->getName();
-            $item["type"] = $product->getCategories();
-            $item["price"] = $product->getPrice();
+            $item['product_ref'] = $product->getReference();
+            $item["dropshippers_ref"] = $product->getDropshippersRef();
             $item["images"] = $product->getImages();
+            $item["name"] = $product->getName();
+            $item["price"] = $product->getPrice();
+            $item['quantity'] = $product->getQuantity();
+            $item["categories"] = $product->getCategories();
             $item["description"] = $product->getDescription();
             $item["active"] = $product->getActive();
             $item["updated_at"] = $product->getUpdatedAt();
-            $item["shopName"] = $product->getShop()->getName();
-            $item["shopRef"] = $product->getShop()->getDropshippersRef();
-            $item["dropshippers_ref"] = $product->getDropshippersRef();
+            $item["shop"] = $product->getShop();
             $results[] = $item;
         }
 
         return $results;
+
+
     }
 
     public function getProduct($reference)

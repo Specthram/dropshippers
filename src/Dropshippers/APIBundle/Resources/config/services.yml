@@ -12,3 +12,5 @@ services:
     dropshippers_api.front:
             class: Dropshippers\APIBundle\Services\FrontService
             arguments: [ '@doctrine' ]
+    dropshippers_api.helper:
+                class: Dropshippers\APIBundle\Services\HelperService
