@@ -13,7 +13,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Dropshippers\APIBundle\Entity\Lang;
 
-class UserLoader extends AbstractFixture implements OrderedFixtureInterface
+class LangLoader extends AbstractFixture implements OrderedFixtureInterface
 {
 
     public function load(ObjectManager $manager)
