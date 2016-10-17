@@ -1,6 +1,7 @@
 <?php
 
 namespace Dropshippers\APIBundle\Repository;
+use Dropshippers\APIBundle\Entity\Shop;
 
 /**
  * LocalPsProductRepository
@@ -10,4 +11,46 @@ namespace Dropshippers\APIBundle\Repository;
  */
 class LocalPsProductRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllWithFilters($filters = array())
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+
+        $queryBuilder->where('a.shop != :shop')
+            ->setParameter('shop', $filters['shop']);
+
+        if (!empty($filters['name'])){
+            $queryBuilder->andWhere('a.name = :name')
+                ->setParameter('name', $filters['name']);
+        }
+
+        if (!empty($filters['shopName'])){
+            $shopRepository = $this
+                ->getEntityManager()
+                ->getRepository('DropshippersAPIBundle:Shop');
+            
+            $shop = $shopRepository->findBy(array("name" => $filters['shopName'] ));
+
+            $queryBuilder->andWhere('a.shop = :shopName')
+                ->setParameter('shopName', $shop);
+        }
+
+        if (!empty($filters['maxPrice']) && !empty($filters['minPrice'])){
+            $queryBuilder->andWhere('a.price BETWEEN :minPrice AND :maxPrice')
+                ->setParameter('minPrice', intval($filters['minPrice']))
+                ->setParameter('maxPrice', intval($filters['maxPrice']));
+        }elseif (!empty($filters['maxPrice']) ){
+            $queryBuilder->andWhere('a.price < :maxPrice')
+                ->setParameter('maxPrice', intval($filters['maxPrice']));
+        }elseif (!empty($filters['minPrice'])){
+            $queryBuilder->andWhere('a.price > :minPrice')
+                ->setParameter('minPrice', intval($filters['minPrice']));
+        }
+
+        $query = $queryBuilder->getQuery();
+
+
+        $results = $query->getResult();
+
+        return $results;
+    }
 }

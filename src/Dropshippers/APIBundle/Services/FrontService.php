@@ -27,37 +27,41 @@ class FrontService
 
     public function getAllProducts($filter = array())
     {
-        //get all procucts in base
+
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
-
-        if (!empty($filter)){
-            $products = $productRepository->findBy($filter);
-        }else{
+        
+        if (empty($filter)){
             $products = $productRepository->findAll();
+        }else{
+            $products = $productRepository->findAllWithFilters($filter);
         }
-        $results = [];
 
-        //feed an array of products
+        $results = array();
+
         foreach($products as $product){
-            $item = [];
+            $item = array();
+            $item['product_ref'] = $product->getReference();
+            $item["dropshippers_ref"] = $product->getDropshippersRef();
+            $item["images"] = $product->getImages();
             $item["name"] = $product->getName();
             $item["price"] = $product->getPrice();
-            $item["images"] = $product->getImages();
-            $item["description"] = $product->getDescription();
-            $item["active"] = $product->getActive();
-            $item["updated_at"] = $product->getUpdatedAt();
-            $item["shopName"] = $product->getShop()->getName();
-            $item["shopRef"] = $product->getShop()->getDropshippersRef();
-            $item["dropshippers_ref"] = $product->getDropshippersRef();
+            $item['quantity'] = $product->getQuantity();
             $item['categories'] = [];
             $categories = $product->getCategories();
             foreach ($categories as $category){
+                $item['categories'][] = $category->getName();
                 $item['categories'][] = $category->getId();
             }
+            $item["description"] = $product->getDescription();
+            $item["active"] = $product->getActive();
+            $item["updated_at"] = $product->getUpdatedAt();
+            $item["shop"] = $product->getShop();
             $results[] = $item;
         }
 
         return $results;
+
+
     }
 
     public function getProduct($reference)

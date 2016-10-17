@@ -15,3 +15,5 @@ services:
     dropshippers_api.category:
         class: Dropshippers\APIBundle\Services\CategoryService
         arguments: [ '@doctrine' ]
+    dropshippers_api.helper:
+                    class: Dropshippers\APIBundle\Services\HelperService
