@@ -11,15 +11,4 @@ use Doctrine\ORM\EntityRepository;
  */
 class CategoryLocaleRepository extends EntityRepository
 {
-    public function checkLocaleExists($locale)
-    {
-        //we check if there is an existing traduction in this language
-        $result = $this->findBy(["language" => $locale]);
-
-        if (!$result){
-            return false;
-        } else {
-            return true;
-        }
-    }
 }
