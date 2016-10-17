@@ -282,12 +282,6 @@ class ZoneLoader extends AbstractFixture implements OrderedFixtureInterface
         $country->setIdZone($zone);
         $manager->persist($country);
 
-        $country = new Country();
-        $country->setIsoCode('');
-        $country->setName('');
-        $country->setIdZone($zone);
-        $manager->persist($country);
-
         $zone = new Zone();
         $zone->setName('Asia');
         $manager->persist($zone);
@@ -309,7 +303,7 @@ class ZoneLoader extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($zone);
 
         $zone = new Zone();
-        $zone->setName('Central America\/Antilla');
+        $zone->setName('Central America/Antilla');
         $manager->persist($zone);
 
         $zone = new Zone();
