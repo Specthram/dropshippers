@@ -37,14 +37,16 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
 
         //retrieve shop
         $shop = $as->getShopFromToken($token);
-
+        
         //throw exception if no shop was athenticated
         if (!$shop){
             throw new AccessDeniedHttpException("invalid token.");
         }
         $filter['shop'] = $shop;
+        
 
         $result = $frontService->getAllProducts($filter);
+
         $paginatedResult = $helperService->getResultOfArrayPaginated($result, $maxPerPage, $numPage);
         return $paginatedResult;
     }

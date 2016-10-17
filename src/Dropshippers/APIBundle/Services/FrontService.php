@@ -27,9 +27,9 @@ class FrontService
 
     public function getAllProducts($filter = array())
     {
+
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
-
-
+        
         if (empty($filter)){
             $products = $productRepository->findAll();
         }else{
@@ -46,7 +46,12 @@ class FrontService
             $item["name"] = $product->getName();
             $item["price"] = $product->getPrice();
             $item['quantity'] = $product->getQuantity();
-            $item["categories"] = $product->getCategories();
+            $item['categories'] = [];
+            $categories = $product->getCategories();
+            foreach ($categories as $category){
+                $item['categories'][] = $category->getName();
+                $item['categories'][] = $category->getId();
+            }
             $item["description"] = $product->getDescription();
             $item["active"] = $product->getActive();
             $item["updated_at"] = $product->getUpdatedAt();
