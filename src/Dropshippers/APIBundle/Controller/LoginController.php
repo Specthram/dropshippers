@@ -37,9 +37,15 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
     {
         //set variables and services
         $response           = new Response();
-        $username           = $request->get('username');
-        $password           = $request->get('password');
-        $notificationLink   = $request->get('notificationLink');
+        if ($json = json_decode($request->getContent())){
+            $username           = $json->username;
+            $password           = $json->password;
+            $notificationLink   = $json->notificationLink;
+        } else {
+            $username           = $request->get('username');
+            $password           = $request->get('password');
+            $notificationLink   = $request->get('notificationLink');
+        }
         $as                 = $this->get("dropshippers_api.authentication");
 
         //get token from username and password
@@ -75,13 +81,21 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
     {
         //set variables and services
         $response       = new Response();
-        $username       = $request->get('username');
-        $email          = $request->get('email');
-        $password       = $request->get('password');
-        $token          = $request->get('token');
-        $shopName       = $request->get("shop_name");
-        //$body = $request->getContent();
-        //TODO prendre les infos du body et non des parametres (voir ci dessus le debut
+
+        if ($json = json_decode($request->getContent())){
+            $username       = $json->username;
+            $email          = $json->email;
+            $password       = $json->password;
+            $token          = $json->token;
+            $shopName       = $json->shop_name;
+        } else {
+            $username       = $request->get('username');
+            $email          = $request->get('email');
+            $password       = $request->get('password');
+            $token          = $request->get('token');
+            $shopName       = $request->get("shop_name");
+        }
+
         $auth_service   = $this->get("dropshippers_api.authentication");
 
         //set user with service
