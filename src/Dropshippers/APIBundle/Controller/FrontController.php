@@ -21,28 +21,34 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
      */
     public function getCommonProductsAction(Request $request)
     {
-        //initiate variables
+        // service
         $as             = $this->get("dropshippers_api.authentication");
         $frontService   = $this->get("dropshippers_api.front");
+        $helperService  = $this->get("dropshippers_api.helper");
+
         $token = $request->headers->get("token");
         $filter = $request->query->all();
 
+        $numPage = !empty($filter['numeroPage']) ? $filter['numeroPage'] : 1 ;
+        unset($filter['numeroPage']);
+
+        $maxPerPage = !empty($filter['maxPerPage']) ? $filter['maxPerPage'] : 2 ;
+        unset($filter['maxPerPage']);
+
         //retrieve shop
         $shop = $as->getShopFromToken($token);
-
+        
         //throw exception if no shop was athenticated
         if (!$shop){
             throw new AccessDeniedHttpException("invalid token.");
         }
-
-        //return results array
-        //$result = $frontService->getAllProducts();
-
-        //
-        $frontService = $this->get("dropshippers_api.front");
+        $filter['shop'] = $shop;
+        
 
         $result = $frontService->getAllProducts($filter);
-        return array("products" => $result);
+
+        $paginatedResult = $helperService->getResultOfArrayPaginated($result, $maxPerPage, $numPage);
+        return $paginatedResult;
     }
 
     /**
