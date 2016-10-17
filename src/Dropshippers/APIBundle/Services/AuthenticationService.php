@@ -124,12 +124,14 @@ class AuthenticationService
             }
 
             //feed the fields
+            $shop = new Shop();
             $shop->setName($shopName);
             $entity->setShop($shop);
             $shop->setToken($this->generateRandomString(100));
             $shop->setCreatedAt(new \DateTime());
             $shop->setUpdatedAt(new \DateTime());
             $shop->setStatus("active");
+            $shop->setDropshippersRef(uniqid("shop_"));
             $em->persist($shop);
             $module = new Module();
             $module->setName("default");

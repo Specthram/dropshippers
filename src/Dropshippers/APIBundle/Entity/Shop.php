@@ -24,13 +24,6 @@ class Shop
      */
     private $token;
 
-
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Product", mappedBy="shop")
-     */
-    private $products;
-
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="PartnershipRequest", mappedBy="shop_host")
@@ -47,7 +40,6 @@ class Shop
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="User", mappedBy="shop")
     */
-    private $users;
 
     /**
      * @var ArrayCollection
@@ -145,7 +137,6 @@ class Shop
      */
     public function __construct()
     {
-        $this->products = new ArrayCollection();
         $this->request_host = new ArrayCollection();
         $this->request_guest = new ArrayCollection();
     }
@@ -398,40 +389,6 @@ class Shop
     public function getAddress()
     {
         return $this->address;
-    }
-
-    /**
-     * Add product
-     *
-     * @param \Dropshippers\APIBundle\Entity\Product $product
-     *
-     * @return Shop
-     */
-    public function addProduct(Product $product)
-    {
-        $this->products[] = $product;
-
-        return $this;
-    }
-
-    /**
-     * Remove product
-     *
-     * @param \Dropshippers\APIBundle\Entity\Product $product
-     */
-    public function removeProduct(Product $product)
-    {
-        $this->products->removeElement($product);
-    }
-
-    /**
-     * Get products
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProducts()
-    {
-        return $this->products;
     }
 
     /**

@@ -10,11 +10,10 @@ namespace Dropshippers\APIBundle\DataFixture\ORM;
 
 
 use Dropshippers\APIBundle\Entity\LocalPsProduct;
-use Dropshippers\APIBundle\Entity\Product;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class ProductLoader implements FixtureInterface
+class ZProductLoader implements FixtureInterface
 {
 
     public function load(ObjectManager $manager){
@@ -22,6 +21,8 @@ class ProductLoader implements FixtureInterface
         //Alors j'ai appeler ce fichier de la sorte car lors du load des data fixture il procede par ordre alphabetique et la du coup ca pose probleme quand d'essai de setShopOrigin alors u'il n'y a rien en base
 
         $t = $manager->getRepository("DropshippersAPIBundle:Shop")->findAll();
+        $categoryRepository = $manager->getRepository("DropshippersAPIBundle:Category");
+        $allCategories  = $categoryRepository->findAll();
 
         $product1 = new LocalPsProduct();
         $product1->setProductId(1);
@@ -37,6 +38,7 @@ class ProductLoader implements FixtureInterface
         $product1->setAvailableOrder(true);
         $product1->setCreatedAt(new \DateTime());
         $product1->setUpdatedAt(new \DateTime());
+        $product1->addCategory($allCategories[30]);
 
         $product2 = new LocalPsProduct();
         $product2->setProductId(2);
@@ -52,6 +54,7 @@ class ProductLoader implements FixtureInterface
         $product2->setAvailableOrder(true);
         $product2->setCreatedAt(new \DateTime());
         $product2->setUpdatedAt(new \DateTime());
+        $product2->addCategory($allCategories[68]);
 
 
         $product3 = new LocalPsProduct();
@@ -68,6 +71,7 @@ class ProductLoader implements FixtureInterface
         $product3->setAvailableOrder(true);
         $product3->setCreatedAt(new \DateTime());
         $product3->setUpdatedAt(new \DateTime());
+        $product3->addCategory($allCategories[45]);
 
         $product4 = new LocalPsProduct();
         $product4->setProductId(4);
@@ -83,6 +87,8 @@ class ProductLoader implements FixtureInterface
         $product4->setAvailableOrder(true);
         $product4->setCreatedAt(new \DateTime());
         $product4->setUpdatedAt(new \DateTime());
+        $product4->addCategory($allCategories[90]);
+
 
         $product5 = new LocalPsProduct();
         $product5->setProductId(5);
@@ -97,6 +103,7 @@ class ProductLoader implements FixtureInterface
         $product5->setAvailableOrder(true);
         $product5->setCreatedAt(new \DateTime());
         $product5->setUpdatedAt(new \DateTime());
+        $product5->addCategory($allCategories[147]);
 
         $product5 = new LocalPsProduct();
         $product5->setProductId(6);
@@ -111,6 +118,7 @@ class ProductLoader implements FixtureInterface
         $product5->setAvailableOrder(true);
         $product5->setCreatedAt(new \DateTime());
         $product5->setUpdatedAt(new \DateTime());
+        $product5->addCategory($allCategories[200]);
 
         $manager->persist($product1);
         $manager->persist($product2);

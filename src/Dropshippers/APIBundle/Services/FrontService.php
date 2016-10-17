@@ -64,30 +64,23 @@ class FrontService
         //get a single product, return empty if nothing
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
         $product = $productRepository->findOneBy(["dropshippersRef" => $reference]);
-        return $product;
+        $item = [];
+        $item["name"] = $product->getName();
+        $item["price"] = $product->getPrice();
+        $item["images"] = $product->getImages();
+        $item["description"] = $product->getDescription();
+        $item["active"] = $product->getActive();
+        $item["updated_at"] = $product->getUpdatedAt();
+        $item["shopName"] = $product->getShop()->getName();
+        $item["shopRef"] = $product->getShop()->getDropshippersRef();
+        $item["dropshippers_ref"] = $product->getDropshippersRef();
+        $item['categories'] = [];
+        $categories = $product->getCategories();
+        foreach ($categories as $category){
+            $item['categories'][] = $category->getId();
+        }
+        return $item;
     }
-
-//    public function getAllShopPropositions($shop)
-//    {
-//        $results = array();
-//        $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
-//
-//        $propositions = $requestRepository->findBy(["shopGuest" => $shop]);
-//        foreach ($propositions as $proposition){
-//            $tab = array();
-//            $tab[] = $this->base_url . "/front/user/propositions/" . $proposition->getDropshippersRef();
-//            $results["guest"][] = $tab;
-//        }
-//
-//        $propositions = $requestRepository->findBy(["shopHost" => $shop]);
-//        foreach ($propositions as $proposition){
-//            $tab = array();
-//            $tab[] = $this->base_url . "/front/user/propositions/" . $proposition->getDropshippersRef();
-//            $results["host"][] = $tab;
-//        }
-//
-//        return $results;
-//    }
 
     public function getAllShopPropositions($shop, $filters)
     {
@@ -190,11 +183,9 @@ class FrontService
             if (isset($productRef)){
                 if ($tab["product"]["productRef"] == $productRef){
                     $results[] = $tab;
-                    $i++;
                 }
             } else {
                 $results[] = $tab;
-                $i++;
             }
         }
         return $results;
