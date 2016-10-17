@@ -35,6 +35,13 @@ class Lang
      */
     private $languageCode;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="iso_code", type="string", length=2)
+     */
+    private $isoCode;
+
 
     /**
      * Get id
@@ -92,6 +99,30 @@ class Lang
     public function getLanguageCode()
     {
         return $this->languageCode;
+    }
+
+    /**
+     * Set isoCode
+     *
+     * @param string $isoCode
+     *
+     * @return Lang
+     */
+    public function setIsoCode($isoCode)
+    {
+        $this->isoCode = $isoCode;
+
+        return $this;
+    }
+
+    /**
+     * Get isoCode
+     *
+     * @return string
+     */
+    public function getIsoCode()
+    {
+        return $this->isoCode;
     }
 }
 
