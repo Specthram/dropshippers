@@ -17,13 +17,15 @@ class FrontService
 {
     private $doctrine;
     private $base_url;
+    private $category_service;
 
 
-    public function __construct(Registry $doctrine)
+    public function __construct(Registry $doctrine, CategoryService $category_service)
     {
         // inject doctrine at construction and build server address
         $this->doctrine     = $doctrine;
         $this->base_url     = "http://" . $_SERVER['SERVER_NAME'] . "/v1";
+        $this->category_service = $category_service;
 
     }
 
@@ -45,16 +47,20 @@ class FrontService
             $item = array();
             $item['product_ref'] = $product->getReference();
             $item["dropshippers_ref"] = $product->getDropshippersRef();
-            $item["images"] = $product->getImages();
             $item["name"] = $product->getName();
             $item["price"] = $product->getPrice();
             $item['quantity'] = $product->getQuantity();
+            $item["images"] = empty($product->getImages()) ? $product->getImages() : "no images";
             $item['categories'] = [];
             $categories = $product->getCategories();
-            foreach ($categories as $category){
-
-                $item['categories'][] = $category->getId();
+            if(!empty($categories)){
+                foreach ($categories as $category){
+                    $item['categories'][] = $this->category_service->normalizeCategory($category, 2);
+                }
+            }else{
+                $item['categories'] = "no category";
             }
+
             $item["description"] = $product->getDescription();
             $item["active"] = $product->getActive();
             $item["updated_at"] = $product->getUpdatedAt();

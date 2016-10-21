@@ -11,7 +11,7 @@ services:
         arguments: [ '@doctrine' ]
     dropshippers_api.front:
         class: Dropshippers\APIBundle\Services\FrontService
-        arguments: [ '@doctrine' ]
+        arguments: [ '@doctrine', '@dropshippers_api.category']
     dropshippers_api.category:
         class: Dropshippers\APIBundle\Services\CategoryService
         arguments: [ '@doctrine' ]
