@@ -18,18 +18,21 @@ class FrontService
     private $doctrine;
     private $base_url;
 
+
     public function __construct(Registry $doctrine)
     {
         // inject doctrine at construction and build server address
-        $this->doctrine = $doctrine;
-        $this->base_url = "http://" . $_SERVER['SERVER_NAME'] . "/v1";
+        $this->doctrine     = $doctrine;
+        $this->base_url     = "http://" . $_SERVER['SERVER_NAME'] . "/v1";
+
     }
 
     public function getAllProducts($filter = array())
     {
 
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
-        
+
+
         if (empty($filter)){
             $products = $productRepository->findAll();
         }else{
@@ -49,7 +52,7 @@ class FrontService
             $item['categories'] = [];
             $categories = $product->getCategories();
             foreach ($categories as $category){
-                $item['categories'][] = $category->getName();
+
                 $item['categories'][] = $category->getId();
             }
             $item["description"] = $product->getDescription();

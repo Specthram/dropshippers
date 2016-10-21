@@ -32,7 +32,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         $numPage = !empty($filter['numeroPage']) ? $filter['numeroPage'] : 1 ;
         unset($filter['numeroPage']);
 
-        $maxPerPage = !empty($filter['maxPerPage']) ? $filter['maxPerPage'] : 2 ;
+        $maxPerPage = !empty($filter['maxPerPage']) ? $filter['maxPerPage'] : 20 ;
         unset($filter['maxPerPage']);
 
         //retrieve shop
@@ -42,7 +42,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         if (!$shop){
             throw new AccessDeniedHttpException("invalid token.");
         }
-        $filter['shop'] = $shop;
+        $filter['shop'] = $shop->getId();
         
 
         $result = $frontService->getAllProducts($filter);

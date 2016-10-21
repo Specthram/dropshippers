@@ -19,19 +19,15 @@ class LocalPsProductRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('shop', $filters['shop']);
 
         if (!empty($filters['name'])){
-            $queryBuilder->andWhere('a.name = :name')
-                ->setParameter('name', $filters['name']);
+            $queryBuilder->andWhere("a.name LIKE :name")
+                ->setParameter('name', '%'.$filters['name'].'%');
         }
 
         if (!empty($filters['shopName'])){
-            $shopRepository = $this
-                ->getEntityManager()
-                ->getRepository('DropshippersAPIBundle:Shop');
-            
-            $shop = $shopRepository->findBy(array("name" => $filters['shopName'] ));
 
-            $queryBuilder->andWhere('a.shop = :shopName')
-                ->setParameter('shopName', $shop);
+            $queryBuilder->join("a.shop", "s");
+            $queryBuilder->andWhere('s.name LIKE :shopName')
+                ->setParameter('shopName', "%".$filters['shopName']."%");
         }
 
         if (!empty($filters['maxPrice']) && !empty($filters['minPrice'])){
