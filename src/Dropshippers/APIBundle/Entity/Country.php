@@ -29,7 +29,7 @@ class Country
     private $isoCode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Zone")
+     * @ORM\ManyToOne(targetEntity="Zone", inversedBy="countries")
      * @ORM\JoinColumn(name="id_zone", referencedColumnName="id", nullable=false)
      */
     private $idZone;
