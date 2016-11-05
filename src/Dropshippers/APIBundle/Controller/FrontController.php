@@ -391,4 +391,27 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         $result = $categoryService->constructCategoryStandardArray($locale);
         return $result;
     }
+
+    /**
+     * Get Route annotation
+     * @Get("/front/common/zones")
+     */
+    public function getCommonZonesAction(Request $request)
+    {
+        //initiate variables
+        $as         = $this->get("dropshippers_api.authentication");
+        $token      = $request->headers->get("token");
+
+        //retrieve shop
+        $shop = $as->getShopFromToken($token);
+
+        //throw exception if no shop was athenticated
+        if (!$shop){
+            throw new AccessDeniedHttpException("invalid token.");
+        }
+
+        $zoneService    = $this->get('dropshippers_api.zone');
+
+        return $zoneService->constructZoneStandardArray();
+    }
 }

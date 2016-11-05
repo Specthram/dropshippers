@@ -60,7 +60,7 @@ class CategoryService
         }
     }
 
-    public function normalizeCategory(Category $category, $lang)
+    private function normalizeCategory(Category $category, $lang)
     {
         $categoryTab = [];
 
