@@ -75,12 +75,13 @@ class ProductRequestMessage
      */
     private $isWhiteMark;
 
-//    /**
-//     * @var string
-//     *
-//     * @ORM\Column(name="product_request_deliveryArea", type="string")
-//     */
-//    private $deliveryArea;
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Shop")
+     * @ORM\JoinColumn(name="shop_id", referencedColumnName="id")
+     *
+     */
+    private $author;
 
     /**
      * Get id
@@ -284,27 +285,27 @@ class ProductRequestMessage
         return $this->isWhiteMark;
     }
 
-//    /**
-//     * Set deliveryArea
-//     *
-//     * @param string $deliveryArea
-//     *
-//     * @return ProductRequestMessage
-//     */
-//    public function setDeliveryArea($deliveryArea)
-//    {
-//        $this->deliveryArea = $deliveryArea;
-//
-//        return $this;
-//    }
+    /**
+     * Set author
+     *
+     * @param \Dropshippers\APIBundle\Entity\Shop $author
+     *
+     * @return ProductRequestMessage
+     */
+    public function setAuthor(\Dropshippers\APIBundle\Entity\Shop $author = null)
+    {
+        $this->author = $author;
 
-//    /**
-//     * Get deliveryArea
-//     *
-//     * @return string
-//     */
-//    public function getDeliveryArea()
-//    {
-//        return $this->deliveryArea;
-//    }
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \Dropshippers\APIBundle\Entity\Shop
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
 }

@@ -350,16 +350,16 @@ example :
       "isWhiteMark": true,
       "price": 20,
       "deliveryArea": [
-        [
-          1,
-          "DE",
-          "Germany"
-        ],
-        [
-          2,
-          "AT",
-          "Austria"
-        ]
+        {
+          "id": 1,
+          "isoCode": "DE",
+          "name": "Germany"
+        },
+        {
+          "id": 2,
+          "isoCode": "AT",
+          "name": "Austria"
+        }
       ],
       "messages": [
         {
@@ -410,16 +410,16 @@ Permet de recuperer une request
       "isWhiteMark": true,
       "price": 20,
       "deliveryArea": [
-        [
-          1,
-          "DE",
-          "Germany"
-        ],
-        [
-          2,
-          "AT",
-          "Austria"
-        ]
+        {
+          "id": 1,
+          "isoCode": "DE",
+          "name": "Germany"
+        },
+        {
+          "id": 2,
+          "isoCode": "AT",
+          "name": "Austria"
+        }
       ],
       "messages": [
         {

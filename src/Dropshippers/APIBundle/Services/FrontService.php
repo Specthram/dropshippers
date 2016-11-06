@@ -135,9 +135,9 @@ class FrontService
             $deliveryAreas = $proposition->getDeliveryArea();
             foreach($deliveryAreas as $deliveryArea){
                 $temp = [];
-                $temp[] = $deliveryArea->getId();
-                $temp[] = $deliveryArea->getIsoCode();
-                $temp[] = $deliveryArea->getName();
+                $temp['id'] = $deliveryArea->getId();
+                $temp['isoCode'] = $deliveryArea->getIsoCode();
+                $temp['name'] = $deliveryArea->getName();
                 $tab["deliveryArea"][] = $temp;
             }
             $messages = $proposition->getMessages();
@@ -145,12 +145,13 @@ class FrontService
             //get all the proposition messages
             foreach ($messages as $message){
                 $mess = array();
-                $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
-                $mess["message"] = $message->getMessage();
-                $mess["price"] = $message->getPrice();
-                $mess["status"] = $message->getStatus();
-                $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
-                $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
+                $mess['from']               = ['id' => $message->getAuthor()->getId(), 'name' => $message->getAuthor()->getName()];
+                $mess["date"]               = $message->getCreatedAt()->format(\DateTime::ISO8601);
+                $mess["message"]            = $message->getMessage();
+                $mess["price"]              = $message->getPrice();
+                $mess["status"]             = $message->getStatus();
+                $mess["isWhiteMark"]        = $proposition->getIsWhiteMark();
+                $mess["isSendDirectly"]     = $proposition->getIsSendDirectly();
 
                 $tab["messages"][] = $mess;
             }
@@ -190,14 +191,15 @@ class FrontService
             $deliveryAreas = $proposition->getDeliveryArea();
             foreach($deliveryAreas as $deliveryArea){
                 $temp = [];
-                $temp[] = $deliveryArea->getId();
-                $temp[] = $deliveryArea->getIsoCode();
-                $temp[] = $deliveryArea->getName();
+                $temp['id'] = $deliveryArea->getId();
+                $temp['isoCode'] = $deliveryArea->getIsoCode();
+                $temp['name'] = $deliveryArea->getName();
                 $tab["deliveryArea"][] = $temp;
             }
             $messages = $proposition->getMessages();
             foreach ($messages as $message){
                 $mess = array();
+                $mess['from']               = ['id' => $message->getAuthor()->getId(), 'name' => $message->getAuthor()->getName()];
                 $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
                 $mess["message"] = $message->getMessage();
                 $mess["price"] = $message->getPrice();
@@ -247,9 +249,9 @@ class FrontService
             $deliveryAreas = $proposition->getDeliveryArea();
             foreach($deliveryAreas as $deliveryArea){
                 $temp = [];
-                $temp[] = $deliveryArea->getId();
-                $temp[] = $deliveryArea->getIsoCode();
-                $temp[] = $deliveryArea->getName();
+                $temp['id'] = $deliveryArea->getId();
+                $temp['isoCode'] = $deliveryArea->getIsoCode();
+                $temp['name'] = $deliveryArea->getName();
                 $tab["deliveryArea"][] = $temp;
             }
             $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
@@ -260,6 +262,7 @@ class FrontService
             //construct message array
             foreach ($messages as $message){
                 $mess = array();
+                $mess['from']               = ['id' => $message->getAuthor()->getId(), 'name' => $message->getAuthor()->getName()];
                 $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
                 $mess["message"] = $message->getMessage();
                 $mess["price"] = $message->getPrice();
@@ -294,9 +297,9 @@ class FrontService
             $deliveryAreas = $proposition->getDeliveryArea();
             foreach($deliveryAreas as $deliveryArea){
                 $temp = [];
-                $temp[] = $deliveryArea->getId();
-                $temp[] = $deliveryArea->getIsoCode();
-                $temp[] = $deliveryArea->getName();
+                $temp['id'] = $deliveryArea->getId();
+                $temp['isoCode'] = $deliveryArea->getIsoCode();
+                $temp['name'] = $deliveryArea->getName();
                 $tab["deliveryArea"][] = $temp;
             }
             $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
@@ -307,6 +310,7 @@ class FrontService
             //construct message array and put it in propositions
             foreach ($messages as $message){
                 $mess = array();
+                $mess['from']               = ['id' => $message->getAuthor()->getId(), 'name' => $message->getAuthor()->getName()];
                 $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
                 $mess["message"] = $message->getMessage();
                 $mess["price"] = $message->getPrice();
@@ -368,7 +372,6 @@ class FrontService
         foreach ($paramsArray['deliveryArea'] as $area) {
             $country    = $this->countryRepository->find($area);
             if ($country){
-                error_log("area ok");
                 $productRequest->addDeliveryArea($country);
             }
         }
@@ -382,7 +385,7 @@ class FrontService
         $messageRequest->setStatus("waiting");
         $messageRequest->setIsSendDirectly($paramsArray["isWhiteMark"]);
         $messageRequest->setIsWhiteMark($paramsArray["isSendDirectly"]);
-        $messageRequest->setDeliveryArea($paramsArray["deliveryArea"]);
+        $messageRequest->setAuthor($shopHost);
         $messageRequest->setProductRequest($productRequest);
 
         //persist data
