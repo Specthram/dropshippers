@@ -225,6 +225,25 @@ example
 }
 ```
 
+GET dropshippers.dev/v1/front/common/zones
+------------------------------------------
+
+* Header : token
+* Retour : zones
+
+example :
+```
+{
+  "zones": {
+    "Europe": [
+      {
+        "countryRef": 1,
+        "name": "Germany",
+        "isoCode": "DE"
+      },
+      ...
+```
+
 POST dropshippers.dev/v1/login/register
 ---------------------------------------
 Permet d'enregistrer un nouvel utilisateur
@@ -307,37 +326,53 @@ example :
 ```
 {
   "code": 1,
-  "propositions": {
-    "cccc": [
-      {
-        "created_at": "2016-09-08T00:00:00+0200",
-        "updated_at": "2016-09-08T00:00:00+0200",
-        "status": "wainting",
-        "quantity": 2,
-        "RequestRef": "REF-HFEFHZ-456",
-        "shopGuest": {
-          "name": "HotDogs",
-          "id": 21
-        },
-        "shopHost": {
-          "name": "pretty regrets",
-          "id": 20
-        },
-        "product": {
-          "productRef": "cccc",
-          "name": "Scofieraptu"
-        },
-        "dropshippersRef": "REF-HFEFHZ-456",
-        "isSendDirectly": true,
-        "isWhiteMark": false,
-        "price": 19,
-        "deliveryArea": "france"
-      }
-    ],
-    [
-        ...
-    ]
-  }
+  "propositions": [
+    {
+      "created_at": "2016-11-06T19:27:09+0100",
+      "updated_at": "2016-11-06T19:27:09+0100",
+      "status": "new",
+      "quantity": 1,
+      "requestRef": "REQ-HOT-RED-Z3CJFCJS8TVCV3F",
+      "shopGuest": {
+        "name": "red mad coon",
+        "id": 1
+      },
+      "shopHost": {
+        "name": "HotDogs",
+        "id": 3
+      },
+      "product": {
+        "productRef": "ffffff",
+        "name": "addelalalilabou"
+      },
+      "dropshippersRef": "REQ-HOT-RED-Z3CJFCJS8TVCV3F",
+      "isSendDirectly": true,
+      "isWhiteMark": true,
+      "price": 20,
+      "deliveryArea": [
+        [
+          1,
+          "DE",
+          "Germany"
+        ],
+        [
+          2,
+          "AT",
+          "Austria"
+        ]
+      ],
+      "messages": [
+        {
+          "date": "2016-11-06T19:27:09+0100",
+          "message": "test message",
+          "price": 20,
+          "status": "waiting",
+          "isWhiteMark": true,
+          "isSendDirectly": true
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -351,34 +386,53 @@ Permet de recuperer une request
 ```
 {
   "code": 1,
-  "propositions": {
-    "cccc": [
-      {
-        "created_at": "2016-09-08T00:00:00+0200",
-        "updated_at": "2016-09-08T00:00:00+0200",
-        "status": "wainting",
-        "quantity": 2,
-        "RequestRef": "REF-HFEFHZ-456",
-        "shopGuest": {
-          "name": "HotDogs",
-          "id": 21
-        },
-        "shopHost": {
-          "name": "pretty regrets",
-          "id": 20
-        },
-        "product": {
-          "productRef": "cccc",
-          "name": "Scofieraptu"
-        },
-        "dropshippersRef": "REF-HFEFHZ-456",
-        "isSendDirectly": true,
-        "isWhiteMark": false,
-        "price": 19,
-        "deliveryArea": "france"
-      }
-    ]
-  }
+  "propositions": [
+    {
+      "created_at": "2016-11-06T19:27:09+0100",
+      "updated_at": "2016-11-06T19:27:09+0100",
+      "status": "new",
+      "quantity": 1,
+      "requestRef": "REQ-HOT-RED-Z3CJFCJS8TVCV3F",
+      "shopGuest": {
+        "name": "red mad coon",
+        "id": 1
+      },
+      "shopHost": {
+        "name": "HotDogs",
+        "id": 3
+      },
+      "product": {
+        "productRef": "ffffff",
+        "name": "addelalalilabou"
+      },
+      "dropshippersRef": "REQ-HOT-RED-Z3CJFCJS8TVCV3F",
+      "isSendDirectly": true,
+      "isWhiteMark": true,
+      "price": 20,
+      "deliveryArea": [
+        [
+          1,
+          "DE",
+          "Germany"
+        ],
+        [
+          2,
+          "AT",
+          "Austria"
+        ]
+      ],
+      "messages": [
+        {
+          "date": "2016-11-06T19:27:09+0100",
+          "message": "test message",
+          "price": 20,
+          "status": "waiting",
+          "isWhiteMark": true,
+          "isSendDirectly": true
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -387,7 +441,8 @@ POST dropshippers.dev/v1/front/user/partners/products/proposition
 Permet de faire une demande de partenariat sur un produit
 
 * Header : token
-* request parameters: product_reference, quantity, price, isSendDirectly, isWhiteMark, deliveryArea, message
+* request body (json): product_reference, quantity, price, isSendDirectly, isWhiteMark, deliveryArea, message
+ > example : ```{ "product_reference": "ffffff", "quantity" : "1", "price" : 20, "isSendDirectly" : 1, "isWhiteMark" : 1, "deliveryArea" :[1, 2], "message" : "test message" }```
 * retour : code, message
 
 example :

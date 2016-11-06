@@ -151,16 +151,23 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         $token = $request->headers->get("token");
         $frontService = $this->get("dropshippers_api.front");
 
-        //TODO prendre les parametres du body
-        //initiate array with parameters
+        $json   = json_decode($request->getContent());
+
+        //if instructions are not set, return 400 error
+        if (!$json) {
+            $response->setStatusCode(400);
+            $response->setContent(json_encode(array("code" => 3, "message" => "content must contains json decodable syntax")));
+            return $response;
+        }
+
         $paramsArray = array(
-            "productRequest" => $request->get("product_reference"),
-            "quantity" => $request->get("quantity"),
-            "price" => $request->get("price"),
-            "isSendDirectly" => $request->get("isSendDirectly"),
-            "isWhiteMark" => $request->get("isWhiteMark"),
-            "deliveryArea" => $request->get("deliveryArea"),
-            "message" => $request->get("message")
+            "productRequest" => $json->product_reference,
+            "quantity" => $json->quantity,
+            "price" => $json->price,
+            "isSendDirectly" => $json->isSendDirectly,
+            "isWhiteMark" => $json->isWhiteMark,
+            "deliveryArea" => $json->deliveryArea,
+            "message" => $json->message
         );
 
         $shopHost = $as->getShopFromToken($token);

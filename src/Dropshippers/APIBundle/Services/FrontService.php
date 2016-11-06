@@ -9,6 +9,7 @@
 namespace Dropshippers\APIBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Dropshippers\APIBundle\Entity\Country;
 use Dropshippers\APIBundle\Entity\ProductRequest;
 use Dropshippers\APIBundle\Entity\ProductRequestMessage;
 use GuzzleHttp\Exception\RequestException;
@@ -17,16 +18,15 @@ class FrontService
 {
     private $doctrine;
     private $base_url;
-    private $category_service;
+    private $countryRepository;
 
 
-    public function __construct(Registry $doctrine, CategoryService $category_service)
+    public function __construct(Registry $doctrine)
     {
         // inject doctrine at construction and build server address
-        $this->doctrine     = $doctrine;
-        $this->base_url     = "http://" . $_SERVER['SERVER_NAME'] . "/v1";
-        $this->category_service = $category_service;
-
+        $this->doctrine                 = $doctrine;
+        $this->base_url                 = "http://" . $_SERVER['SERVER_NAME'] . "/v1";
+        $this->countryRepository = $this->doctrine->getRepository('DropshippersAPIBundle:Country');
     }
 
     public function getAllProducts($filter = array())
@@ -132,7 +132,14 @@ class FrontService
             $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
             $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
             $tab["price"] = $proposition->getPrice();
-            $tab["deliveryArea"] = $proposition->getDeliveryArea();
+            $deliveryAreas = $proposition->getDeliveryArea();
+            foreach($deliveryAreas as $deliveryArea){
+                $temp = [];
+                $temp[] = $deliveryArea->getId();
+                $temp[] = $deliveryArea->getIsoCode();
+                $temp[] = $deliveryArea->getName();
+                $tab["deliveryArea"][] = $temp;
+            }
             $messages = $proposition->getMessages();
 
             //get all the proposition messages
@@ -144,7 +151,6 @@ class FrontService
                 $mess["status"] = $message->getStatus();
                 $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
                 $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
-                $mess["deliveryArea"] = $proposition->getDeliveryArea();
 
                 $tab["messages"][] = $mess;
             }
@@ -180,7 +186,15 @@ class FrontService
             $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
             $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
             $tab["price"] = $proposition->getPrice();
-            $tab["deliveryArea"] = $proposition->getDeliveryArea();
+
+            $deliveryAreas = $proposition->getDeliveryArea();
+            foreach($deliveryAreas as $deliveryArea){
+                $temp = [];
+                $temp[] = $deliveryArea->getId();
+                $temp[] = $deliveryArea->getIsoCode();
+                $temp[] = $deliveryArea->getName();
+                $tab["deliveryArea"][] = $temp;
+            }
             $messages = $proposition->getMessages();
             foreach ($messages as $message){
                 $mess = array();
@@ -190,7 +204,6 @@ class FrontService
                 $mess["status"] = $message->getStatus();
                 $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
                 $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
-                $mess["deliveryArea"] = $proposition->getDeliveryArea();
 
                 $tab["messages"][] = $mess;
             }
@@ -231,7 +244,14 @@ class FrontService
             $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
             $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
             $tab["price"] = $proposition->getPrice();
-            $tab["deliveryArea"] = $proposition->getDeliveryArea();
+            $deliveryAreas = $proposition->getDeliveryArea();
+            foreach($deliveryAreas as $deliveryArea){
+                $temp = [];
+                $temp[] = $deliveryArea->getId();
+                $temp[] = $deliveryArea->getIsoCode();
+                $temp[] = $deliveryArea->getName();
+                $tab["deliveryArea"][] = $temp;
+            }
             $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
 
             //get all message propositions
@@ -246,7 +266,6 @@ class FrontService
                 $mess["status"] = $message->getStatus();
                 $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
                 $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
-                $mess["deliveryArea"] = $proposition->getDeliveryArea();
                 $tab["messages"][] = $mess;
             }
             $results[] = $tab;
@@ -272,7 +291,14 @@ class FrontService
             $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
             $tab["price"] = $proposition->getPrice();
             $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
-            $tab["deliveryArea"] = $proposition->getDeliveryArea();
+            $deliveryAreas = $proposition->getDeliveryArea();
+            foreach($deliveryAreas as $deliveryArea){
+                $temp = [];
+                $temp[] = $deliveryArea->getId();
+                $temp[] = $deliveryArea->getIsoCode();
+                $temp[] = $deliveryArea->getName();
+                $tab["deliveryArea"][] = $temp;
+            }
             $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
 
             //get proposition messages
@@ -287,7 +313,6 @@ class FrontService
                 $mess["status"] = $message->getStatus();
                 $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
                 $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
-                $mess["deliveryArea"] = $proposition->getDeliveryArea();
                 $tab["messages"][] = $mess;
             }
             $results[] = $tab;
@@ -318,7 +343,6 @@ class FrontService
 
         //check if the requested quantity is great
         if ($paramsArray["quantity"] < $product->getQuantity()) {
-
             $productRequest->setQuantity($paramsArray["quantity"]);
         } else {
             return -2;
@@ -341,8 +365,14 @@ class FrontService
         $productRequest->setPrice($paramsArray["price"]);
         $productRequest->setIsSendDirectly($paramsArray["isSendDirectly"]);
         $productRequest->setIsWhiteMark($paramsArray["isWhiteMark"]);
-        $productRequest->setDeliveryArea($paramsArray["deliveryArea"]);
-        $productRequest->setMessage($paramsArray["message"]);
+        foreach ($paramsArray['deliveryArea'] as $area) {
+            $country    = $this->countryRepository->find($area);
+            if ($country){
+                error_log("area ok");
+                $productRequest->addDeliveryArea($country);
+            }
+        }
+        //$productRequest->setMessage($paramsArray["message"]);
 
         //set message when request is created
         $messageRequest->setCreatedAt(new \DateTime());

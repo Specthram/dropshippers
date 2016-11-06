@@ -75,12 +75,12 @@ class ProductRequestMessage
      */
     private $isWhiteMark;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="product_request_deliveryArea", type="string")
-     */
-    private $deliveryArea;
+//    /**
+//     * @var string
+//     *
+//     * @ORM\Column(name="product_request_deliveryArea", type="string")
+//     */
+//    private $deliveryArea;
 
     /**
      * Get id
@@ -284,27 +284,27 @@ class ProductRequestMessage
         return $this->isWhiteMark;
     }
 
-    /**
-     * Set deliveryArea
-     *
-     * @param string $deliveryArea
-     *
-     * @return ProductRequestMessage
-     */
-    public function setDeliveryArea($deliveryArea)
-    {
-        $this->deliveryArea = $deliveryArea;
+//    /**
+//     * Set deliveryArea
+//     *
+//     * @param string $deliveryArea
+//     *
+//     * @return ProductRequestMessage
+//     */
+//    public function setDeliveryArea($deliveryArea)
+//    {
+//        $this->deliveryArea = $deliveryArea;
+//
+//        return $this;
+//    }
 
-        return $this;
-    }
-
-    /**
-     * Get deliveryArea
-     *
-     * @return string
-     */
-    public function getDeliveryArea()
-    {
-        return $this->deliveryArea;
-    }
+//    /**
+//     * Get deliveryArea
+//     *
+//     * @return string
+//     */
+//    public function getDeliveryArea()
+//    {
+//        return $this->deliveryArea;
+//    }
 }
