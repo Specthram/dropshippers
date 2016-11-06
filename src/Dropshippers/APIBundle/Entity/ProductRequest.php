@@ -17,6 +17,7 @@ class ProductRequest
     public function __construct()
     {
         $this->message = new ArrayCollection();
+        $this->deliveryArea = new ArrayCollection();
     }
 
     /**
@@ -101,18 +102,13 @@ class ProductRequest
     private $isWhiteMark;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="product_request_deliveryArea", type="string")
+     * @ORM\ManyToMany(targetEntity="Country")
+     * @ORM\JoinTable(name="ds_productrequest_country",
+     *     joinColumns={@ORM\JoinColumn(name="product_request_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="country_id", referencedColumnName="id")}
+     * )
      */
     private $deliveryArea;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="product_request_message", type="string")
-     */
-    private $message;
 
 
     /**
@@ -360,38 +356,6 @@ class ProductRequest
     }
 
     /**
-     * @return mixed
-     */
-    public function getDeliveryArea()
-    {
-        return $this->deliveryArea;
-    }
-
-    /**
-     * @param mixed $deliveryArea
-     */
-    public function setDeliveryArea($deliveryArea)
-    {
-        $this->deliveryArea = $deliveryArea;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    /**
-     * @param mixed $message
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
-    }
-
-    /**
      * Add message
      *
      * @param \Dropshippers\APIBundle\Entity\ProductRequestMessage $message
@@ -423,5 +387,39 @@ class ProductRequest
     public function getMessages()
     {
         return $this->messages;
+    }
+
+    /**
+     * Add deliveryArea
+     *
+     * @param \Dropshippers\APIBundle\Entity\Country $deliveryArea
+     *
+     * @return ProductRequest
+     */
+    public function addDeliveryArea(Country $deliveryArea)
+    {
+        $this->deliveryArea[] = $deliveryArea;
+
+        return $this;
+    }
+
+    /**
+     * Remove deliveryArea
+     *
+     * @param \Dropshippers\APIBundle\Entity\Country $deliveryArea
+     */
+    public function removeDeliveryArea(Country $deliveryArea)
+    {
+        $this->deliveryArea->removeElement($deliveryArea);
+    }
+
+    /**
+     * Get deliveryArea
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDeliveryArea()
+    {
+        return $this->deliveryArea;
     }
 }

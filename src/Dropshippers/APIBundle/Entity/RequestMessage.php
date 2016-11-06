@@ -43,6 +43,13 @@ class RequestMessage
     private $message;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="request_message_author", type="string", length=255)
+     */
+    private $author;
+
+    /**
      * Get id
      *
      * @return integer
@@ -122,5 +129,29 @@ class RequestMessage
     public function getMessage()
     {
         return $this->message;
+    }
+
+    /**
+     * Set author
+     *
+     * @param string $author
+     *
+     * @return RequestMessage
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return string
+     */
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }
