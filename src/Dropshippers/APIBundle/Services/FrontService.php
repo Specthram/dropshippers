@@ -13,19 +13,21 @@ use Dropshippers\APIBundle\Entity\Country;
 use Dropshippers\APIBundle\Entity\ProductRequest;
 use Dropshippers\APIBundle\Entity\ProductRequestMessage;
 use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FrontService
 {
     private $doctrine;
     private $base_url;
     private $countryRepository;
+    private $categoryService;
 
-
-    public function __construct(Registry $doctrine)
+    public function __construct(Registry $doctrine, $categoryService)
     {
         // inject doctrine at construction and build server address
         $this->doctrine                 = $doctrine;
         $this->base_url                 = "http://" . $_SERVER['SERVER_NAME'] . "/v1";
+        $this->categoryService          = $categoryService;
         $this->countryRepository = $this->doctrine->getRepository('DropshippersAPIBundle:Country');
     }
 
@@ -55,7 +57,7 @@ class FrontService
             $categories = $product->getCategories();
             if(!empty($categories)){
                 foreach ($categories as $category){
-                    $item['categories'][] = $this->category_service->normalizeCategory($category, 2);
+                    $item['categories'][] = $this->categoryService->normalizeCategory($category, 2);
                 }
             }else{
                 $item['categories'] = "no category";
