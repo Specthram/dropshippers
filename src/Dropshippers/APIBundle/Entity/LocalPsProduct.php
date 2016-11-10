@@ -52,6 +52,7 @@ class LocalPsProduct
     {
         $this->tags = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     /**

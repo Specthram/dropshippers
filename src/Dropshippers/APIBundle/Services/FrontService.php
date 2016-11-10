@@ -47,12 +47,19 @@ class FrontService
 
         foreach($products as $product){
             $item = array();
-            $item['product_ref'] = $product->getReference();
+            $item["updated_at"] = $product->getUpdatedAt();
             $item["dropshippers_ref"] = $product->getDropshippersRef();
+            $images = $product->getImages();
+            if(!empty($images)){
+                foreach ($images as $image){
+                    $item['images'][] = $image->getLink();
+                }
+            }else{
+                $item['images'] = null;
+            }
             $item["name"] = $product->getName();
             $item["price"] = $product->getPrice();
             $item['quantity'] = $product->getQuantity();
-            $item["images"] = empty($product->getImages()) ? $product->getImages() : "no images";
             $item['categories'] = [];
             $categories = $product->getCategories();
             if(!empty($categories)){
@@ -60,12 +67,11 @@ class FrontService
                     $item['categories'][] = $this->categoryService->normalizeCategory($category, 2);
                 }
             }else{
-                $item['categories'] = "no category";
+                $item['categories'] = null;
             }
-
+            //$item['product_ref'] = $product->getReference();
             $item["description"] = $product->getDescription();
-            $item["active"] = $product->getActive();
-            $item["updated_at"] = $product->getUpdatedAt();
+            //$item["active"] = $product->getActive();
             $item["shop"] = $product->getShop();
             $results[] = $item;
         }

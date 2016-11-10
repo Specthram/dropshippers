@@ -23,6 +23,13 @@ class LocalPsProductRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('name', '%'.$filters['name'].'%');
         }
 
+        if (!empty($filters['category'])){
+
+            $queryBuilder->join("a.categories", "cat");
+            $queryBuilder->andWhere('cat.id LIKE :category')
+                ->setParameter('category', $filters['category']);
+        }
+
         if (!empty($filters['shopName'])){
 
             $queryBuilder->join("a.shop", "s");
@@ -43,7 +50,6 @@ class LocalPsProductRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $query = $queryBuilder->getQuery();
-
 
         $results = $query->getResult();
 
