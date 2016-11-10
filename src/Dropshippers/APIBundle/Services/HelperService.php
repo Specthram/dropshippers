@@ -47,7 +47,7 @@ class HelperService
             $resultOfPagination['nombre_de_page'] = $pager->getNbPages();
             $resultOfPagination['nombre_de_resultats'] = $pager->getNbResults();
         }else{
-            $resultOfPagination['infos'] = 'Pas besoins de pagination';
+            $resultOfPagination['infos'] = null;
         }
 
         return array(
