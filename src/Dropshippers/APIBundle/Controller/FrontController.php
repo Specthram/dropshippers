@@ -345,6 +345,51 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
 
     /**
      * Get Route annotation
+     * @Put("/front/user/propositions/{dropshippersRef}/message")
+     */
+    public function putUserPropositionMessageAction(Request $request, $dropshippersRef)
+    {
+        //initiate variables and services
+        $response       = new Response();
+        $as             = $this->get("dropshippers_api.authentication");
+        $token          = $request->headers->get("token");
+        $shop           = $as->getShopFromToken($token);
+        $frontService   = $this->get("dropshippers_api.front");
+        $json           = json_decode($request->getContent());
+
+
+        //throw exception if no shop was athenticated
+        if (!$shop){
+            throw new AccessDeniedHttpException("invalid token.");
+        }
+
+        //if instructions are not set, return 400 error
+        if (!$json) {
+            $response->setStatusCode(400);
+            $response->setContent(json_encode(array("code" => 3, "message" => "content must contains json decodable syntax")));
+            return $response;
+        }
+
+        //get result from service
+        $result = $frontService->postPropositionMessage($dropshippersRef, $json, $shop);
+
+        //error managing
+        if ($result == -1){
+            $response->setStatusCode(422);
+            $response->setContent(json_encode(array("code" => 10007, "message" => "Aucune request trouvée")));
+        } else if ($result == 2) {
+            $response->setStatusCode(422);
+            $response->setContent(json_encode(array("code" => 30002, "message" => "missing field in json")));
+        } else {
+            $response->setStatusCode(200);
+            $response->setContent(json_encode(array("code" => 1, "messages" => $result)));
+        }
+
+        return $response;
+    }
+
+    /**
+     * Get Route annotation
      * @Get("/front/user")
      */
     public function getUserAction(Request $request)
