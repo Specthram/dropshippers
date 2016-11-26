@@ -133,12 +133,34 @@ class Shop
     private $dropshippersRef;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Category", cascade={"remove", "persist"})
+     * @ORM\JoinTable(name="shop_category",
+     *     joinColumns={@ORM\JoinColumn(name="shop_id", referencedColumnName="id", onDelete="cascade")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="cascade")}
+     *     )
+     */
+    private $categories;
+
+
+    /**
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $rib;
+
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->request_host = new ArrayCollection();
         $this->request_guest = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     /**
@@ -573,5 +595,71 @@ class Shop
     public function getDropshippersRef()
     {
         return $this->dropshippersRef;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * Add category
+     *
+     * @param \Dropshippers\APIBundle\Entity\Category $category
+     *
+     * @return shop
+     */
+    public function addCategory(Category $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \Dropshippers\APIBundle\Entity\Category $category
+     */
+    public function removeCategory(Category $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRib()
+    {
+        return $this->rib;
+    }
+
+    /**
+     * @param mixed $rib
+     */
+    public function setRib($rib)
+    {
+        $this->rib = $rib;
     }
 }

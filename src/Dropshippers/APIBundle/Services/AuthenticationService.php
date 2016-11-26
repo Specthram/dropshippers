@@ -15,11 +15,13 @@ use Symfony\Component\HttpFoundation\Request;
 class AuthenticationService
 {
     private $doctrine;
+    private $categoryService;
 
-    public function __construct(Registry $doctrine)
+    public function __construct(Registry $doctrine, $categoryService)
     {
         //inject doctrine at construction
         $this->doctrine = $doctrine;
+        $this->categoryService  = $categoryService;
     }
 
     public function getTokenFromUser($username, $password)
@@ -176,6 +178,8 @@ class AuthenticationService
         //set variables and services
         $result = array();
         $userRepository = $this->doctrine->getRepository("DropshippersAPIBundle:User");
+        $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
+
 
         //find user by token
         $user = $userRepository->findOneBy(["token" => $token]);
@@ -188,6 +192,8 @@ class AuthenticationService
         //user
         $result["user"]["username"] = $user->getUsername();
         $result["user"]["email"] = $user->getEmail();
+        $result["user"]["password"] = $user->getPassword();
+        $result["user"]["plainPassword"] = $user->getPlainPassword();
         $result["user"]["last_login"] = $user->getLastLogin();
 
         //shop
@@ -199,6 +205,55 @@ class AuthenticationService
         $result["shop"]["zipcode"] = $user->getShop()->getAddressZipcode();
         $result["shop"]["city"] = $user->getShop()->getCity();
         $result["shop"]["url"] = $user->getShop()->getUrl();
+        $result["shop"]["rib"] = $user->getShop()->getRib();
+        $categories = $user->getShop()->getCategories();
+        if(!empty($categories)){
+            foreach ($categories as $category){
+                $result["shop"]["categories"][] = $this->categoryService->normalizeCategory($category, 2);
+            }
+        }else{
+            $result["shop"]["categories"] = null;
+        }
+        $result["shop"]["users_associe"] = $user->getShop()->getUsers();
+
+        $productRepository  = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
+        $entities           = $productRepository->findBy(array("shop" => $user->getShop()));
+
+        //sort entities in array to separate external and internal products
+        foreach($entities as $product){
+
+            $item = array();
+            $item["dropshippers_ref"] = $product->getDropshippersRef();
+            $images = $product->getImages();
+            if(!empty($images)){
+                foreach ($images as $image){
+                    $item['images'][] = $image->getLink();
+                }
+            }else{
+                $item['images'] = null;
+            }
+            $item["name"] = $product->getName();
+            $item["price"] = $product->getPrice();
+            $item['quantity'] = $product->getQuantity();
+            $item['categories'] = [];
+            $categories = $product->getCategories();
+            if(!empty($categories)){
+                foreach ($categories as $category){
+                    $item['categories'][] = $this->categoryService->normalizeCategory($category, 2);
+                }
+            }else{
+                $item['categories'] = null;
+            }
+            $item["description"] = $product->getDescription();
+            $item["updated_at"] = $product->getUpdatedAt();
+
+            if ($user->getShop()->getId() != $product->getShopOrigin()->getId()){
+                $result['product']["external"][] = $item;
+            } else {
+                $result['product']["local"][] = $item;
+            }
+        }
+
 
 
         return $result;

@@ -4,7 +4,7 @@ services:
         arguments: [ '@doctrine' ]
     dropshippers_api.authentication:
         class: Dropshippers\APIBundle\Services\AuthenticationService
-        arguments: [ '@doctrine' ]
+        arguments: [ '@doctrine', '@dropshippers_api.category' ]
     dropshippers_api.front:
         class: Dropshippers\APIBundle\Services\FrontService
         arguments: [ '@doctrine', '@dropshippers_api.category']
