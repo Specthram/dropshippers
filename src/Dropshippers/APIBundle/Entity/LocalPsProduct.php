@@ -587,6 +587,7 @@ class LocalPsProduct
      */
     public function addCategory(Category $category)
     {
+//        $this->categories[$category->getId()] = $category;
         $this->categories[] = $category;
 
         return $this;
