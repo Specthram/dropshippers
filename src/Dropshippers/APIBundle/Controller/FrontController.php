@@ -181,7 +181,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
             return $response;
         }
         if (in_array("", $paramsArray)){
-            $response->setStatusCode(403);
+            $response->setStatusCode(400);
             $response->setContent(json_encode(array("code" => 10003, "message" => "parametres manquants")));
             return $response;
         }
@@ -191,13 +191,13 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
 
         //error gesture
         if ($result == -1){
-            $response->setStatusCode(403);
+            $response->setStatusCode(422);
             $response->setContent(json_encode(array("code" => 20001, "message" => "Le produit demandé n'existe pas")));
         } elseif ($result == -2) {
-            $response->setStatusCode(403);
+            $response->setStatusCode(422);
             $response->setContent(json_encode(array("code" => 20002, "message" => "La quantité demandé n'est pas possible.")));
         } elseif ($result == -3) {
-            $response->setStatusCode(403);
+            $response->setStatusCode(422);
             $response->setContent(json_encode(array("code" => 30005, "message" => "Impossible de faire une demande sur ses propres produits.")));
         } else {
             $response->setStatusCode(200);
