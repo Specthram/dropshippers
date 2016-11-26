@@ -112,15 +112,17 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
 
     /**
      * Get Route annotation
-     * @Get("/front/user/propositions/{dropshippersRef}")
+     * @Get("/front/user/propositions/{requestRef}")
      */
-    public function getUserPropositionAction(Request $request, $dropshippersRef)
+    public function getUserPropositionAction(Request $request, $requestRef)
     {
         //initiate variables and services
-        $response = new Response();
-        $as = $this->get("dropshippers_api.authentication");
-        $frontService = $this->get("dropshippers_api.front");
-        $token = $request->headers->get("token");
+        $response               = new Response();
+        $as                     = $this->get("dropshippers_api.authentication");
+        $frontService           = $this->get("dropshippers_api.front");
+        $token                  = $request->headers->get("token");
+        $filters                = [];
+        $filters["requestRef"]  = $requestRef;
 
         //authenticating server
         $shop = $as->getShopFromToken($token);
@@ -133,7 +135,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         }
 
         //construct result and response
-        $result = $frontService->getShopPropositions($shop, $dropshippersRef);
+        $result = $frontService->getAllShopPropositions($shop, $filters);
         $response->setStatusCode(200);
         $response->setContent(json_encode(array("code" => 1,"proposition" => $result)));
         return $response;

@@ -110,6 +110,9 @@ class FrontService
             if(isset($filters["productRef"])){
                 $productRef = $filters["productRef"];
             }
+            if (isset($filters['requestRef'])){
+                $requestRef = $filters["requestRef"];
+            }
         }
 
         //doctrine method to find all proposition where the shop us guest
@@ -124,14 +127,13 @@ class FrontService
             $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
             $tab["status"] = $proposition->getStatus();
             $tab["quantity"] = $proposition->getQuantity();
-            $tab["RequestRef"] = $proposition->getDropshippersRef();
+            $tab["requestRef"] = $proposition->getDropshippersRef();
             $tab["shopGuest"]["name"] = $shopGuest->getName();
             $tab["shopGuest"]["id"] = $shopGuest->getId();
             $tab["shopHost"]["name"] = $shopHost->getName();
             $tab["shopHost"]["id"] = $shopHost->getId();
             $tab["product"]["productRef"] = $proposition->getProduct()->getDropshippersRef();
             $tab["product"]["name"] = $proposition->getProduct()->getName();
-            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
             $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
             $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
             $tab["price"] = $proposition->getPrice();
@@ -165,6 +167,14 @@ class FrontService
             } else {
                 $results[] = $tab;
             }
+            if (isset($requestRef)){
+                if ($tab["product"]["RequestRef"] == $requestRef){
+                    $results[] = $tab;
+                }
+            } else {
+                $results[] = $tab;
+            }
+
         }
 
         //doctrine method to find all proposition where the shop as host
@@ -186,7 +196,6 @@ class FrontService
             $tab["shopHost"]["id"] = $shopHost->getId();
             $tab["product"]["productRef"] = $proposition->getProduct()->getDropshippersRef();
             $tab["product"]["name"] = $proposition->getProduct()->getName();
-            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
             $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
             $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
             $tab["price"] = $proposition->getPrice();
@@ -219,114 +228,121 @@ class FrontService
             } else {
                 $results[] = $tab;
             }
+            if (isset($requestRef)){
+                if ($tab["product"]["RequestRef"] == $requestRef){
+                    $results[] = $tab;
+                }
+            } else {
+                $results[] = $tab;
+            }
         }
         return $results;
     }
     
-    public function getShopPropositions($shop, $dropshippersRef)
-    {
-        //initiate variables
-        $results = array();
-        $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
-
-        //get all propositions in array
-        $propositions = $requestRepository->findBy(["shopGuest" => $shop, "dropshippersRef" => $dropshippersRef]);
-
-        //result array construction
-        foreach ($propositions as $proposition){
-            $tab = array();
-            $shopGuest = $proposition->getShopGuest();
-            $shopHost = $proposition->getShopHost();
-            $tab["created_at"] = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
-            $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
-            $tab["status"] = $proposition->getStatus();
-            $tab["quantity"] = $proposition->getQuantity();
-            $tab["shopGuest"]["name"] = $shopGuest->getName();
-            $tab["shopGuest"]["id"] = $shopGuest->getId();
-            $tab["shopHost"]["name"] = $shopHost->getName();
-            $tab["shopHost"]["id"] = $shopHost->getId();
-            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
-            $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
-            $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
-            $tab["price"] = $proposition->getPrice();
-            $deliveryAreas = $proposition->getDeliveryArea();
-            foreach($deliveryAreas as $deliveryArea){
-                $temp = [];
-                $temp['id'] = $deliveryArea->getId();
-                $temp['isoCode'] = $deliveryArea->getIsoCode();
-                $temp['name'] = $deliveryArea->getName();
-                $tab["deliveryArea"][] = $temp;
-            }
-            $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
-
-            //get all message propositions
-            $messages = $proposition->getMessages();
-
-            //construct message array
-            foreach ($messages as $message){
-                $mess = array();
-                $mess['from']               = ['id' => $message->getAuthor()->getId(), 'name' => $message->getAuthor()->getName()];
-                $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
-                $mess["message"] = $message->getMessage();
-                $mess["price"] = $message->getPrice();
-                $mess["status"] = $message->getStatus();
-                $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
-                $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
-                $tab["messages"][] = $mess;
-            }
-            $results[] = $tab;
-        }
-
-        //get all propositions as host
-        $propositions = $requestRepository->findBy(["shopHost" => $shop, "dropshippersRef" => $dropshippersRef]);
-
-        //resume construct array
-        foreach ($propositions as $proposition){
-            $tab = array();
-            $shopGuest = $proposition->getShopGuest();
-            $shopHost = $proposition->getShopHost();
-            $tab["created_at"] = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
-            $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
-            $tab["status"] = $proposition->getStatus();
-            $tab["quantity"] = $proposition->getQuantity();
-            $tab["shopGuest"]["name"] = $shopGuest->getName();
-            $tab["shopGuest"]["id"] = $shopGuest->getId();
-            $tab["shopHost"]["name"] = $shopHost->getName();
-            $tab["shopHost"]["id"] = $shopHost->getId();
-            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
-            $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
-            $tab["price"] = $proposition->getPrice();
-            $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
-            $deliveryAreas = $proposition->getDeliveryArea();
-            foreach($deliveryAreas as $deliveryArea){
-                $temp = [];
-                $temp['id'] = $deliveryArea->getId();
-                $temp['isoCode'] = $deliveryArea->getIsoCode();
-                $temp['name'] = $deliveryArea->getName();
-                $tab["deliveryArea"][] = $temp;
-            }
-            $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
-
-            //get proposition messages
-            $messages = $proposition->getMessages();
-
-            //construct message array and put it in propositions
-            foreach ($messages as $message){
-                $mess = array();
-                $mess['from']               = ['id' => $message->getAuthor()->getId(), 'name' => $message->getAuthor()->getName()];
-                $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
-                $mess["message"] = $message->getMessage();
-                $mess["price"] = $message->getPrice();
-                $mess["status"] = $message->getStatus();
-                $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
-                $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
-                $tab["messages"][] = $mess;
-            }
-            $results[] = $tab;
-        }
-
-        return $results;
-    }
+//    public function getShopPropositions($shop, $dropshippersRef)
+//    {
+//        //initiate variables
+//        $results = array();
+//        $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+//
+//        //get all propositions in array
+//        $propositions = $requestRepository->findBy(["shopGuest" => $shop, "dropshippersRef" => $dropshippersRef]);
+//
+//        //result array construction
+//        foreach ($propositions as $proposition){
+//            $tab = array();
+//            $shopGuest = $proposition->getShopGuest();
+//            $shopHost = $proposition->getShopHost();
+//            $tab["created_at"] = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
+//            $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
+//            $tab["status"] = $proposition->getStatus();
+//            $tab["quantity"] = $proposition->getQuantity();
+//            $tab["shopGuest"]["name"] = $shopGuest->getName();
+//            $tab["shopGuest"]["id"] = $shopGuest->getId();
+//            $tab["shopHost"]["name"] = $shopHost->getName();
+//            $tab["shopHost"]["id"] = $shopHost->getId();
+//            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+//            $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
+//            $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
+//            $tab["price"] = $proposition->getPrice();
+//            $deliveryAreas = $proposition->getDeliveryArea();
+//            foreach($deliveryAreas as $deliveryArea){
+//                $temp = [];
+//                $temp['id'] = $deliveryArea->getId();
+//                $temp['isoCode'] = $deliveryArea->getIsoCode();
+//                $temp['name'] = $deliveryArea->getName();
+//                $tab["deliveryArea"][] = $temp;
+//            }
+//            $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
+//
+//            //get all message propositions
+//            $messages = $proposition->getMessages();
+//
+//            //construct message array
+//            foreach ($messages as $message){
+//                $mess = array();
+//                $mess['from']               = ['id' => $message->getAuthor()->getId(), 'name' => $message->getAuthor()->getName()];
+//                $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
+//                $mess["message"] = $message->getMessage();
+//                $mess["price"] = $message->getPrice();
+//                $mess["status"] = $message->getStatus();
+//                $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
+//                $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
+//                $tab["messages"][] = $mess;
+//            }
+//            $results[] = $tab;
+//        }
+//
+//        //get all propositions as host
+//        $propositions = $requestRepository->findBy(["shopHost" => $shop, "dropshippersRef" => $dropshippersRef]);
+//
+//        //resume construct array
+//        foreach ($propositions as $proposition){
+//            $tab = array();
+//            $shopGuest = $proposition->getShopGuest();
+//            $shopHost = $proposition->getShopHost();
+//            $tab["created_at"] = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
+//            $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
+//            $tab["status"] = $proposition->getStatus();
+//            $tab["quantity"] = $proposition->getQuantity();
+//            $tab["shopGuest"]["name"] = $shopGuest->getName();
+//            $tab["shopGuest"]["id"] = $shopGuest->getId();
+//            $tab["shopHost"]["name"] = $shopHost->getName();
+//            $tab["shopHost"]["id"] = $shopHost->getId();
+//            $tab["dropshippersRef"] = $proposition->getDropshippersRef();
+//            $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
+//            $tab["price"] = $proposition->getPrice();
+//            $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
+//            $deliveryAreas = $proposition->getDeliveryArea();
+//            foreach($deliveryAreas as $deliveryArea){
+//                $temp = [];
+//                $temp['id'] = $deliveryArea->getId();
+//                $temp['isoCode'] = $deliveryArea->getIsoCode();
+//                $temp['name'] = $deliveryArea->getName();
+//                $tab["deliveryArea"][] = $temp;
+//            }
+//            $tab["productDropshippersRef"] = $proposition->getProduct()->getDropshippersRef();
+//
+//            //get proposition messages
+//            $messages = $proposition->getMessages();
+//
+//            //construct message array and put it in propositions
+//            foreach ($messages as $message){
+//                $mess = array();
+//                $mess['from']               = ['id' => $message->getAuthor()->getId(), 'name' => $message->getAuthor()->getName()];
+//                $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
+//                $mess["message"] = $message->getMessage();
+//                $mess["price"] = $message->getPrice();
+//                $mess["status"] = $message->getStatus();
+//                $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
+//                $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
+//                $tab["messages"][] = $mess;
+//            }
+//            $results[] = $tab;
+//        }
+//
+//        return $results;
+//    }
 
     public function registerProductRequest($shopHost, $paramsArray)
     {
@@ -575,6 +591,7 @@ class FrontService
         $message->setIsSendDirectly($json->isSendDirectly);
         $message->setMessage($json->message);
         $message->setPrice($json->price);
+        $message->setStatus("waiting");
         $message->setIsWhiteMark($json->isWhiteMark);
         $message->setProductRequest($request);
 
