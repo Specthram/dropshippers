@@ -105,14 +105,17 @@ class FrontService
         return $item;
     }
 
-    public function getAllShopPropositions($shop, $filters)
+    public function getAllShopPropositions($shop, $filters = null)
     {
         //get all shop propositions
-        $results = array();
-        $requestRepository = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+        $results            = array();
+        $requestRepository  = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+        $productRef         = "";
+        $requestRef         = "";
+        $mem                = 0;
 
         //check if there is filters
-        if (!empty($filters)){
+        if (!is_null($filters) && !empty($filters)){
             if(isset($filters["productRef"])){
                 $productRef = $filters["productRef"];
             }
@@ -126,30 +129,32 @@ class FrontService
 
         //feed an array with results
         foreach ($propositions as $proposition){
+            $mem = 0;
             $tab = array();
-            $shopGuest = $proposition->getShopGuest();
-            $shopHost = $proposition->getShopHost();
-            $tab["created_at"] = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
-            $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
-            $tab["status"] = $proposition->getStatus();
-            $tab["quantity"] = $proposition->getQuantity();
-            $tab["requestRef"] = $proposition->getDropshippersRef();
-            $tab["shopGuest"]["name"] = $shopGuest->getName();
-            $tab["shopGuest"]["id"] = $shopGuest->getId();
-            $tab["shopHost"]["name"] = $shopHost->getName();
-            $tab["shopHost"]["id"] = $shopHost->getId();
-            $tab["product"]["productRef"] = $proposition->getProduct()->getDropshippersRef();
-            $tab["product"]["name"] = $proposition->getProduct()->getName();
-            $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
-            $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
-            $tab["price"] = $proposition->getPrice();
-            $deliveryAreas = $proposition->getDeliveryArea();
+            $shopGuest          = $proposition->getShopGuest();
+            $shopHost           = $proposition->getShopHost();
+            $tab["created_at"]  = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
+            $tab["updated_at"]  = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
+            $tab["status"]      = $proposition->getStatus();
+            $tab["quantity"]    = $proposition->getQuantity();
+            $tab["requestRef"]  = $proposition->getDropshippersRef();
+            $tab["shopGuest"]["name"]   = $shopGuest->getName();
+            $tab["shopGuest"]["id"]     = $shopGuest->getId();
+            $tab["shopHost"]["name"]    = $shopHost->getName();
+            $tab["shopHost"]["id"]      = $shopHost->getId();
+            $tab["product"]["productRef"]   = $proposition->getProduct()->getDropshippersRef();
+            $tab["product"]["name"]         = $proposition->getProduct()->getName();
+            $tab["isSendDirectly"]      = $proposition->getIsSendDirectly();
+            $tab["isWhiteMark"]         = $proposition->getIsWhiteMark();
+            $tab["price"]               = $proposition->getPrice();
+            $deliveryAreas      = $proposition->getDeliveryArea();
+
             foreach($deliveryAreas as $deliveryArea){
-                $temp = [];
-                $temp['id'] = $deliveryArea->getId();
-                $temp['isoCode'] = $deliveryArea->getIsoCode();
-                $temp['name'] = $deliveryArea->getName();
-                $tab["deliveryArea"][] = $temp;
+                $temp                   = [];
+                $temp['id']             = $deliveryArea->getId();
+                $temp['isoCode']        = $deliveryArea->getIsoCode();
+                $temp['name']           = $deliveryArea->getName();
+                $tab["deliveryArea"][]  = $temp;
             }
             $messages = $proposition->getMessages();
 
@@ -166,18 +171,23 @@ class FrontService
 
                 $tab["messages"][] = $mess;
             }
-            if (isset($productRef)){
-                if ($tab["product"]["productRef"] == $productRef){
-                    $results[] = $tab;
-                }
-            } else {
-                $results[] = $tab;
-            }
-            if (isset($requestRef)){
+            if (!empty($requestRef)){
                 if ($tab["product"]["RequestRef"] == $requestRef){
                     $results[] = $tab;
+                } else {
+                    $mem = 1;
                 }
-            } else {
+            }
+
+            if (!empty($productRef)){
+                if ($tab["product"]["productRef"] == $productRef){
+                    $results[] = $tab;
+                } else {
+                    $mem = 1;
+                }
+            }
+
+            if ($mem == 0) {
                 $results[] = $tab;
             }
 
@@ -188,57 +198,63 @@ class FrontService
 
         //feed array of propositions
         foreach ($propositions as $proposition){
-            $tab = array();
-            $shopGuest = $proposition->getShopGuest();
-            $shopHost = $proposition->getShopHost();
-            $tab["created_at"] = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
-            $tab["updated_at"] = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
-            $tab["status"] = $proposition->getStatus();
-            $tab["quantity"] = $proposition->getQuantity();
-            $tab["requestRef"] = $proposition->getDropshippersRef();
-            $tab["shopGuest"]["name"] = $shopGuest->getName();
-            $tab["shopGuest"]["id"] = $shopGuest->getId();
-            $tab["shopHost"]["name"] = $shopHost->getName();
-            $tab["shopHost"]["id"] = $shopHost->getId();
-            $tab["product"]["productRef"] = $proposition->getProduct()->getDropshippersRef();
-            $tab["product"]["name"] = $proposition->getProduct()->getName();
-            $tab["isSendDirectly"] = $proposition->getIsSendDirectly();
-            $tab["isWhiteMark"] = $proposition->getIsWhiteMark();
-            $tab["price"] = $proposition->getPrice();
+            $mem            = 0;
+            $tab            = array();
+            $shopGuest      = $proposition->getShopGuest();
+            $shopHost       = $proposition->getShopHost();
+            $tab["created_at"]      = $proposition->getCreatedAt()->format(\DateTime::ISO8601);
+            $tab["updated_at"]      = $proposition->getUpdatedAt()->format(\DateTime::ISO8601);
+            $tab["status"]          = $proposition->getStatus();
+            $tab["quantity"]        = $proposition->getQuantity();
+            $tab["requestRef"]      = $proposition->getDropshippersRef();
+            $tab["shopGuest"]["name"]   = $shopGuest->getName();
+            $tab["shopGuest"]["id"]     = $shopGuest->getId();
+            $tab["shopHost"]["name"]    = $shopHost->getName();
+            $tab["shopHost"]["id"]      = $shopHost->getId();
+            $tab["product"]["productRef"]   = $proposition->getProduct()->getDropshippersRef();
+            $tab["product"]["name"]     = $proposition->getProduct()->getName();
+            $tab["isSendDirectly"]      = $proposition->getIsSendDirectly();
+            $tab["isWhiteMark"]     = $proposition->getIsWhiteMark();
+            $tab["price"]           = $proposition->getPrice();
 
             $deliveryAreas = $proposition->getDeliveryArea();
             foreach($deliveryAreas as $deliveryArea){
-                $temp = [];
-                $temp['id'] = $deliveryArea->getId();
-                $temp['isoCode'] = $deliveryArea->getIsoCode();
-                $temp['name'] = $deliveryArea->getName();
-                $tab["deliveryArea"][] = $temp;
+                $temp               = [];
+                $temp['id']         = $deliveryArea->getId();
+                $temp['isoCode']    = $deliveryArea->getIsoCode();
+                $temp['name']       = $deliveryArea->getName();
+                $tab["deliveryArea"][]  = $temp;
             }
             $messages = $proposition->getMessages();
             foreach ($messages as $message){
                 $mess = array();
-                $mess['from']               = ['id' => $message->getAuthor()->getId(), 'name' => $message->getAuthor()->getName()];
-                $mess["date"] = $message->getCreatedAt()->format(\DateTime::ISO8601);
-                $mess["message"] = $message->getMessage();
-                $mess["price"] = $message->getPrice();
-                $mess["status"] = $message->getStatus();
-                $mess["isWhiteMark"] = $proposition->getIsWhiteMark();
+                $mess['from']           = ['id' => $message->getAuthor()->getId(), 'name' => $message->getAuthor()->getName()];
+                $mess["date"]           = $message->getCreatedAt()->format(\DateTime::ISO8601);
+                $mess["message"]        = $message->getMessage();
+                $mess["price"]          = $message->getPrice();
+                $mess["status"]         = $message->getStatus();
+                $mess["isWhiteMark"]    = $proposition->getIsWhiteMark();
                 $mess["isSendDirectly"] = $proposition->getIsSendDirectly();
 
                 $tab["messages"][] = $mess;
             }
-            if (isset($productRef)){
-                if ($tab["product"]["productRef"] == $productRef){
-                    $results[] = $tab;
-                }
-            } else {
-                $results[] = $tab;
-            }
-            if (isset($requestRef)){
+            if (!empty($requestRef)){
                 if ($tab["product"]["RequestRef"] == $requestRef){
                     $results[] = $tab;
+                } else {
+                    $mem = 1;
                 }
-            } else {
+            }
+
+            if (!empty($productRef)){
+                if ($tab["product"]["productRef"] == $productRef){
+                    $results[] = $tab;
+                } else {
+                    $mem = 1;
+                }
+            }
+
+            if ($mem == 0) {
                 $results[] = $tab;
             }
         }
