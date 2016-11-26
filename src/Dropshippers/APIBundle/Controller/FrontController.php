@@ -364,7 +364,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
 
         $result = $as->getCurrentUser($token);
         $response->setStatusCode(200);
-        $response->setContent(json_encode(array("code" => 1, "currentUser" => $result)));
+        $response->setContent(json_encode(array($result)));
         return $response;
     }
 
@@ -421,4 +421,6 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
 
         return $zoneService->constructZoneStandardArray();
     }
+
+
 }
