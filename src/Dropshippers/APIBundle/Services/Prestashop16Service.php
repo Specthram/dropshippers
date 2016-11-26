@@ -44,6 +44,13 @@ class Prestashop16Service
             if (!$entity) {
                 $entity     = new LocalPsProduct();
                 $entity->setCreatedAt(new \DateTime());
+            } else {
+                $existingCategories = $entity->getCategories();
+                foreach ($existingCategories as $category){
+                    $entity->removeCategory($category);
+                }
+                $em->persist($entity);
+                $em->flush();
             }
 
             //feed the fields
