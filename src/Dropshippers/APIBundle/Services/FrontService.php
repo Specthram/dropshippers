@@ -12,6 +12,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Dropshippers\APIBundle\Entity\Country;
 use Dropshippers\APIBundle\Entity\ProductRequest;
 use Dropshippers\APIBundle\Entity\ProductRequestMessage;
+use Dropshippers\APIBundle\Entity\Shop;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -552,6 +553,39 @@ class FrontService
         } catch (RequestException $e) {
             //TODO
         }
+    }
+
+    public function postPropositionMessage($dropshippersRef, $json, Shop $shop){
+        //initiate variables
+        $repository         = $this->doctrine->getRepository("DropshippersAPIBundle:ProductRequest");
+        $request            = $repository->findOneBy(["dropshippersRef" => $dropshippersRef]);
+        $em                 = $this->doctrine->getManager();
+
+        $results = array();
+
+        //return -1 if request does not exists
+        if (!$request){
+            return -1;
+        }
+
+        //check if json contains correct fields
+        if (!isset($json->message) || !isset($json->price) ||
+            !isset($json->isWhiteMark) || !isset($json->isSendDirectly)){
+            return -2;
+        }
+
+        $message = new ProductRequestMessage();
+        $message->setAuthor($shop);
+        $message->setCreatedAt(new \DateTime());
+        $message->setUpdatedAt(new \DateTime());
+        $message->setIsSendDirectly($json->isSendDirectly);
+        $message->setMessage($json->message);
+        $message->setPrice($json->price);
+        $message->setIsWhiteMark($json->isWhiteMark);
+        $message->setProductRequest($request);
+
+        $em->persist($message);
+        $em->flush();
     }
 
     public function getPropositionMessages($dropshippersRef)
