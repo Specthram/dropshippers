@@ -501,11 +501,11 @@ example :
 
 PUT dropshippers.dev/v1/front/user/propositions/{dropshippersRef}/message
 --------------------------------------------------------------------------
-Permet de récupérer les messages liés a une request product
+Permet d'ajouter un message à une request product
 
 * Header : token
 * Body   : json
-* retour : code, messages
+* retour : code, message
 
 example json :
 ```
