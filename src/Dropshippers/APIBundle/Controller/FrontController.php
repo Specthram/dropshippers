@@ -201,7 +201,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
             $response->setContent(json_encode(array("code" => 30005, "message" => "Impossible de faire une demande sur ses propres produits.")));
         } else {
             $response->setStatusCode(200);
-            $response->setContent(json_encode(array("code" => 30001, "message" => "requête produit effectuée")));
+            $response->setContent(json_encode(array("code" => 30001, "message" => "requête produit effectuée", "requestRef" => $result)));
         }
 
         return $response;

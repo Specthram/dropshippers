@@ -429,7 +429,7 @@ class FrontService
 
         $entityManager->flush();
 
-        return 0;
+        return $productRequest->getDropshippersRef();
     }
 
     public function modifyProductRequest($shopHost, $instructions, $dropshippersRef)
