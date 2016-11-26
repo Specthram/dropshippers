@@ -499,6 +499,24 @@ example :
 }
 ```
 
+PUT dropshippers.dev/v1/front/user/propositions/{dropshippersRef}/message
+--------------------------------------------------------------------------
+Permet de récupérer les messages liés a une request product
+
+* Header : token
+* Body   : json
+* retour : code, messages
+
+example json :
+```
+{
+  "message" : "contenu du message",
+  "isWhiteMark" : true,
+  "isSendDirectly" : false,
+  "price" : 3.9
+}
+```
+
 
 PATCH dropshippers.dev/v1/front/user/propositions/{dropshippersRef}
 -------------------------------------------------------------------
