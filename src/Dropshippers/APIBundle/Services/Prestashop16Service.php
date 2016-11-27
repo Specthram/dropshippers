@@ -200,7 +200,7 @@ class Prestashop16Service
                 $order  = new Orders();
 
                 $order->setUpdatedAt(new \DateTime());
-                $order->getCreatedAt(new \DateTime());
+                $order->setCreatedAt(new \DateTime());
                 $order->setIsWhiteMark($request->getIsWhiteMark());
                 $order->setQuantity($productTab['productQuantity']);
                 $order->setCustomerEmail($json->customer->email);
