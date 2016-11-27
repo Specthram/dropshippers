@@ -217,7 +217,6 @@ class Prestashop16Service
 
                 $em->persist($order);
                 $em->flush();
-
             }
         } else {
             return -2;
