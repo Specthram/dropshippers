@@ -379,7 +379,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         if ($result == -1){
             $response->setStatusCode(422);
             $response->setContent(json_encode(array("code" => 10007, "message" => "Aucune request trouvée")));
-        } else if ($result == 2) {
+        } else if ($result == -2) {
             $response->setStatusCode(422);
             $response->setContent(json_encode(array("code" => 30002, "message" => "missing field in json")));
         } else {

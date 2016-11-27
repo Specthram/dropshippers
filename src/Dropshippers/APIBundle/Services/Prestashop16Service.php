@@ -10,8 +10,10 @@ namespace Dropshippers\APIBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Dropshippers\APIBundle\Entity\LocalPsProduct;
+use Dropshippers\APIBundle\Entity\Orders;
 use Dropshippers\APIBundle\Entity\Shop;
 use Dropshippers\APIBundle\Entity\LocalProductImage;
+use JMS\Serializer\Tests\Fixtures\Order;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -159,6 +161,69 @@ class Prestashop16Service
             }
         }
         return $tab;
+    }
+
+    public function registerNewOrder(Shop $shop, $json)
+    {
+        //initiate variables
+        $productRepo    = $this->doctrine->getRepository('DropshippersAPIBundle:LocalPsProduct');
+        $requestRepo    = $this->doctrine->getRepository('DropshippersAPIBundle:ProductRequest');
+        $em             = $this->doctrine->getManager();
+
+        //loop on json from json if exists
+        if (isset($json->productList) && !empty($json->productList)
+            && isset($json->customer) && !empty($json->customer)
+            && isset($json->deliveryAddress) && !empty($json->deliveryaddress)){
+
+            foreach($json->productList as $productTab){
+                //does the product have both keys
+                if (!(isset($productTab['dropshippersRef']) && !empty($productTab['dropshippersRef'])
+                    && isset($productTab['productQuantity']) && !empty($productTab['productQuantity']))) {
+                    return -2;
+                }
+
+                //stock control
+                //TODO voir comment gérer les stocks au niveau des localpsproduct, rajouter un champs idOrigin pour soustraire sur le produit d'origine ?
+
+                $product    = $productRepo->findOneBy(['dropshippersRef' => $productTab['dropshippersRef'], 'shop' => $shop]);
+
+                if (!$product){
+                    return -3;
+                }
+
+                $request    = $requestRepo->findOneBy(['product' => $product, 'shopHost' => $shop, 'status' => 'accepted']);
+
+                if (!$request){
+                    return -4;
+                }
+
+                $order  = new Orders();
+
+                $order->setUpdatedAt(new \DateTime());
+                $order->getCreatedAt(new \DateTime());
+                $order->setIsWhiteMark($request->getIsWhiteMark());
+                $order->setQuantity($productTab['productQuantity']);
+                $order->setCustomerEmail($json->customer->email);
+                $order->setCustomerFirstname($json->customer->firstname);
+                $order->setCustomerLastname($json->customer->lastname);
+                $order->setCustomerPhone($json->customer->phone);
+                $order->setCustomerPhoneMobile($json->customer->phoneMobile);
+                $order->setIsSendDirectly($request->getIsSendDirectly());
+                $order->setOrderRef($this->generateRandomRef($shop->getName()));
+                $order->setProduct($product);
+                $order->setShopHost($shop);
+                $order->setShopGuest($product->getShopOrigin());
+                $order->setStatus("new");
+
+                $em->persist($order);
+                $em->flush();
+
+            }
+        } else {
+            return -2;
+        }
+
+        return 0;
     }
 
     //generate random ref

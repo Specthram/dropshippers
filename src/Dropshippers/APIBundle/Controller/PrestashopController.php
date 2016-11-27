@@ -134,10 +134,58 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
         if (!$shop){
             throw new AccessDeniedHttpException("invalid token.");
         }
-        
+
         //get result from service
         $response = $service->getSharedProducts($shop);
 
         return $response;
     }
+
+    /**
+     * Post Route annotation
+     * @Post("/ps/{version}/shop/orders")
+     */
+    public function postShopOrdersAction(Request $request, $version)
+    {
+        //set variables and services
+        $as                 = $this->get("dropshippers_api.authentication");
+        $token              = $request->headers->get("token");
+        $shop               = $as->getShopFromToken($token);
+        $prestashopService  = $this->get("dropshippers_api.prestashop" . $version);
+        $json               = json_decode($request->getContent());
+        $response           = new Response();
+
+        //throw error if no shop found
+        if (!$shop){
+            throw new AccessDeniedHttpException("invalid token.");
+        }
+
+        if (is_null($json)){
+            $response->setStatusCode(422);
+            $response->setContent(json_encode(array("code" => 3, "message" => "content must contains json decodable syntax")));
+            return $response;
+        }
+
+        $result = $prestashopService->registerNewOrder($shop, $json);
+
+        if ($result == -1){
+            $response->setStatusCode(422);
+            $response->setContent(json_encode(array("code" => 30002, "message" => "missing field in json")));
+        } else if ($result == -2) {
+            $response->setStatusCode(422);
+            $response->setContent(json_encode(array("code" => 30002, "message" => "missing field in json")));
+        } else if ($result == -3) {
+            $response->setStatusCode(422);
+            $response->setContent(json_encode(array("code" => 30002, "message" => "autre erreur voir code")));
+        } else if ($result == -4) {
+            $response->setStatusCode(422);
+            $response->setContent(json_encode(array("code" => 30002, "message" => "request acceptée inexistante pour le produit")));
+        } else {
+            $response->setStatusCode(200);
+            $response->setContent(json_encode(array("code" => 1, "message" => "Order registered")));
+        }
+
+        return $response;
+    }
+
 }

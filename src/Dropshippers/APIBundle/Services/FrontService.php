@@ -470,9 +470,11 @@ class FrontService
                             //only if accepted is the new state
                             if ($instruction->value == "accepted" && $productRequest->getStatus() != "accepted"){
                                 $product = $productRequest->getProduct();
-                                if (($product->getQuantity() - $productRequest->getQuantity()) >= 0){
+                                if (($product->getQuantity() - $productRequest->getQuantity()) >= 0)
+                                {
                                     $newProduct = clone $product;
-                                    $product->setQuantity($product->getQuantity() - $productRequest->getQuantity());
+                                    //$product->setQuantity($product->getQuantity() - $productRequest->getQuantity());
+                                    $product->setQuantity($productRequest->getQuantity()); //attention il faudra resynchroniser le stock de temps en temps
                                     $product->setUpdatedAt(new \DateTime());
                                     $newProduct->setCreatedAt(new \DateTime());
                                     $newProduct->setUpdatedAt(new \DateTime());
