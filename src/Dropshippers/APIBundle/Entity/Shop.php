@@ -148,7 +148,7 @@ class Shop
     private $description;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="rib", type="string", length=255, nullable=true)
      */
     private $rib;
 
