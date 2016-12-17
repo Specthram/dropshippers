@@ -64,7 +64,7 @@ class LoginController extends FOSRestController implements ClassResourceInterfac
             //FIXME : how to identify which module to get?
             $module = $shop->getModules()->first();
             $prestashop16Service = $this->get("dropshippers_api.prestashop16");
-            $prestashop16Service->registerNotificationLink($module->getId(), $notificationLink);
+            //$prestashop16Service->registerNotificationLink($module->getId(), $notificationLink);
         }
 
         //return response
