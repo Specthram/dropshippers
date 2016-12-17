@@ -542,6 +542,33 @@ exemple retour :
 }
 ```
 
+POST dropshippers.dev/ps/{version}/shop/orders
+----------------------------------------------
+Permet de d'ajouter une commande
+
+* Header : token
+* Body   : Json
+* retour : code, message
+
+exemple :
+
+```
+{
+    "deliveryAddress": "10 rue de la javelle",
+    "productList":  {    
+        {"dropshippersRef" : "refrezeferfer", "productQuantity" : 2}, 
+        {"..."}
+    },
+    "customer" :    {
+        "firstname" : "olivier",
+        "lastname" : "macon",
+        "phone" : "0222222222222"
+        "phoneMobile" : "06666666666",
+    } 
+}
+```
+
+
 GET dropshippers.dev/ps/{version}/shop/products/shared
 ------------------------------------------------------
 permet de savoir quels sont les produits de la boutique actuellements partagés
