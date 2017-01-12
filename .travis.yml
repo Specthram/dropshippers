@@ -6,9 +6,9 @@ services:
     - mysql
 before_install:
     - echo "hello first test !"
-    - mysql -e -uroot 'CREATE DATABASE dropshippers;'
-    - mysql -e -uroot "CREATE USER 'dropshippers'@'localhost' IDENTIFIED BY 'P@ssword';"
-    - mysql -e -uroot "GRANT ALL ON dropshippers.* To 'dropshippers'@'localhost';"
+    - mysql -uroot -e "create database dropshippers;"
+    - mysql -uroot -e "CREATE USER 'dropshippers'@'localhost' IDENTIFIED BY 'P@ssword';"
+    - mysql -uroot -e "GRANT ALL ON dropshippers.* To 'dropshippers'@'localhost';"
 
 install:
     - composer install
