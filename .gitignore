@@ -17,4 +17,3 @@
 /.idea/
 /.vagrant
 /src/Dropshippers/APIBundle/Entity/*.*~
-/app/config/config_dev.yml
