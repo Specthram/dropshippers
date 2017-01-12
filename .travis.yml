@@ -8,6 +8,7 @@ before_install:
     - echo "hello first test !"
     - mysql -e 'CREATE DATABASE dropshippers;'
     - mysql -e "CREATE USER 'dropshippers'@'localhost' IDENTIFIED BY 'P@ssword';"
+    - mysql -e "GRANT ALL PRIVILEGES ON dropshippers.* To 'dropshippers'@'localhost' IDENTIFIED BY 'P@ssword';"
 
 install:
     - composer install
