@@ -16,4 +16,4 @@ install:
     - composer install
     - bin/console doctrine:schema:update --force
     - bin/console doctrine:fixtures:load --no-interaction
-    - ansible-playbook playbook.yml -i ./ansible/production
+    - ansible-playbook ./ansible/playbook.yml -i ./ansible/production
