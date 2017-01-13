@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Specthram/dropshippers.svg?branch=master)](https://travis-ci.org/Specthram/dropshippers)
+
 Installation
 ===========
 Pré requis (obligatoire)
