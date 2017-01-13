@@ -1,6 +1,5 @@
 language: php
 php:
-    - 5.6
     - 7.1
 services:
     - mysql
@@ -11,7 +10,7 @@ before_install:
     - mysql -uroot -e "GRANT ALL ON dropshippers.* To 'dropshippers'@'localhost';"
     - sudo apt-get update -qq
     - sudo apt-get install software-properties-common
-    - sudo apt-add-repository ppa:ansible/ansible
+    - sudo apt-add-repository ppa:ansible/ansible -y
     - sudo apt-get update -qq
     - sudo apt-get install -y ansible
 
