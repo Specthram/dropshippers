@@ -3,6 +3,9 @@ php:
     - 7.1
 services:
     - mysql
+addons:
+  ssh_known_hosts:
+    - 46.101.119.131
 before_install:
     - echo "hello first test !"
     - mysql -uroot -e "create database dropshippers;"
@@ -13,7 +16,6 @@ before_install:
     - sudo apt-add-repository ppa:ansible/ansible -y
     - sudo apt-get update -qq
     - sudo apt-get install -y ansible
-    - ~/.ssh/known_hosts << '|1|cI5fNGd45quKjD0aIdH8RJVk5rw=|vgbJQ/hvE2QcmTRpAMthbj+mg2k= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBG4WvDXnP33VY7BqTDUReBz2LV4yKAf59nS4KDRSAdRmaYsFoiXTqAFlrl9MJk2rjhwhTDOYl6UujEWHlAuX2+c='
 
 install:
     - composer install
