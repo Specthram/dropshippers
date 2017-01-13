@@ -10,6 +10,9 @@ before_install:
     - mysql -uroot -e "CREATE USER 'dropshippers'@'localhost' IDENTIFIED BY 'P@ssword';"
     - mysql -uroot -e "GRANT ALL ON dropshippers.* To 'dropshippers'@'localhost';"
     - sudo apt-get update -qq
+    - sudo apt-get install software-properties-common
+    - sudo apt-add-repository ppa:ansible/ansible
+    - sudo apt-get update -qq
     - sudo apt-get install -y ansible
 
 install:
