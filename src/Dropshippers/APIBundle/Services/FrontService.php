@@ -56,7 +56,7 @@ class FrontService
                     $item['images'][] = $image->getLink();
                 }
             }else{
-                $item['images'] = null;
+                $item['images'] = array();
             }
             $item["name"] = $product->getName();
             $item["price"] = $product->getPrice();
@@ -68,7 +68,7 @@ class FrontService
                     $item['categories'][] = $this->categoryService->normalizeCategory($category, 2);
                 }
             }else{
-                $item['categories'] = null;
+                $item['categories'] = array();
             }
             //$item['product_ref'] = $product->getReference();
             $item["description"] = $product->getDescription();
@@ -90,7 +90,6 @@ class FrontService
         $item = [];
         $item["name"] = $product->getName();
         $item["price"] = $product->getPrice();
-        $item["images"] = $product->getImages();
         $item["description"] = $product->getDescription();
         $item["active"] = $product->getActive();
         $item["updated_at"] = $product->getUpdatedAt();
@@ -101,6 +100,14 @@ class FrontService
         $categories = $product->getCategories();
         foreach ($categories as $category){
             $item['categories'][] = $category->getId();
+        }
+        $images = $product->getImages();
+        if(!empty($images)){
+            foreach ($images as $image){
+                $item['images'][] = $image->getLink();
+            }
+        }else{
+            $item['images'] = array();
         }
         return $item;
     }
