@@ -1,14 +1,25 @@
 language: php
 php:
-    - 5.6
     - 7.1
 services:
     - mysql
+addons:
+  ssh_known_hosts:
+    - 46.101.119.131
 before_install:
     - echo "hello first test !"
     - mysql -uroot -e "create database dropshippers;"
     - mysql -uroot -e "CREATE USER 'dropshippers'@'localhost' IDENTIFIED BY 'P@ssword';"
     - mysql -uroot -e "GRANT ALL ON dropshippers.* To 'dropshippers'@'localhost';"
+    - sudo apt-get update -qq
+    - sudo apt-get install software-properties-common
+    - sudo apt-add-repository ppa:ansible/ansible -y
+    - sudo apt-get update -qq
+    - sudo apt-get install -y ansible
 
 install:
     - composer install
+    - bin/console doctrine:schema:update --force
+    - bin/console doctrine:fixtures:load --no-interaction
+    - ansible-playbook ./ansible/playbook.yml -i ./ansible/production --syntax-check
+    - ansible-playbook ./ansible/playbook.yml -i ./ansible/production

@@ -44,18 +44,19 @@
   notify:
     - restart apache
 
-- name: "Installing VirtualHost"
+- name: "Copying Virtualhost"
   sudo: yes
-  template: src=/vagrant/ansible/roles/dropshippers/templates/vhost.conf.template dest=/etc/apache2/sites-available/dropshippers.conf
+  template: src={{ template_source }} dest={{ vhost_destination }}/dropshippers.conf
   notify:
     - restart apache
 
-- name: "Coucou Addel"
-  shell: echo hello
+#- name: "Configuring Virtualhost"
+#  sudo: yes
+#  replace: dest={{ vhost_destination }}/dropshippers.conf
 
 - name: "Creating Dropshippers web Symlink"
   sudo: yes
-  file: src=/vagrant dest=/var/www/html/dropshippers state=link
+  file: src={{ project_default_location }} dest={{ project_link }} state=link
   notify:
     - restart apache
 
@@ -96,13 +97,14 @@
   mysql_user: name=dropshippers password=P@ssword priv=*.*:ALL state=present
 
 - name: "Resolving composer dependencies"
-  command: composer install --no-interaction --prefer-dist --no-progress chdir=/vagrant
+  command: composer install --no-interaction --prefer-dist --no-progress chdir={{ project_link }}
 
 - name: "Installing Symfony database"
-  command:  bin/console doctrine:schema:update --force chdir=/vagrant
+  command:  bin/console doctrine:schema:update --force chdir={{ project_link }}
 
 - name: "Injecting DataFixtures"
-  command:  bin/console doctrine:fixtures:load chdir=/vagrant
+  command:  bin/console doctrine:fixtures:load chdir={{ project_link }}
 
 - name: "Installing aliases"
-  template: src=/vagrant/ansible/roles/dropshippers/templates/bash_aliases.template dest=/home/vagrant/.bash_aliases
+  template: src={{ project_default_location }}/ansible/roles/dropshippers/templates/bash_aliases.template dest=/home/vagrant/.bash_aliases
+  when: ( dev == 1 )
