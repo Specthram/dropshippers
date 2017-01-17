@@ -34,7 +34,6 @@ class FrontService
 
     public function getAllProducts($filter = array())
     {
-
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
 
 
@@ -51,7 +50,7 @@ class FrontService
             $item["updated_at"] = $product->getUpdatedAt();
             $item["dropshippers_ref"] = $product->getDropshippersRef();
             $images = $product->getImages();
-            if(!empty($images)){
+            if(!$images->isEmpty()){
                 foreach ($images as $image){
                     $item['images'][] = $image->getLink();
                 }
@@ -102,7 +101,7 @@ class FrontService
             $item['categories'][] = $category->getId();
         }
         $images = $product->getImages();
-        if(!empty($images)){
+        if(!$images->isEmpty()){
             foreach ($images as $image){
                 $item['images'][] = $image->getLink();
             }
