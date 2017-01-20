@@ -17,17 +17,16 @@ before_install:
   - echo "hello first test !"
   - sudo rm /etc/ssh/ssh_config
   - sudo cp ansible/roles/dropshippers/templates/ssh_config /etc/ssh/ssh_config
-  - sudo service ssh reload
   - sudo cat /etc/ssh/ssh_config
   - sudo cat ~/.ssh/config
-  - echo -e "\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-  - sudo cat ~/.ssh/config
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
   - echo -e $id_rsa.pub > ~/.ssh/id_rsa.pub
   - echo -e $id_rsa > ~/.ssh/id_rsa
   - sudo chmod 600 ~/.ssh/*
   - sudo chmod 644 ~/.ssh/config
   - eval `ssh-agent -s`
   - ssh-add ~/.ssh/id_rsa
+  - sudo service ssh restart
   - mysql -uroot -e "create database dropshippers;"
   - mysql -uroot -e "CREATE USER 'dropshippers'@'localhost' IDENTIFIED BY 'p@ssword';"
   - mysql -uroot -e "GRANT ALL ON dropshippers.* To 'dropshippers'@'localhost';"
