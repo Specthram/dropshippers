@@ -18,6 +18,8 @@ before_install:
   - echo -e $id_rsa.pub > ~/.ssh/id_rsa.pub
   - echo -e $id_rsa > ~/.ssh/id_rsa
   - sudo chmod 600 ~/.ssh/id_rsa
+  - ssh-agent -s
+  - ssh-add ~/.ssh/id_rsa
   - mysql -uroot -e "create database dropshippers;"
   - mysql -uroot -e "CREATE USER 'dropshippers'@'localhost' IDENTIFIED BY 'p@ssword';"
   - mysql -uroot -e "GRANT ALL ON dropshippers.* To 'dropshippers'@'localhost';"
