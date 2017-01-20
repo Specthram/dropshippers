@@ -16,7 +16,7 @@ notifications:
 before_install:
   - echo "hello first test !"
   - sudo cat /etc/ssh/ssh_config
-  - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
   - echo -e $id_rsa.pub > ~/.ssh/id_rsa.pub
   - echo -e $id_rsa > ~/.ssh/id_rsa
   - sudo chmod 600 ~/.ssh/*
