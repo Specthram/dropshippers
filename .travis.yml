@@ -16,7 +16,7 @@ notifications:
 before_install:
   - echo "hello first test !"
   - mysql -uroot -e "create database dropshippers;"
-  - mysql -uroot -e "CREATE USER 'dropshippers'@'localhost' IDENTIFIED BY 'p@ssword_drop$hipper$';"
+  - mysql -uroot -e "CREATE USER 'dropshippers'@'localhost' IDENTIFIED BY 'p@ssword';"
   - mysql -uroot -e "GRANT ALL ON dropshippers.* To 'dropshippers'@'localhost';"
   - sudo apt-get update -qq
   - sudo apt-get install software-properties-common
