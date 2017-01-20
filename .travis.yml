@@ -25,7 +25,7 @@ before_install:
   - sudo chmod 600 ~/.ssh/*
   - sudo chmod 644 ~/.ssh/config
   - eval `ssh-agent -s`
-  - ssh-add ~/.ssh/id_rsa
+#  - ssh-add ~/.ssh/id_rsa
   - sudo service ssh restart
   - mysql -uroot -e "create database dropshippers;"
   - mysql -uroot -e "CREATE USER 'dropshippers'@'localhost' IDENTIFIED BY 'p@ssword';"
