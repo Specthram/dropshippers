@@ -6,7 +6,7 @@ parameters:
     database_port:     ~
     database_name:     dropshippers
     database_user:     dropshippers
-    database_password: P@ssword
+    database_password: p@ssword_drop$hipper$
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
 

@@ -1,9 +1,14 @@
 <VirtualHost {{ vhost_ip_address }}:{{ vhost_port }}>
      DocumentRoot	{{ document_root }}
      ServerName		{{ vhost_servername }}
+     ServerAdmin picaud.marc@gmail.com
      <Directory {{ document_root }}>
             Allowoverride All
+            Order Allow,Deny
+            Allow from All
      </Directory>
      ErrorLog ${APACHE_LOG_DIR}/error.log
      CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
+
+#provisionned by ansible
