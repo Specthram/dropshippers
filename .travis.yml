@@ -15,7 +15,11 @@ notifications:
 
 before_install:
   - echo "hello first test !"
+  - sudo rm /etc/ssh/ssh_config
+  - sudo cp ansible/roles/dropshippers/templates/ssh_config /etc/ssh/ssh_config
+  - sudo service ssh reload
   - sudo cat /etc/ssh/ssh_config
+  - sudo cat ~/.ssh/config
   - echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
   - echo -e $id_rsa.pub > ~/.ssh/id_rsa.pub
   - echo -e $id_rsa > ~/.ssh/id_rsa
