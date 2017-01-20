@@ -25,9 +25,9 @@ before_install:
   - sudo apt-get install -y ansible
 
 install:
-  - composer install
-  - bin/console doctrine:schema:update --force
-  - bin/console doctrine:fixtures:load --no-interaction
-  - ansible production -m ping
+#  - composer install
+#  - bin/console doctrine:schema:update --force
+#  - bin/console doctrine:fixtures:load --no-interaction
+  - ansible all -i production -m ping
 #  - ansible-playbook ./ansible/playbook.yml -i ./ansible/production --syntax-check
 #  - ansible-playbook ./ansible/playbook.yml -i ./ansible/production
