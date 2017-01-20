@@ -105,7 +105,7 @@
   when: (dev == 1)
 
 - name: "[DEV] Creating MySQL dropshippers user"
-  mysql_user: name=dropshippers password=p@ssword_drop$hipper$ priv=*.*:ALL state=present
+  mysql_user: name=dropshippers password= priv=*.*:ALL state=present
   when: (dev == 1)
 
 - name: change permissions to www-data
