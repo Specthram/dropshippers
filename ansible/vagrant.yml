@@ -10,3 +10,4 @@
         - vhost_destination: /etc/apache2/sites-available
         - project_default_location: /vagrant
         - project_link: /var/www/html/dropshippers
+        - symfony_env: dev

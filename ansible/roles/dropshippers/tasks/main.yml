@@ -26,6 +26,10 @@
   notify:
     - restart apache
 
+- name: exporting symfony environment variable
+  environment:
+    SYMFONY_ENV: {{ symfony_env }}
+
 - name: "Configuring PHP memory"
   action: ini_file dest=/etc/php5/apache2/php.ini section=global option=memory_limit value=256M mode=0600
   notify:
@@ -44,36 +48,46 @@
   notify:
     - restart apache
 
+- name: change permissions to anthony
+  file:
+    path: "{{ project_default_location }}"
+    owner: anthony
+    group: anthony
+    mode: 0775
+    recurse: yes
+
+- name: "[PROD] Git pull the project"
+  shell: cd {{ project_default_location }} && git pull
+  when: (prod == 1)
+
 - name: "Copying Virtualhost"
-  sudo: yes
-  template: src={{ template_source }} dest={{ vhost_destination }}/dropshippers.conf
+  become: yes
+  template:
+    src: "vhost.conf.template"
+    dest: "{{ vhost_destination }}/dropshippers.conf"
   notify:
     - restart apache
 
-#- name: "Configuring Virtualhost"
-#  sudo: yes
-#  replace: dest={{ vhost_destination }}/dropshippers.conf
-
 - name: "Creating Dropshippers web Symlink"
-  sudo: yes
+  become: yes
   file: src={{ project_default_location }} dest={{ project_link }} state=link
   notify:
     - restart apache
 
 - name: "Creating phpmyadmin web Symlink"
-  sudo: yes
+  become: yes
   file: src=/usr/share/phpmyadmin dest=/var/www/html/phpmyadmin state=link
   notify:
     - restart apache
 
 - name: "enabling virtualhost"
-  sudo: yes
+  become: yes
   shell: a2ensite dropshippers
   notify:
     - restart apache
 
 - name: "disable apache default site"
-  sudo: yes
+  become: yes
   shell: a2dissite 000-default
   notify:
       - restart apache
@@ -90,13 +104,25 @@
 - name: "Installing pretissimo (faster composer)"
   shell: composer global require hirak/prestissimo
 
-- name: "Creating dropshippers Database"
+- name: "[DEV] Creating dropshippers Database"
   mysql_db: name=dropshippers state=present
+  when: (dev == 1)
 
-- name: "Creating MySQL dropshippers user"
-  mysql_user: name=dropshippers password=P@ssword priv=*.*:ALL state=present
+- name: "[DEV] Creating MySQL dropshippers user"
+  mysql_user: name=dropshippers password= priv=*.*:ALL state=present
+  when: (dev == 1)
+
+- name: change permissions to www-data
+  file:
+    path: "{{ project_default_location }}"
+    owner: www-data
+    group: www-data
+    mode: 0775
+    recurse: yes
 
 - name: "Resolving composer dependencies"
+  become: yes
+  become_user: www-data
   command: composer install --no-interaction --prefer-dist --no-progress chdir={{ project_link }}
 
 - name: "Installing Symfony database"
@@ -104,7 +130,8 @@
 
 - name: "Injecting DataFixtures"
   command:  bin/console doctrine:fixtures:load chdir={{ project_link }}
+  when: (dev == 1)
 
 - name: "Installing aliases"
-  template: src={{ project_default_location }}/ansible/roles/dropshippers/templates/bash_aliases.template dest=/home/vagrant/.bash_aliases
+  template: src="bash_aliases.template" dest=/home/vagrant/.bash_aliases
   when: ( dev == 1 )
