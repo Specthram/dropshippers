@@ -22,8 +22,8 @@ before_install:
   - sudo cat /etc/ssh/ssh_config
   - sudo cat ~/.ssh/config
   - echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-  - echo -e $id_rsa.pub > ~/.ssh/id_rsa.pub
-  - echo -e $id_rsa > ~/.ssh/id_rsa
+  - echo $id_rsa.pub > ~/.ssh/id_rsa.pub
+  - echo $id_rsa > ~/.ssh/id_rsa
   - sudo chmod 600 ~/.ssh/*
   - sudo chmod 644 ~/.ssh/config
   - cat -e ~/.ssh/id_rsa.pub
@@ -31,10 +31,10 @@ before_install:
   - cat ~/.ssh/id_rsa.pub
   - cat ~/.ssh/id_rsa
   - eval `ssh-agent -s`
-  - ssh-keygen -p -P "Nirvana91!" -N "" -f ~/.ssh/id_rsa
-#  - ssh-add ~/.ssh/id_rsa
+#  - ssh-keygen -p -P $passphrase -N "" -f ~/.ssh/id_rsa
+  - ssh-add ~/.ssh/id_rsa
 #  - sshpass -p "$passphrase" ssh-add ~/.ssh/id_rsa
-  - sudo service ssh restart
+#  - sudo service ssh restart
   - mysql -uroot -e "create database dropshippers;"
   - mysql -uroot -e "CREATE USER 'dropshippers'@'localhost' IDENTIFIED BY 'p@ssword';"
   - mysql -uroot -e "GRANT ALL ON dropshippers.* To 'dropshippers'@'localhost';"
