@@ -27,6 +27,10 @@ before_install:
   - sudo chmod 600 ~/.ssh/*
   - sudo chmod 644 ~/.ssh/config
   - ssh-keygen -p -P "Nirvana91!" -N "" -f ~/.ssh/id_rsa
+  - cat -e ~/.ssh/id_rsa.pub
+  - cat -e ~/.ssh/id_rsa
+  - cat ~/.ssh/id_rsa.pub
+  - cat ~/.ssh/id_rsa
   - eval `ssh-agent -s`
   - ssh-add ~/.ssh/id_rsa
 #  - sshpass -p "$passphrase" ssh-add ~/.ssh/id_rsa
