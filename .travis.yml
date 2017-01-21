@@ -23,12 +23,12 @@ before_install:
   - sudo cat ~/.ssh/config
   - echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
   - echo -e $id_rsa.pub > ~/.ssh/id_rsa.pub
-  - echo -e $id_rsa > ~/.ssh/id_rsa
+  - echo -e $id_rsa > ~/.ssh/id_rsa_temp
   - sudo chmod 600 ~/.ssh/*
   - sudo chmod 644 ~/.ssh/config
-  - ssh-keygen -p -P "$passphrase" -N "" -f ~/.ssh/id_rsa
+  - ssh-keygen -p -P $passphrase -N "" -f ~/.ssh/id_rsa_temp
   - eval `ssh-agent -s`
-  - ssh-add ~/.ssh/id_rsa
+  - ssh-add ~/.ssh/id_rsa_temp
 #  - sshpass -p "$passphrase" ssh-add ~/.ssh/id_rsa
   - sudo service ssh restart
   - mysql -uroot -e "create database dropshippers;"
