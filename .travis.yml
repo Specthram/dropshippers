@@ -15,6 +15,8 @@ notifications:
 
 before_install:
   - echo "hello first test !"
+  - sudo apt-get update -qq
+  - sudo apt-get install software-properties-common sshpass
   - sudo rm /etc/ssh/ssh_config
   - sudo cp ansible/roles/dropshippers/templates/ssh_config /etc/ssh/ssh_config
   - sudo cat /etc/ssh/ssh_config
@@ -31,8 +33,6 @@ before_install:
   - mysql -uroot -e "create database dropshippers;"
   - mysql -uroot -e "CREATE USER 'dropshippers'@'localhost' IDENTIFIED BY 'p@ssword';"
   - mysql -uroot -e "GRANT ALL ON dropshippers.* To 'dropshippers'@'localhost';"
-  - sudo apt-get update -qq
-  - sudo apt-get install software-properties-common
   - sudo apt-add-repository ppa:ansible/ansible -y
   - sudo apt-get update -qq
   - sudo apt-get install -y ansible
