@@ -8,3 +8,4 @@ template_source: ansible/roles/dropshippers/templates
 vhost_destination: /etc/apache2/sites-available
 project_default_location: /home/anthony/depot_ci/api
 project_link: /var/www/html/dropshippers
+symfony_env: prod
