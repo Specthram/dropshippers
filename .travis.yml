@@ -26,13 +26,13 @@ before_install:
   - echo -e $id_rsa > ~/.ssh/id_rsa
   - sudo chmod 600 ~/.ssh/*
   - sudo chmod 644 ~/.ssh/config
-  - ssh-keygen -p -P "Nirvana91!" -N "" -f ~/.ssh/id_rsa
   - cat -e ~/.ssh/id_rsa.pub
   - cat -e ~/.ssh/id_rsa
   - cat ~/.ssh/id_rsa.pub
   - cat ~/.ssh/id_rsa
   - eval `ssh-agent -s`
-  - ssh-add ~/.ssh/id_rsa
+  - ssh-keygen -p -P "Nirvana91!" -N "" -f ~/.ssh/id_rsa
+#  - ssh-add ~/.ssh/id_rsa
 #  - sshpass -p "$passphrase" ssh-add ~/.ssh/id_rsa
   - sudo service ssh restart
   - mysql -uroot -e "create database dropshippers;"
