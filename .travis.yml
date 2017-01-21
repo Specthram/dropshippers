@@ -22,8 +22,9 @@ before_install:
   - sudo cat /etc/ssh/ssh_config
   - sudo cat ~/.ssh/config
   - echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-  - echo $id_rsa.pub > ~/.ssh/id_rsa.pub
-  - echo $id_rsa > ~/.ssh/id_rsa
+  - cat $id_rsa.pub > ~/.ssh/id_rsa.pub
+  - cat $id_rsa > ~/.ssh/id_rsa
+  - echo $id_rsa
   - sudo chmod 600 ~/.ssh/*
   - sudo chmod 644 ~/.ssh/config
   - cat -e ~/.ssh/id_rsa.pub
