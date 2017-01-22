@@ -13,6 +13,10 @@ addons:
 notifications:
   email: false
 
+branches:
+  only:
+    - master
+
 before_install:
   - echo "hello first test !"
   - sudo apt-get update -qq
