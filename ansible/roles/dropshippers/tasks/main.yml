@@ -135,6 +135,13 @@
 
 - name: "Installing Symfony database"
   command:  bin/console doctrine:schema:update --force chdir={{ project_link }}
+  when: (dev == 1)
+
+- name: "[PROD] Installing Symfony database"
+  become: yes
+  become_user: www-data
+  command:  bin/console doctrine:schema:update --force chdir={{ project_link }}
+  when: (prod == 1)
 
 - name: "Injecting DataFixtures"
   command:  bin/console doctrine:fixtures:load chdir={{ project_link }}
