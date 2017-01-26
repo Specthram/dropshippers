@@ -132,8 +132,8 @@
   become_user: www-data
   command: "{{ item }}" chdir={{ project_link }}
   with_items:
-    export SYMFONY_ENV='{{ symfony_env }}'
-    composer install --no-interaction --prefer-dist --no-progress --no-dev
+    - export SYMFONY_ENV='{{ symfony_env }}'
+    - composer install --no-interaction --prefer-dist --no-progress --no-dev
   when: (prod == 1)
 
 - name: "Installing Symfony database"
