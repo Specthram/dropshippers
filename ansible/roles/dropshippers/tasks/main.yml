@@ -130,7 +130,7 @@
 - name: "[PROD] adding envvars apache"
   become: yes
   become_user: root
-  command: echo -e "\nSYMFONY_ENV=prod\n" >> /etc/apache2/envvars && service apache2restart
+  command: echo -e "\nSYMFONY_ENV=prod\n" >> /etc/apache2/envvars && service apache2 restart
 
 - name: "[PROD] Resolving composer dependencies"
   become: yes
