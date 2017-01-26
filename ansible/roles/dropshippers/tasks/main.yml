@@ -127,12 +127,16 @@
   command: composer install --no-interaction --prefer-dist --no-progress chdir={{ project_link }}
   when: (dev == 1)
 
+- name: "[PROD] adding envvars apache"
+  become: yes
+  become_user: root
+  command: echo -e "\nSYMFONY_ENV=prod\n" >> /etc/apache2/envvars && service apache2restart
+
 - name: "[PROD] Resolving composer dependencies"
   become: yes
   become_user: www-data
   command: "{{ item }} chdir={{ project_link }}"
   with_items:
-    - export SYMFONY_ENV='{{ symfony_env }}'
     - composer install --no-interaction --prefer-dist --no-progress --no-dev
   when: (prod == 1)
 
