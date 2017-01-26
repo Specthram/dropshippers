@@ -130,11 +130,21 @@
 - name: "[PROD] Resolving composer dependencies"
   become: yes
   become_user: www-data
-  command: "export SYMFONY_ENV='{{ symfony_env }}' && composer install --no-interaction --prefer-dist --no-progress --no-dev chdir={{ project_link }}"
+  command: "{{ item }}" chdir={{ project_link }}
+  with_items:
+    export SYMFONY_ENV='{{ symfony_env }}'
+    composer install --no-interaction --prefer-dist --no-progress --no-dev
   when: (prod == 1)
 
 - name: "Installing Symfony database"
   command:  bin/console doctrine:schema:update --force chdir={{ project_link }}
+  when: (dev == 1)
+
+- name: "[PROD] Installing Symfony database"
+  become: yes
+  become_user: www-data
+  command:  bin/console doctrine:schema:update --force chdir={{ project_link }}
+  when: (prod == 1)
 
 - name: "Injecting DataFixtures"
   command:  bin/console doctrine:fixtures:load chdir={{ project_link }}
