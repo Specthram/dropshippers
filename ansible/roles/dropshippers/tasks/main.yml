@@ -58,7 +58,7 @@
     recurse: yes
 
 - name: "[PROD] Git pull the project"
-  shell: cd {{ project_default_location }} && git pull
+  shell: cd {{ project_default_location }} && cd .. && sudo rm -rf ./api && mkdir ./api && cd ./api && git clone "https://github.com/Specthram/dropshippers.git" .
   when: (prod == 1)
 
 - name: "Copying Virtualhost"
