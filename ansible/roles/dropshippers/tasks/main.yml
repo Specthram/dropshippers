@@ -130,7 +130,7 @@
 - name: "[PROD] Resolving composer dependencies"
   become: yes
   become_user: www-data
-  command: "{{ item }}" chdir="{{ project_link }}"
+  command: {{ item }} chdir="{{ project_link }}"
   with_items:
     - export SYMFONY_ENV='{{ symfony_env }}'
     - composer install --no-interaction --prefer-dist --no-progress --no-dev
