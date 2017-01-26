@@ -125,6 +125,13 @@
   become: yes
   become_user: www-data
   command: composer install --no-interaction --prefer-dist --no-progress chdir={{ project_link }}
+  when: (dev == 1)
+
+- name: "[PROD] Resolving composer dependencies"
+  become: yes
+  become_user: www-data
+  command: export SYMFONY_ENV={{ symfony_env }} && composer install --no-interaction --prefer-dist --no-progress --no-dev chdir={{ project_link }}
+  when: (prod == 1)
 
 - name: "Installing Symfony database"
   command:  bin/console doctrine:schema:update --force chdir={{ project_link }}
