@@ -2,6 +2,7 @@
      DocumentRoot	{{ document_root }}
      ServerName		{{ vhost_servername }}
      ServerAdmin picaud.marc@gmail.com
+     SetEnv SYMFONY_ENV {{ symfony_env }}
      <Directory {{ document_root }}>
             Allowoverride All
             Order Allow,Deny
