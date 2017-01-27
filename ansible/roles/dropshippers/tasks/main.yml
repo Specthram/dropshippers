@@ -140,14 +140,14 @@
     - composer install --no-interaction --prefer-dist --no-progress --no-dev
   when: (prod == 1)
 
-- name: "Installing Symfony database"
+- name: "[DEV] Installing Symfony database"
   command:  bin/console doctrine:schema:update --force chdir={{ project_link }}
   when: (dev == 1)
 
 - name: "[PROD] Installing Symfony database"
   become: yes
   become_user: www-data
-  command:  bin/console doctrine:schema:update --force chdir={{ project_link }}
+  command:  bin/console doctrine:schema:update --force --env=prod chdir={{ project_link }}
   when: (prod == 1)
 
 - name: "Injecting DataFixtures"
