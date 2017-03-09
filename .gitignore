@@ -17,3 +17,4 @@
 /.idea/
 /.vagrant
 /src/Dropshippers/APIBundle/Entity/*.*~
+ansible/playbook.retry
