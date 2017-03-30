@@ -392,21 +392,12 @@ class FrontService
         $productRequest = new ProductRequest();
         $messageRequest = new ProductRequestMessage();
 
-        //check if the requested quantity is great
-        if ($paramsArray["quantity"] < $product->getQuantity()) {
-            $productRequest->setQuantity($paramsArray["quantity"]);
-        } else {
-            return -2;
-        }
-
         //the product owner is always the guest
         $shopGuest = $product->getShopOrigin();
 
         //feeding fields
         $productRequest->setShopGuest($shopGuest);
         $productRequest->setShopHost($shopHost);
-
-
 
         $productRequest->setDropshippersRef($this->generateRequestRef($shopHost->getName(), $shopGuest->getName()));
         $productRequest->setCreatedAt(new \DateTime());
@@ -476,21 +467,22 @@ class FrontService
                             //only if accepted is the new state
                             if ($instruction->value == "accepted" && $productRequest->getStatus() != "accepted"){
                                 $product = $productRequest->getProduct();
-                                if (($product->getQuantity() - $productRequest->getQuantity()) >= 0)
+                                if ($product->getQuantity() > 0)
                                 {
                                     $newProduct = clone $product;
                                     //$product->setQuantity($product->getQuantity() - $productRequest->getQuantity());
-                                    $product->setQuantity($productRequest->getQuantity()); //attention il faudra resynchroniser le stock de temps en temps
+                                    //$product->setQuantity($productRequest->getQuantity()); //fait juste une copie de la quantité de stock initiale donc commenté, faut le synchroniser de temps en temps
                                     $product->setUpdatedAt(new \DateTime());
                                     $newProduct->setCreatedAt(new \DateTime());
                                     $newProduct->setUpdatedAt(new \DateTime());
                                     $newProduct->setQuantity($productRequest->getQuantity());
                                     $newProduct->setShop($productRequest->getShopHost());
+                                    $newProduct->setProductOrigin($product);
                                     $newProduct->setDropshippersRef($this->generateRandomRef($shopHost->getName()));
                                     $em->persist($product);
                                     $em->persist($newProduct);
 
-                                    //notify merchant than the state has
+                                    //notify merchant than the state has changed on accepted
                                     //$this->notifyMerchants($productRequest);
                                 } else {
                                     return -8;
