@@ -165,7 +165,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         $paramsArray = array(
             "productRequest" => $json->product_reference,
             "quantity" => $json->quantity,
-            "price" => $json->price,
+//            "price" => $json->price,
             "isSendDirectly" => $json->isSendDirectly,
             "isWhiteMark" => $json->isWhiteMark,
             "deliveryArea" => $json->deliveryArea,
@@ -193,9 +193,6 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
         if ($result == -1){
             $response->setStatusCode(422);
             $response->setContent(json_encode(array("code" => 20001, "message" => "Le produit demandé n'existe pas")));
-        } elseif ($result == -2) {
-            $response->setStatusCode(422);
-            $response->setContent(json_encode(array("code" => 20002, "message" => "La quantité demandé n'est pas possible.")));
         } elseif ($result == -3) {
             $response->setStatusCode(422);
             $response->setContent(json_encode(array("code" => 30005, "message" => "Impossible de faire une demande sur ses propres produits.")));

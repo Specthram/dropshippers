@@ -44,6 +44,12 @@ class LocalPsProduct
      * @ORM\JoinColumn(name="shop_origin_id", referencedColumnName="id", nullable=false)
      */
     private $shopOrigin;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="LocalPsProduct")
+	 * @ORM\JoinColumn(name="product_origin_id", referencedColumnName="id", nullable=true)
+	 */
+	private $productOrigin;
     
     /**
      * Constructor
@@ -684,6 +690,30 @@ class LocalPsProduct
     {
         return $this->shopOrigin;
     }
+
+	/**
+	 * Set productOrigin
+	 *
+	 * @param \Dropshippers\APIBundle\Entity\LocalPsProduct $productOrigin
+	 *
+	 * @return LocalPsProduct
+	 */
+	public function setProductOrigin(LocalPsProduct $productOrigin = null)
+	{
+		$this->productOrigin = $productOrigin;
+
+		return $this;
+	}
+
+	/**
+	 * Get productOrigin
+	 *
+	 * @return \Dropshippers\APIBundle\Entity\LocalPsProduct
+	 */
+	public function getProductOrigin()
+	{
+		return $this->productOrigin;
+	}
 
     /**
      * Add image

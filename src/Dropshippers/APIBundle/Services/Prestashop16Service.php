@@ -142,6 +142,7 @@ class Prestashop16Service
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
 
         //get products shared by the shop
+        /* @var LocalPsProduct $product */
         $products = $productRepository->findBy(array("shopOrigin" => $shop));
 
         //feed array with products
@@ -182,9 +183,6 @@ class Prestashop16Service
                     return -2;
                 }
 
-                //stock control
-                //TODO voir comment gérer les stocks au niveau des localpsproduct, rajouter un champs idOrigin pour soustraire sur le produit d'origine ?
-
                 $product    = $productRepo->findOneBy(['dropshippersRef' => $productTab['dropshippersRef'], 'shop' => $shop]);
 
                 if (!$product){
@@ -195,6 +193,11 @@ class Prestashop16Service
 
                 if (!$request){
                     return -4;
+                }
+
+                //stock verification
+                if (($product->getQuantity() - $productTab['productQuantity']) <= 0){
+                    return -5;
                 }
 
                 $order  = new Orders();
@@ -215,6 +218,13 @@ class Prestashop16Service
                 $order->setShopGuest($product->getShopOrigin());
                 $order->setStatus("new");
 
+                //stock decrementation part
+	            $productOrigin = $product->getProductOrigin();
+	            $productOrigin->setQuantity($productOrigin->getQuantity() - $productTab['productQuantity']);
+                $product->setQuantity($productOrigin->getQuantity() - $productTab['productQuantity']);
+
+                $em->persist($product);
+                $em->persist($productOrigin);
                 $em->persist($order);
                 $em->flush();
             }
