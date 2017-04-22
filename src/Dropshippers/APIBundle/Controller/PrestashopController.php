@@ -193,4 +193,23 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
 		return $response;
 	}
 
+	/**
+	 * Get Route annotation
+	 * @Get("/ps/{version}//categories/{locale}")
+	 */
+	public function getCommonCategoriesAction(Request $request, $locale)
+	{
+		$categoryService   = $this->get("dropshippers_api.category");
+
+		if (!$categoryService->checkLocaleExists($locale)){
+			$response   = new Response();
+			$response->setStatusCode(404);
+			$response->setContent(json_encode(['code' => 40001, 'message' => 'locale non supportée']));
+			return $response;
+		}
+
+		$result = $categoryService->constructCategoryStandardArray($locale);
+		return $result;
+	}
+
 }
