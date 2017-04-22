@@ -197,7 +197,7 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
 	 * Get Route annotation
 	 * @Get("/ps/{version}/categories/{locale}")
 	 */
-	public function getCommonCategoriesAction(Request $request, $locale)
+	public function getPrestashopCategoriesAction(Request $request, $version, $locale)
 	{
 		$categoryService   = $this->get("dropshippers_api.category");
 
