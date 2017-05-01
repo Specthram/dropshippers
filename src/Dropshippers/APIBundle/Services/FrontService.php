@@ -87,26 +87,28 @@ class FrontService
         $productRepository = $this->doctrine->getRepository("DropshippersAPIBundle:LocalPsProduct");
         $product = $productRepository->findOneBy(["dropshippersRef" => $reference]);
         $item = [];
-        $item["name"] = $product->getName();
-        $item["price"] = $product->getPrice();
-        $item["description"] = $product->getDescription();
-        $item["active"] = $product->getActive();
-        $item["updated_at"] = $product->getUpdatedAt();
-        $item["shopName"] = $product->getShop()->getName();
-        $item["shopRef"] = $product->getShop()->getDropshippersRef();
-        $item["dropshippers_ref"] = $product->getDropshippersRef();
-        $item['categories'] = [];
-        $categories = $product->getCategories();
-        foreach ($categories as $category){
-            $item['categories'][] = $category->getId();
-        }
-        $images = $product->getImages();
-        if(!$images->isEmpty()){
-            foreach ($images as $image){
-                $item['images'][] = $image->getLink();
+        if ($product != null && is_object($product)){
+            $item["name"] = $product->getName();
+            $item["price"] = $product->getPrice();
+            $item["description"] = $product->getDescription();
+            $item["active"] = $product->getActive();
+            $item["updated_at"] = $product->getUpdatedAt();
+            $item["shopName"] = $product->getShop()->getName();
+            $item["shopRef"] = $product->getShop()->getDropshippersRef();
+            $item["dropshippers_ref"] = $product->getDropshippersRef();
+            $item['categories'] = [];
+            $categories = $product->getCategories();
+            foreach ($categories as $category){
+                $item['categories'][] = $category->getId();
             }
-        }else{
-            $item['images'] = array();
+            $images = $product->getImages();
+            if(!$images->isEmpty()){
+                foreach ($images as $image){
+                    $item['images'][] = $image->getLink();
+                }
+            }else{
+                $item['images'] = array();
+            }
         }
         return $item;
     }
