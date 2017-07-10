@@ -44,7 +44,7 @@ install:
   - bin/console doctrine:schema:update --force
   - bin/console doctrine:fixtures:load --no-interaction
   - ansible-playbook ./ansible/playbook.yml -i ./ansible/production --syntax-check
-  - ansible-playbook ./ansible/playbook.yml -i ./ansible/production
+  - ansible-playbook ./ansible/playbook.yml -i ./ansible/production --user=anthony
 
 #deploy:
 #  provider: script
