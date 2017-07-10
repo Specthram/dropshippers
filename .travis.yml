@@ -13,9 +13,9 @@ addons:
 notifications:
   email: false
 
-#branches:
-#  only:
-#    - master
+branches:
+  only:
+    - master
 
 before_install:
   - echo "hello first test !"
@@ -44,9 +44,10 @@ install:
   - bin/console doctrine:schema:update --force
   - bin/console doctrine:fixtures:load --no-interaction
   - ansible-playbook ./ansible/playbook.yml -i ./ansible/production --syntax-check
+  - ansible-playbook ./ansible/playbook.yml -i ./ansible/production
 
-deploy:
-  provider: script
-  script: scripts/deploy.sh
-  on:
-    branch: master
+#deploy:
+#  provider: script
+#  script: scripts/deploy.sh
+#  on:
+#    branch: master
