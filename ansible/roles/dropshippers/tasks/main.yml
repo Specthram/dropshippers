@@ -50,6 +50,7 @@
   shell: export SYMFONY_ENV={{ symfony_env }}
 
 - name: change permissions to anthony
+  when: (prod == 1)
   file:
     path: "{{ project_default_location }}"
     owner: anthony
@@ -110,10 +111,11 @@
   when: (dev == 1)
 
 - name: "[DEV] Creating MySQL dropshippers user"
-  mysql_user: name=dropshippers password= priv=*.*:ALL state=present
+  mysql_user: name=dropshippers password=P@ssword priv=*.*:ALL state=present
   when: (dev == 1)
 
 - name: change permissions to www-data
+  when: (prod == 1)
   file:
     path: "{{ project_default_location }}"
     owner: www-data
@@ -121,9 +123,7 @@
     mode: 0775
     recurse: yes
 
-- name: "Resolving composer dependencies"
-  become: yes
-  become_user: www-data
+- name: "[DEV] Resolving composer dependencies"
   command: composer install --no-interaction --prefer-dist --no-progress chdir={{ project_link }}
   when: (dev == 1)
 

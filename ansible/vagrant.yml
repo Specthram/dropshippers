@@ -1,13 +1,13 @@
--   include: playbook.yml
-    vars:
-        - dev: 1
-        - prod: 0
-        - document_root: /var/www/html/dropshippers/web
-        - vhost_ip_address: "*"
-        - vhost_port: 80
-        - vhost_servername: dropshippers.dev
-        - template_source: /vagrant/ansible/roles/dropshippers/templates/vhost.conf.template
-        - vhost_destination: /etc/apache2/sites-available
-        - project_default_location: /vagrant
-        - project_link: /var/www/html/dropshippers
-        - symfony_env: dev
+- include: playbook.yml
+  vars:
+    dev: 1
+    prod: 0
+    document_root: /var/www/html/dropshippers/web
+    vhost_ip_address: "*"
+    vhost_port: 80
+    vhost_servername: dropshippers.dev
+    template_source: /vagrant/ansible/roles/dropshippers/templates/vhost.conf.template
+    vhost_destination: /etc/apache2/sites-available
+    project_default_location: /vagrant
+    project_link: /var/www/html/dropshippers
+    symfony_env: dev
