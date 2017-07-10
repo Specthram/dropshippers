@@ -172,19 +172,19 @@ class PrestashopController extends FOSRestController implements ClassResourceInt
 
 		if ($result == -1){
 			$response->setStatusCode(422);
-			$response->setContent(json_encode(array("code" => 30002, "message" => "missing field in json")));
+			$response->setContent(json_encode(array("code" => 50001, "message" => "missing field in json")));
 		} else if ($result == -2) {
 			$response->setStatusCode(422);
-			$response->setContent(json_encode(array("code" => 30002, "message" => "there is problem in the productList")));
+			$response->setContent(json_encode(array("code" => 50002, "message" => "there is problem in the productList")));
 		} else if ($result == -3) {
 			$response->setStatusCode(422);
-			$response->setContent(json_encode(array("code" => 30002, "message" => "no product associated to the shop, or no product with this ref")));
+			$response->setContent(json_encode(array("code" => 50003, "message" => "no product associated to the shop, or no product with this ref")));
 		} else if ($result == -4) {
 			$response->setStatusCode(422);
-			$response->setContent(json_encode(array("code" => 30002, "message" => "request acceptée inexistante pour le produit")));
+			$response->setContent(json_encode(array("code" => 50004, "message" => "request acceptée inexistante pour le produit")));
 		} else if ($result == -5) {
 			$response->setStatusCode(422);
-			$response->setContent(json_encode(array("code" => 30002, "message" => "not enough stock")));
+			$response->setContent(json_encode(array("code" => 50005, "message" => "not enough stock")));
 		} else {
 			$response->setStatusCode(200);
 			$response->setContent(json_encode(array("code" => 1, "message" => "Order registered")));

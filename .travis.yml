@@ -13,9 +13,9 @@ addons:
 notifications:
   email: false
 
-#branches:
-#  only:
-#    - master
+branches:
+  only:
+    - master
 
 before_install:
   - echo "hello first test !"
@@ -27,8 +27,8 @@ before_install:
   - echo -e "$id_rsa" > ~/.ssh/id_rsa
   - sudo chmod 600 ~/.ssh/*
   - sudo chmod 644 ~/.ssh/config
-  - cat ~/.ssh/id_rsa.pub
-  - cat ~/.ssh/id_rsa
+#  - cat ~/.ssh/id_rsa.pub
+#  - cat ~/.ssh/id_rsa
   - eval `ssh-agent -s`
   - ssh-keygen -p -P $passphrase -N "" -f ~/.ssh/id_rsa
   - ssh-add ~/.ssh/id_rsa
@@ -44,9 +44,10 @@ install:
   - bin/console doctrine:schema:update --force
   - bin/console doctrine:fixtures:load --no-interaction
   - ansible-playbook ./ansible/playbook.yml -i ./ansible/production --syntax-check
+  - ansible-playbook ./ansible/playbook.yml -i ./ansible/production --user=anthony
 
-deploy:
-  provider: script
-  script: scripts/deploy.sh
-  on:
-    branch: master
+#deploy:
+#  provider: script
+#  script: scripts/deploy.sh
+#  on:
+#    branch: master
