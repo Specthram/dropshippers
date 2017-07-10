@@ -672,3 +672,4 @@ Codes Erreurs
 * 50003 : no product associated to the shop, or no product with this ref
 * 50004 : request acceptée inexistante pour le produit
 * 50005 : not enough stock
+
