@@ -478,6 +478,7 @@ class FrontService
                                     $newProduct->setCreatedAt(new \DateTime());
                                     $newProduct->setUpdatedAt(new \DateTime());
                                     //$newProduct->setQuantity($productRequest->getQuantity()); no more quantity management
+                                    $newProduct->setQuantity($product->getQuantity());
                                     $newProduct->setShop($productRequest->getShopHost());
                                     $newProduct->setProductOrigin($product);
                                     $newProduct->setDropshippersRef($this->generateRandomRef($shopHost->getName()));
