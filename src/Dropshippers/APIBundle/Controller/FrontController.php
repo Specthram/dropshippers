@@ -164,8 +164,8 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
 
         $paramsArray = array(
             "productRequest" => $json->product_reference,
-            "quantity" => $json->quantity,
-//            "price" => $json->price,
+//            "quantity" => $json->quantity,
+            "price" => $json->price,
             "isSendDirectly" => $json->isSendDirectly,
             "isWhiteMark" => $json->isWhiteMark,
             "deliveryArea" => $json->deliveryArea,
