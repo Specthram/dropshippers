@@ -180,7 +180,7 @@ class FrontController extends FOSRestController implements ClassResourceInterfac
             $response->setContent(json_encode(array("code" => 10002, "message" => "token invalide")));
             return $response;
         }
-        if (in_array("", $paramsArray)){
+        if (in_array("", $paramsArray, true)){
             $response->setStatusCode(400);
             $response->setContent(json_encode(array("code" => 10003, "message" => "parametres manquants")));
             return $response;
