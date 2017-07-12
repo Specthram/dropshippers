@@ -481,6 +481,7 @@ class FrontService
                                     $newProduct->setQuantity($product->getQuantity());
                                     $newProduct->setShop($productRequest->getShopHost());
                                     $newProduct->setProductOrigin($product);
+                                    $newProduct->setPrice($productRequest->getPrice());
                                     $newProduct->setDropshippersRef($this->generateRandomRef($shopHost->getName()));
                                     $em->persist($product);
                                     $em->persist($newProduct);
